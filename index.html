@@ -12,6 +12,8 @@
             --text-main: #e2e8f0;
             --text-muted: #94a3b8;
             --card-bg: #334155;
+            --erp-green: #47694f; /* Specifieke kleur voor ERP */
+            --python-orange: #e67e22; /* Specifieke kleur voor Python (Leren) */
         }
 
         * {
@@ -159,11 +161,15 @@
         .skill-sub { font-size: 12px; color: var(--text-muted); }
 
         /* Instellen van percentages via CSS Conic Gradients */
-        .p-90 { background: conic-gradient(var(--accent) 90%, #475569 0); }
+        .p-90 { background: conic-gradient(var(--erp-green) 90%, #475569 0); }
+        
         .p-85 { background: conic-gradient(var(--accent) 85%, #475569 0); }
         .p-80 { background: conic-gradient(var(--accent) 80%, #475569 0); }
         .p-70 { background: conic-gradient(var(--accent) 70%, #475569 0); }
         .p-60 { background: conic-gradient(var(--accent) 60%, #475569 0); }
+        
+        /* NIEUW: Python 40% in Oranje */
+        .p-40 { background: conic-gradient(var(--python-orange) 40%, #475569 0); }
 
         /* Werkervaring Tijdlijn */
         .timeline-section {
@@ -286,7 +292,7 @@
         <div class="metrics-grid">
             <div class="metric-card">
                 <div class="gauge p-90"><span>90%</span></div>
-                <span class="skill-name">ERP & Logistiek</span>
+                <span class="skill-name" style="color: var(--erp-green);">ERP & Logistiek</span>
                 <span class="skill-sub">Processen, EDI, Supply Chain</span>
             </div>
             <div class="metric-card">
@@ -310,8 +316,8 @@
                 <span class="skill-sub">Docker, VMware, Scrum</span>
             </div>
              <div class="metric-card">
-                <div class="gauge p-60"><span>60%</span></div>
-                <span class="skill-name">Python</span>
+                <div class="gauge p-40"><span>40%</span></div>
+                <span class="skill-name" style="color: var(--python-orange);">Python</span>
                 <span class="skill-sub">Self-education & Scripting</span>
             </div>
         </div>
