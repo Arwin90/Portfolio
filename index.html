@@ -31,14 +31,14 @@
 
         /* --- Linker Legenda / Sidebar --- */
         .sidebar {
-            width: 300px;
+            width: 320px; /* Iets breder gemaakt voor de hobby teksten */
             background-color: var(--sidebar-bg);
             padding: 40px 20px;
             border-right: 1px solid #334155;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 25px;
         }
 
         .profile-section {
@@ -53,14 +53,14 @@
             margin: 0 auto 15px auto;
             border: 3px solid var(--accent);
             display: block;
-            object-fit: cover; /* Zorgt dat de foto netjes in de cirkel past zonder vervorming */
-            background-color: var(--card-bg); /* Fallback kleur */
+            object-fit: cover;
+            background-color: var(--card-bg);
         }
 
         .name { font-size: 24px; font-weight: bold; color: #fff; }
         .title { color: var(--accent); font-size: 16px; margin-top: 5px; }
 
-        .contact-info, .soft-skills, .languages {
+        .contact-info, .soft-skills, .languages, .interests {
             background: rgba(255,255,255,0.05);
             padding: 15px;
             border-radius: 8px;
@@ -77,6 +77,8 @@
         }
 
         .contact-item { margin-bottom: 10px; font-size: 14px; display: flex; align-items: center; gap: 10px;}
+        
+        /* Tag Cloud voor eigenschappen */
         .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag { background: var(--accent); color: var(--sidebar-bg); padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
 
@@ -210,8 +212,9 @@
         </div>
 
         <div class="contact-info">
-            <div class="section-title">Contact Data</div>
+            <div class="section-title">Persoonsgegevens</div>
             <div class="contact-item">📍 Wildervank</div>
+            <div class="contact-item">🎂 19 jan 1965</div>
             <div class="contact-item">📞 06-41185792</div>
             <div class="contact-item">📧 arwin.vanderheiden@gmail.com</div>
             <div class="contact-item">
@@ -228,6 +231,15 @@
                 <span class="tag">Analytisch</span>
                 <span class="tag">Toegewijd</span>
             </div>
+        </div>
+
+        <div class="interests">
+            <div class="section-title">Passies & Interesses</div>
+            <div class="contact-item">✈️ Luchtvaart (Gebrevetteerd)</div>
+            <div class="contact-item">🏍️ Motorrijden</div>
+            <div class="contact-item">🌍 Reizen (USA / Safari ZA)</div>
+            <div class="contact-item">🏠 Home Automation</div>
+            <div class="contact-item">📰 Financieel Dagblad</div>
         </div>
 
         <div class="languages">
@@ -313,17 +325,17 @@
                 <ul>
                     <li><strong>PIM-systeem:</strong> Realisatie artikel-feed (data/foto's) naar webshop. Time-to-market geminimaliseerd.</li>
                     <li><strong>Finance Automation:</strong> Koppeling payment providers voor automatische retourbetalingen.</li>
-                    <li><strong>Goederen Onderweg:</strong> Digitalisering containerstromen voor voorraadbetrouwbaarheid en betere urenplanning filialen.</li>
-                    <li><strong>Dashboarding:</strong> Multichannel omzet-date API-interface naar OutSystems-app voor management en bedrijfsleiders.</li>
+                    <li><strong>Goederen Onderweg:</strong> Digitalisering containerstromen voor voorraadbetrouwbaarheid en urenplanning filialen.</li>
+                    <li><strong>Dashboarding:</strong> Multichannel omzet-app Outsystems voeden met ERP-data voor management en bedrijfsleiders.</li>
                 </ul>
             </div>
 
             <div class="job">
+                <span class="job-date">1984 - Heden</span>
                 <span class="job-title">Opleidingen & Cursussen</span>
                 <span class="job-company">Diverse Instituten</span>
-                <span class="job-date">1984 - Heden</span>
                 <ul>
-					<li>Continu bijleren: OutSystems, Docker, Linux beheer.</li>
+                    <li>Continu bijleren: OutSystems, Docker, Linux beheer.</li>
                     <li>Cursus Applicatieprogrammeur COBOL</li>
                     <li>MEAO (1986) & HAVO (1984)</li>
                 </ul>
