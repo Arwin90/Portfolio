@@ -6,25 +6,21 @@
     <title>Dashboard CV - Arwin van der Heiden</title>
     <style>
         :root {
-            --bg-dark: #1e293b; /* Donker dashboard achtergrond */
-            --sidebar-bg: #0f172a; /* Donkerder sidebar */
-            --accent: #38bdf8; /* Lichtblauw accent (Tech vibe) */
+            --bg-dark: #1e293b; 
+            --sidebar-bg: #0f172a; 
+            --accent: #38bdf8; 
             --text-main: #e2e8f0;
             --text-muted: #94a3b8;
             --card-bg: #334155;
             
-            /* Specifieke kleuren voor de metertjes */
-            --erp-green: #66bb6a;   /* Lichter groen */
-            --os-yellow: #facc15;   /* Geel voor OutSystems */
-            --infra-white: #ffffff; /* Wit voor Infra */
-            --python-orange: #e67e22; /* Oranje voor Python */
+            /* Kleuren definitie */
+            --erp-green: #66bb6a;
+            --os-yellow: #facc15;
+            --infra-white: #ffffff;
+            --python-orange: #e67e22;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -35,7 +31,7 @@
             flex-direction: row;
         }
 
-        /* --- Linker Legenda / Sidebar --- */
+        /* --- Sidebar --- */
         .sidebar {
             width: 320px;
             background-color: var(--sidebar-bg);
@@ -47,11 +43,8 @@
             gap: 25px;
         }
 
-        .profile-section {
-            text-align: center;
-        }
+        .profile-section { text-align: center; }
 
-        /* Aangepast voor de foto */
         .avatar {
             width: 120px;
             height: 120px;
@@ -83,45 +76,26 @@
         }
 
         .contact-item { margin-bottom: 10px; font-size: 14px; display: flex; align-items: center; gap: 10px;}
-        
-        /* Tag Cloud voor eigenschappen */
         .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag { background: var(--accent); color: var(--sidebar-bg); padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
 
-        /* Talen Specifiek */
-        .lang-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .flag-icon {
-            font-size: 24px;
-            margin-right: 15px;
-            width: 30px;
-            text-align: center;
-        }
-        .lang-text {
-            display: flex;
-            flex-direction: column;
-        }
+        .lang-row { display: flex; align-items: center; margin-bottom: 12px; }
+        .flag-icon { font-size: 24px; margin-right: 15px; width: 30px; text-align: center; }
+        .lang-text { display: flex; flex-direction: column; }
         .lang-name { font-weight: bold; color: #fff; font-size: 14px; }
         .lang-level { font-size: 12px; color: var(--text-muted); }
 
-
-        /* --- Rechter Content --- */
+        /* --- Content --- */
         .main-content {
             flex-grow: 1;
             padding: 40px;
             overflow-y: auto;
         }
 
-        .dashboard-header {
-            margin-bottom: 30px;
-        }
+        .dashboard-header { margin-bottom: 30px; }
         .dashboard-header h1 { font-size: 28px; }
         .dashboard-header p { color: var(--text-muted); max-width: 800px; line-height: 1.6; margin-top: 10px;}
 
-        /* Dashboard Grid voor Metertjes */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -139,7 +113,7 @@
         }
         .metric-card:hover { transform: translateY(-5px); }
 
-        /* CSS Cirkel Grafieken (De Metertjes) */
+        /* De Gauge animatie setup */
         .gauge {
             width: 100px;
             height: 100px;
@@ -149,6 +123,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Standaard grijs, wordt overschreven door JS */
+            background: #475569; 
         }
         
         .gauge::before {
@@ -164,24 +140,6 @@
         .skill-name { font-weight: bold; margin-top: 10px; display: block; color: var(--accent); }
         .skill-sub { font-size: 12px; color: var(--text-muted); }
 
-        /* Instellen van percentages via CSS Conic Gradients */
-        
-        /* 90% - Lichter Groen (ERP) */
-        .p-90 { background: conic-gradient(var(--erp-green) 90%, #475569 0); }
-        
-        .p-85 { background: conic-gradient(var(--accent) 85%, #475569 0); }
-        .p-80 { background: conic-gradient(var(--accent) 80%, #475569 0); }
-        
-        /* 70% - Wit (Infra) */
-        .p-70 { background: conic-gradient(var(--infra-white) 70%, #475569 0); }
-        
-        /* 50% - Geel (OutSystems) */
-        .p-50 { background: conic-gradient(var(--os-yellow) 50%, #475569 0); }
-        
-        /* 40% - Oranje (Python) */
-        .p-40 { background: conic-gradient(var(--python-orange) 40%, #475569 0); }
-
-        /* Werkervaring Tijdlijn */
         .timeline-section {
             background-color: var(--card-bg);
             padding: 30px;
@@ -210,7 +168,6 @@
         .job ul { list-style-position: inside; margin-top: 10px; color: var(--text-muted); }
         .job li { margin-bottom: 5px; }
 
-        /* Mobiele aanpassing */
         @media (max-width: 768px) {
             body { flex-direction: column; }
             .sidebar { width: 100%; }
@@ -222,7 +179,6 @@
     <aside class="sidebar">
         <div class="profile-section">
             <img src="Arwin_pasfoto.jpg" alt="Arwin van der Heiden" class="avatar">
-            
             <div class="name">Arwin van der Heiden</div>
             <div class="title">Software Developer<br>ERP & Integratie</div>
         </div>
@@ -232,12 +188,8 @@
             <div class="contact-item">📍 Wildervank</div>
             <div class="contact-item">🎂 19 jan 1965</div>
             <div class="contact-item">📞 06-41185792</div>
-            <div class="contact-item">
-                📧 <a href="mailto:arwin.vanderheiden@gmail.com" style="color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent);">arwin.vanderheiden@gmail.com</a>
-            </div>
-            <div class="contact-item">
-                🔗 <a href="https://www.linkedin.com/in/arwinvanderheiden" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent);">in/arwinvanderheiden</a>
-            </div>
+            <div class="contact-item">📧 <a href="mailto:arwin.vanderheiden@gmail.com" style="color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent);">arwin.vanderheiden@gmail.com</a></div>
+            <div class="contact-item">🔗 <a href="https://www.linkedin.com/in/arwinvanderheiden" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent);">in/arwinvanderheiden</a></div>
         </div>
 
         <div class="soft-skills">
@@ -262,35 +214,22 @@
 
         <div class="languages">
             <div class="section-title">Talen</div>
-            
             <div class="lang-row">
                 <span class="flag-icon">🇳🇱</span>
-                <div class="lang-text">
-                    <span class="lang-name">Nederlands</span>
-                    <span class="lang-level">Moedertaal</span>
-                </div>
+                <div class="lang-text"><span class="lang-name">Nederlands</span><span class="lang-level">Moedertaal</span></div>
             </div>
-
             <div class="lang-row">
                 <span class="flag-icon">🇬🇧</span>
-                <div class="lang-text">
-                    <span class="lang-name">Engels</span>
-                    <span class="lang-level">Vloeiend</span>
-                </div>
+                <div class="lang-text"><span class="lang-name">Engels</span><span class="lang-level">Vloeiend</span></div>
             </div>
-
             <div class="lang-row">
                 <span class="flag-icon">🇩🇪</span>
-                <div class="lang-text">
-                    <span class="lang-name">Duits</span>
-                    <span class="lang-level">Goed</span>
-                </div>
+                <div class="lang-text"><span class="lang-name">Duits</span><span class="lang-level">Goed</span></div>
             </div>
         </div>
     </aside>
 
     <main class="main-content">
-        
         <div class="dashboard-header">
             <h1>Developer Profiel</h1>
             <p>
@@ -299,42 +238,49 @@
         </div>
 
         <h3 class="section-title">Kennis & Ervaring Dashboard</h3>
+        
         <div class="metrics-grid">
+            
             <div class="metric-card">
-                <div class="gauge p-90"><span>90%</span></div>
+                <div class="gauge" data-target="90" data-color="var(--erp-green)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--erp-green);">ERP & Logistiek</span>
                 <span class="skill-sub">Processen, EDI, Supply Chain</span>
             </div>
+            
             <div class="metric-card">
-                <div class="gauge p-85"><span>85%</span></div>
+                <div class="gauge" data-target="85" data-color="var(--accent)"><span>0%</span></div>
                 <span class="skill-name">Integratie</span>
                 <span class="skill-sub">API, XML, JSON, Payment</span>
             </div>
+
             <div class="metric-card">
-                <div class="gauge p-50"><span>50%</span></div>
+                <div class="gauge" data-target="50" data-color="var(--os-yellow)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--os-yellow);">OutSystems</span>
                 <span class="skill-sub">Low-code App Development</span>
             </div>
+
              <div class="metric-card">
-                <div class="gauge p-80"><span>80%</span></div>
+                <div class="gauge" data-target="80" data-color="var(--accent)"><span>0%</span></div>
                 <span class="skill-name">Linux / OS</span>
                 <span class="skill-sub">Red Hat, Debian, Windows Srv</span>
             </div>
+
              <div class="metric-card">
-                <div class="gauge p-70"><span>70%</span></div>
+                <div class="gauge" data-target="70" data-color="var(--infra-white)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--infra-white);">Infra & Tools</span>
                 <span class="skill-sub">Docker, VMware, Scrum</span>
             </div>
+
              <div class="metric-card">
-                <div class="gauge p-40"><span>40%</span></div>
+                <div class="gauge" data-target="40" data-color="var(--python-orange)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--python-orange);">Python</span>
                 <span class="skill-sub">Self-education & Scripting</span>
             </div>
+
         </div>
 
         <h3 class="section-title">Werkhistorie & Projecten</h3>
         <div class="timeline-section">
-            
             <div class="job">
                 <span class="job-title">Software Developer</span>
                 <span class="job-company">Scapino / Ziengs (Shared Service Center)</span>
@@ -347,7 +293,6 @@
                     <li><strong>Dashboarding:</strong> Multichannel omzet-app Outsystems voeden met ERP-data voor management en bedrijfsleiders.</li>
                 </ul>
             </div>
-
             <div class="job">
                 <span class="job-title">Opleidingen & Cursussen</span>
                 <span class="job-company">Diverse Instituten</span>
@@ -358,9 +303,36 @@
                     <li>Continu bijleren: OutSystems, Docker, Linux beheer.</li>
                 </ul>
             </div>
-
         </div>
     </main>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const gauges = document.querySelectorAll(".gauge");
+
+            gauges.forEach(gauge => {
+                const target = parseInt(gauge.getAttribute("data-target"));
+                const colorVar = gauge.getAttribute("data-color");
+                const textSpan = gauge.querySelector("span");
+                
+                let current = 0;
+                // Snelheid van animatie bepalen (hoe lager het getal, hoe sneller)
+                const animationSpeed = 20; 
+                const increment = 1; 
+
+                const timer = setInterval(() => {
+                    if (current >= target) {
+                        clearInterval(timer);
+                    } else {
+                        current += increment;
+                        // Tekst update
+                        textSpan.textContent = current + "%";
+                        // Cirkel gradient update
+                        gauge.style.background = `conic-gradient(${colorVar} ${current}%, #475569 0)`;
+                    }
+                }, animationSpeed);
+            });
+        });
+    </script>
 </body>
 </html>
