@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard CV - Arwin van der Heiden</title>
+    <style>
+        :root {
+            --bg-dark: #1e293b; /* Donker dashboard achtergrond */
+            --sidebar-bg: #0f172a; /* Donkerder sidebar */
+            --accent: #38bdf8; /* Lichtblauw accent (Tech vibe) */
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --card-bg: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            flex-direction: row;
+        }
+
+        /* --- Linker Legenda / Sidebar --- */
+        .sidebar {
+            width: 300px;
+            background-color: var(--sidebar-bg);
+            padding: 40px 20px;
+            border-right: 1px solid #334155;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .profile-section {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            border: 3px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .name { font-size: 24px; font-weight: bold; color: #fff; }
+        .title { color: var(--accent); font-size: 16px; margin-top: 5px; }
+
+        .contact-info, .soft-skills, .languages {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 5px;
+        }
+
+        .contact-item { margin-bottom: 10px; font-size: 14px; display: flex; align-items: center; gap: 10px;}
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: var(--accent); color: var(--sidebar-bg); padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
+
+        /* Talen Specifiek */
+        .lang-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .flag-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+        .lang-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .lang-name { font-weight: bold; color: #fff; font-size: 14px; }
+        .lang-level { font-size: 12px; color: var(--text-muted); }
+
+
+        /* --- Rechter Content --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+        .dashboard-header h1 { font-size: 28px; }
+        .dashboard-header p { color: var(--text-muted); max-width: 800px; line-height: 1.6; margin-top: 10px;}
+
+        /* Dashboard Grid voor Metertjes */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .metric-card:hover { transform: translateY(-5px); }
+
+        /* CSS Cirkel Grafieken (De Metertjes) */
+        .gauge {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gauge::before {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+        }
+
+        .gauge span { position: relative; z-index: 1; font-weight: bold; font-size: 18px;}
+        .skill-name { font-weight: bold; margin-top: 10px; display: block; color: var(--accent); }
+        .skill-sub { font-size: 12px; color: var(--text-muted); }
+
+        /* Instellen van percentages via CSS Conic Gradients */
+        .p-90 { background: conic-gradient(var(--accent) 90%, #475569 0); }
+        .p-85 { background: conic-gradient(var(--accent) 85%, #475569 0); }
+        .p-80 { background: conic-gradient(var(--accent) 80%, #475569 0); }
+        .p-70 { background: conic-gradient(var(--accent) 70%, #475569 0); }
+        .p-60 { background: conic-gradient(var(--accent) 60%, #475569 0); } /* Python */
+
+        /* Werkervaring Tijdlijn */
+        .timeline-section {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+        }
+        
+        .job {
+            border-left: 3px solid var(--accent);
+            padding-left: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .job::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: absolute;
+            left: -7.5px;
+            top: 0;
+        }
+        .job-title { font-size: 18px; font-weight: bold; color: #fff; }
+        .job-company { color: var(--accent); font-weight: bold; margin-bottom: 5px; display: block;}
+        .job-date { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: block; font-style: italic;}
+        .job ul { list-style-position: inside; margin-top: 10px; color: var(--text-muted); }
+        .job li { margin-bottom: 5px; }
+
+        /* Mobiele aanpassing */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="profile-section">
+            <div class="avatar">AvdH</div>
+            <div class="name">Arwin van der Heiden</div>
+            <div class="title">Software Developer<br>ERP & Integratie</div>
+        </div>
+
+        <div class="contact-info">
+            <div class="section-title">Contact Data</div>
+            <div class="contact-item">📍 Wildervank</div>
+            <div class="contact-item">📞 06-41185792</div>
+            <div class="contact-item">📧 arwin.vanderheiden@gmail.com</div>
+            <div class="contact-item">🔗 www.linkedin.com/in/arwinvanderheiden</div>
+        </div>
+
+        <div class="soft-skills">
+            <div class="section-title">Eigenschappen</div>
+            <div class="tag-cloud">
+                <span class="tag">Sociaal</span>
+                <span class="tag">Vastbijter</span>
+                <span class="tag">Humor</span>
+                <span class="tag">Analytisch</span>
+                <span class="tag">Toegewijd</span>
+            </div>
+        </div>
+
+        <div class="languages">
+            <div class="section-title">Talen</div>
+            
+            <div class="lang-row">
+                <span class="flag-icon">🇳🇱</span>
+                <div class="lang-text">
+                    <span class="lang-name">Nederlands</span>
+                    <span class="lang-level">Moedertaal</span>
+                </div>
+            </div>
+
+            <div class="lang-row">
+                <span class="flag-icon">🇬🇧</span>
+                <div class="lang-text">
+                    <span class="lang-name">Engels</span>
+                    <span class="lang-level">Vloeiend</span>
+                </div>
+            </div>
+
+            <div class="lang-row">
+                <span class="flag-icon">🇩🇪</span>
+                <div class="lang-text">
+                    <span class="lang-name">Duits</span>
+                    <span class="lang-level">Goed</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <div class="dashboard-header">
+            <h1>Developer Profiel</h1>
+            <p>
+                Sociaal en technisch sterk. Ik combineer 30+ jaar ervaring in complexe ERP-systemen en backend-integraties met de nieuwsgierigheid naar nieuwe technieken. Mijn doel: Business processen optimaliseren door slimme software, terwijl de sfeer op de afdeling goed blijft.
+            </p>
+        </div>
+
+        <h3 class="section-title">Kennis & Ervaring Dashboard</h3>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="gauge p-90"><span>90%</span></div>
+                <span class="skill-name">ERP & Logistiek</span>
+                <span class="skill-sub">Processen, EDI, Supply Chain</span>
+            </div>
+            <div class="metric-card">
+                <div class="gauge p-85"><span>85%</span></div>
+                <span class="skill-name">Integratie</span>
+                <span class="skill-sub">API, XML, JSON, Payment</span>
+            </div>
+            <div class="metric-card">
+                <div class="gauge p-80"><span>60%</span></div>
+                <span class="skill-name">OutSystems</span>
+                <span class="skill-sub">Low-code App Development</span>
+            </div>
+             <div class="metric-card">
+                <div class="gauge p-80"><span>90%</span></div>
+                <span class="skill-name">Linux / OS</span>
+                <span class="skill-sub">Red Hat, Debian, Windows Srv</span>
+            </div>
+             <div class="metric-card">
+                <div class="gauge p-70"><span>70%</span></div>
+                <span class="skill-name">Infra & Tools</span>
+                <span class="skill-sub">Docker, VMware, Scrum</span>
+            </div>
+             <div class="metric-card">
+                <div class="gauge p-60"><span>30%</span></div>
+                <span class="skill-name">Python</span>
+                <span class="skill-sub">Self-education & Scripting</span>
+            </div>
+        </div>
+
+        <h3 class="section-title">Werkhistorie & Projecten</h3>
+        <div class="timeline-section">
+            
+            <div class="job">
+                <span class="job-title">Software Developer</span>
+                <span class="job-company">Scapino / Ziengs (Shared Service Center)</span>
+                <span class="job-date">1992 - 02/2026</span>
+                <p>Beheer en innovatie van het logistieke ERP-landschap en integraties.</p>
+                <ul>
+                    <li><strong>PIM-systeem:</strong> Realisatie artikel-feed (data/foto's) naar webshop. Time-to-market geminimaliseerd.</li>
+                    <li><strong>Finance Automation:</strong> Koppeling payment provider(s) voor automatische retourbetalingen.</li>
+                    <li><strong>Goederen Onderweg:</strong> Digitalisering containerstromen voor betrouwbaar voorraadbeheer en betere personeelsplanning filialen.</li>
+                    <li><strong>Dashboarding:</strong> Aanlevering data uit ERP voor OutSystems-app Multichannel tbv van management/bedrijfsleiders.</li>
+                </ul>
+            </div>
+
+            <div class="job">
+                <span class="job-title">Opleidingen & Cursussen</span>
+                <span class="job-company">Diverse Instituten</span>
+                <span class="job-date">1984 - Heden</span>
+                <ul>
+                    <li>Continu bijleren: OutSystems, Docker, Linux beheer.</li>
+					<li>Cursus Applicatieprogrammeur COBOL</li>
+                    <li>MEAO (1986) & HAVO (1984)</li>
+                </ul>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
