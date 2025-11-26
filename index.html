@@ -19,7 +19,7 @@
             --infra-white: #ffffff;
             --python-orange: #e67e22;
             --ai-purple: #a855f7;
-            --linux-pink: #ec4899; /* Nieuw: Roze voor Linux */
+            --linux-pink: #ec4899;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -324,7 +324,10 @@
                 const textSpan = gauge.querySelector("span");
                 
                 let current = 0;
-                const animationSpeed = 20; 
+                
+                // HIER AANGEPAST NAAR 40
+                const animationSpeed = 40; 
+                
                 const increment = 1; 
 
                 const timer = setInterval(() => {
