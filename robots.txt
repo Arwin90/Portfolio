@@ -1,0 +1,22 @@
+# Blokkeer ChatGPT (OpenAI)
+User-agent: GPTBot
+Disallow: /
+
+# Blokkeer Common Crawl (wordt gebruikt door veel AI modellen)
+User-agent: CCBot
+Disallow: /
+
+# Blokkeer Google AI training (Google Gemini / Vertex)
+# Let op: Google Search mag nog wel indexeren!
+User-agent: Google-Extended
+Disallow: /
+
+# Blokkeer Anthropic (Claude)
+User-agent: anthropic-ai
+Disallow: /
+User-agent: Claude-Web
+Disallow: /
+
+# Blokkeer Facebook/Meta AI
+User-agent: FacebookBot
+Disallow: /
