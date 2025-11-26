@@ -19,6 +19,7 @@
             --infra-white: #ffffff;
             --python-orange: #e67e22;
             --ai-purple: #a855f7;
+            --linux-pink: #ec4899; /* Nieuw: Roze voor Linux */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -260,8 +261,8 @@
             </div>
 
              <div class="metric-card">
-                <div class="gauge" data-target="80" data-color="var(--accent)"><span>0%</span></div>
-                <span class="skill-name">Linux / OS</span>
+                <div class="gauge" data-target="80" data-color="var(--linux-pink)"><span>0%</span></div>
+                <span class="skill-name" style="color: var(--linux-pink);">Linux / OS</span>
                 <span class="skill-sub">Red Hat, Debian, Windows Srv</span>
             </div>
 
@@ -278,7 +279,7 @@
             </div>
 
              <div class="metric-card">
-                <div class="gauge" data-target="60" data-color="var(--ai-purple)"><span>0%</span></div>
+                <div class="gauge" data-target="45" data-color="var(--ai-purple)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--ai-purple);">Labs</span>
                 <span class="skill-sub">MCP-server, Workflow (n8n), Agentic AI</span>
             </div>
