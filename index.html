@@ -18,6 +18,7 @@
             --os-yellow: #facc15;
             --infra-white: #ffffff;
             --python-orange: #e67e22;
+            --ai-purple: #a855f7; /* Nieuw: Paars voor Labs/AI */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -123,7 +124,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Standaard grijs, wordt overschreven door JS */
             background: #475569; 
         }
         
@@ -277,6 +277,12 @@
                 <span class="skill-sub">Self-education & Scripting</span>
             </div>
 
+             <div class="metric-card">
+                <div class="gauge" data-target="60" data-color="var(--ai-purple)"><span>0%</span></div>
+                <span class="skill-name" style="color: var(--ai-purple);">Labs</span>
+                <span class="skill-sub">MCP-server, Workflow (n8n), Agentic AI</span>
+            </div>
+
         </div>
 
         <h3 class="section-title">Werkhistorie & Projecten</h3>
@@ -316,8 +322,7 @@
                 const textSpan = gauge.querySelector("span");
                 
                 let current = 0;
-                // Snelheid van animatie bepalen (hoe lager het getal, hoe sneller)
-                const animationSpeed = 40; 
+                const animationSpeed = 20; 
                 const increment = 1; 
 
                 const timer = setInterval(() => {
@@ -325,9 +330,7 @@
                         clearInterval(timer);
                     } else {
                         current += increment;
-                        // Tekst update
                         textSpan.textContent = current + "%";
-                        // Cirkel gradient update
                         gauge.style.background = `conic-gradient(${colorVar} ${current}%, #475569 0)`;
                     }
                 }, animationSpeed);
