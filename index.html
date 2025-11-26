@@ -105,6 +105,7 @@
             margin-bottom: 40px;
         }
 
+        /* --- TOOLTIP LOGICA & CARD STYLING --- */
         .metric-card {
             background-color: var(--card-bg);
             padding: 20px;
@@ -112,8 +113,51 @@
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             transition: transform 0.2s;
+            position: relative; /* Nodig voor de tooltip positionering */
+            cursor: help; /* Verandert muis in vraagteken */
         }
         .metric-card:hover { transform: translateY(-5px); }
+
+        /* De Tooltip Box */
+        .metric-card:hover::before {
+            content: attr(data-tooltip); /* Haalt de tekst uit de HTML */
+            position: absolute;
+            bottom: 105%; /* Plaatst hem boven de kaart */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #0f172a; /* Donkere achtergrond */
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            width: 180px; /* Breedte van de tooltip */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border: 1px solid var(--accent);
+            z-index: 100;
+            white-space: normal;
+            pointer-events: none;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        /* Het pijltje onder de tooltip */
+        .metric-card:hover::after {
+            content: "";
+            position: absolute;
+            bottom: 95%; /* Net onder de box */
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: var(--accent) transparent transparent transparent;
+            z-index: 100;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
 
         /* De Gauge animatie setup */
         .gauge {
@@ -197,6 +241,7 @@
             <div class="section-title">Eigenschappen</div>
             <div class="tag-cloud">
                 <span class="tag">Sociaal</span>
+                <span class="tag">Nieuwsgierig</span>
                 <span class="tag">Vastbijter</span>
                 <span class="tag">Humor</span>
                 <span class="tag">Analytisch</span>
@@ -242,43 +287,43 @@
         
         <div class="metrics-grid">
             
-            <div class="metric-card">
+            <div class="metric-card" data-tooltip="Diepe kennis van Scapino/Ziengs processen, inrichting en optimalisatie.">
                 <div class="gauge" data-target="90" data-color="var(--erp-green)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--erp-green);">ERP & Logistiek</span>
                 <span class="skill-sub">Processen, EDI, Supply Chain</span>
             </div>
             
-            <div class="metric-card">
+            <div class="metric-card" data-tooltip="Koppelingen met externe partners (EDIFACT), REST API's en payment providers.">
                 <div class="gauge" data-target="85" data-color="var(--accent)"><span>0%</span></div>
                 <span class="skill-name">Integratie</span>
                 <span class="skill-sub">API, XML, JSON, Payment</span>
             </div>
 
-            <div class="metric-card">
+            <div class="metric-card" data-tooltip="Bouwen van Reactive Web Apps, Mobile Apps en Service Studio beheer.">
                 <div class="gauge" data-target="50" data-color="var(--os-yellow)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--os-yellow);">OutSystems</span>
                 <span class="skill-sub">Low-code App Development</span>
             </div>
 
-             <div class="metric-card">
+             <div class="metric-card" data-tooltip="Beheer van Red Hat & Debian servers. Shell scripting en Cronjob management.">
                 <div class="gauge" data-target="80" data-color="var(--linux-pink)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--linux-pink);">Linux / OS</span>
                 <span class="skill-sub">Red Hat, Debian, Windows Srv</span>
             </div>
 
-             <div class="metric-card">
+             <div class="metric-card" data-tooltip="Gebruik van Docker containers, Proxmox virtualisatie en Agile/Scrum werken.">
                 <div class="gauge" data-target="70" data-color="var(--infra-white)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--infra-white);">Infra & Tools</span>
                 <span class="skill-sub">Docker, VMware, Scrum</span>
             </div>
 
-             <div class="metric-card">
+             <div class="metric-card" data-tooltip="Zelfstudie: Scripting voor automatisering en data-analyse.">
                 <div class="gauge" data-target="40" data-color="var(--python-orange)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--python-orange);">Python</span>
                 <span class="skill-sub">Self-education & Scripting</span>
             </div>
 
-             <div class="metric-card">
+             <div class="metric-card" data-tooltip="Experimenteren met AI Agents, workflows in n8n en Model Context Protocols.">
                 <div class="gauge" data-target="45" data-color="var(--ai-purple)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--ai-purple);">Labs</span>
                 <span class="skill-sub">MCP-server, Workflow (n8n), Agentic AI</span>
@@ -326,7 +371,7 @@
                 let current = 0;
                 
                 // Animatiesnelheid (40)
-                const animationSpeed = 35; 
+                const animationSpeed = 40; 
                 
                 const increment = 1; 
 
