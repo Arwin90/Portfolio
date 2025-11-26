@@ -60,14 +60,12 @@
             display: block;
             object-fit: cover;
             background-color: var(--card-bg);
-            /* Zorgt voor soepele overgang */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Het zweef-effect */
         .avatar:hover {
-            transform: scale(1.05) translateY(-5px); /* Iets groter en omhoog */
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); /* Blauwe gloed */
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
             cursor: pointer;
         }
 
@@ -219,7 +217,26 @@
             top: 0;
         }
         .job-title { font-size: 18px; font-weight: bold; color: #fff; }
-        .job-company { color: var(--accent); font-weight: bold; margin-bottom: 5px; display: block;}
+        
+        /* AANGEPASTE STYLE VOOR BEDRIJF + LOGO */
+        .job-company { 
+            color: var(--accent); 
+            font-weight: bold; 
+            margin-bottom: 5px; 
+            display: flex;       /* Zorgt dat tekst en logo naast elkaar staan */
+            align-items: center; /* Verticaal centreren */
+            gap: 12px;           /* Ruimte tussen tekst en logo */
+        }
+
+        /* Style voor het logo zelf */
+        .company-logo {
+            height: 25px;        /* Hoogte in verhouding tot tekst */
+            width: auto;
+            border-radius: 4px;  /* Nette afgeronde hoekjes */
+            background-color: rgba(255,255,255,0.1); /* Subtiel kader mocht het nodig zijn */
+            padding: 2px;
+        }
+
         .job-date { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; display: block; font-style: italic;}
         .job ul { list-style-position: inside; margin-top: 10px; color: var(--text-muted); }
         .job li { margin-bottom: 5px; }
@@ -346,7 +363,12 @@
         <div class="timeline-section">
             <div class="job">
                 <span class="job-title">Software Developer</span>
-                <span class="job-company">Scapino / Ziengs (Shared Service Center)</span>
+                
+                <div class="job-company">
+                    Scapino / Ziengs (Shared Service Center)
+                    <img src="Scapino_Ziengs_logos.png" alt="Scapino Ziengs Logo" class="company-logo">
+                </div>
+                
                 <span class="job-date">1992 - 02/2026</span>
                 <p>Beheer en innovatie van het logistieke ERP-landschap en integraties.</p>
                 <ul>
