@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="robots" content="noai, noimageai">
+    
     <title>Dashboard CV - Arwin van der Heiden</title>
     <style>
         :root {
@@ -113,24 +116,23 @@
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             transition: transform 0.2s;
-            position: relative; /* Nodig voor de tooltip positionering */
-            cursor: help; /* Verandert muis in vraagteken */
+            position: relative; 
+            cursor: help; 
         }
         .metric-card:hover { transform: translateY(-5px); }
 
-        /* De Tooltip Box */
         .metric-card:hover::before {
-            content: attr(data-tooltip); /* Haalt de tekst uit de HTML */
+            content: attr(data-tooltip); 
             position: absolute;
-            bottom: 105%; /* Plaatst hem boven de kaart */
+            bottom: 105%; 
             left: 50%;
             transform: translateX(-50%);
-            background-color: #0f172a; /* Donkere achtergrond */
+            background-color: #0f172a; 
             color: #fff;
             padding: 10px;
             border-radius: 6px;
             font-size: 12px;
-            width: 180px; /* Breedte van de tooltip */
+            width: 180px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             border: 1px solid var(--accent);
             z-index: 100;
@@ -140,11 +142,10 @@
             animation: fadeIn 0.3s forwards;
         }
 
-        /* Het pijltje onder de tooltip */
         .metric-card:hover::after {
             content: "";
             position: absolute;
-            bottom: 95%; /* Net onder de box */
+            bottom: 95%; 
             left: 50%;
             transform: translateX(-50%);
             border-width: 6px;
