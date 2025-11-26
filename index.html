@@ -50,6 +50,7 @@
 
         .profile-section { text-align: center; }
 
+        /* Aangepast voor de foto met HOVER effect */
         .avatar {
             width: 120px;
             height: 120px;
@@ -59,6 +60,15 @@
             display: block;
             object-fit: cover;
             background-color: var(--card-bg);
+            /* Zorgt voor soepele overgang */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Het zweef-effect */
+        .avatar:hover {
+            transform: scale(1.05) translateY(-5px); /* Iets groter en omhoog */
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); /* Blauwe gloed */
+            cursor: pointer;
         }
 
         .name { font-size: 24px; font-weight: bold; color: #fff; }
@@ -315,7 +325,7 @@
              <div class="metric-card" data-tooltip="Gebruik van Docker containers, Proxmox virtualisatie en Agile/Scrum werken.">
                 <div class="gauge" data-target="70" data-color="var(--infra-white)"><span>0%</span></div>
                 <span class="skill-name" style="color: var(--infra-white);">Infra & Tools</span>
-                <span class="skill-sub">Docker, VMware, Scrum</span>
+                <span class="skill-sub">Docker, Proxmox, Scrum</span>
             </div>
 
              <div class="metric-card" data-tooltip="Zelfstudie: Scripting voor automatisering en data-analyse.">
@@ -371,8 +381,8 @@
                 
                 let current = 0;
                 
-                // HIER AANGEPAST NAAR 35
-                const animationSpeed = 35; 
+                // Animatiesnelheid (30)
+                const animationSpeed = 30; 
                 
                 const increment = 1; 
 
