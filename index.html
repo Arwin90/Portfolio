@@ -113,12 +113,14 @@
         .personal-alert {
             color: var(--os-yellow); /* Geel */
             font-style: italic;
-            margin-top: 15px;
+            margin-top: 20px; /* Iets meer ruimte tov de lijst */
             font-weight: 500;
-            max-width: 800px;
             line-height: 1.6;
             border-left: 3px solid var(--os-yellow);
             padding-left: 15px;
+            background: rgba(250, 204, 21, 0.05); /* Heel licht geel achtergrondje voor nadruk */
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
         }
 
         .metrics-grid {
@@ -320,12 +322,6 @@
             <p>
                 Sociaal en technisch sterk. Ik combineer 30+ jaar ervaring in complexe ERP-systemen en backend-integraties met de nieuwsgierigheid naar nieuwe technieken. Mijn doel: Business processen optimaliseren door slimme software. Dit in samenwerking met collega's, of alleen. En dat alles met een vleug humor. Heel belangrijk.
             </p>
-            
-            <p class="personal-alert">
-                Helaas in maart 2024 de diagnose darmkanker mét uitzaaiingen gekregen. Sindsdien volg ik een aantal cycli van chemokuren met goed resultaat. Eind februari 2026 heb ik er 104 weken ziektewet opzitten, waarbij de werkgever helaas geen mogelijkheden ziet om het dienstverband voort te zetten met mijn huidige inzet van 2 x 4 uur.
-                <br><br>
-                Ik ben op zoek naar (tijdelijke) IT-werkzaamheden waarbij ik 8-10 uur in de week mij nuttig kan maken.
-            </p>
         </div>
 
         <h3 class="section-title">Kennis & Ervaring Dashboard</h3>
@@ -344,16 +340,16 @@
                 <span class="skill-sub">API, XML, JSON, Payment</span>
             </div>
 
-            <div class="metric-card" data-tooltip="Bouwen van Reactive Web Apps, Mobile Apps en Service Studio beheer.">
-                <div class="gauge" data-target="40" data-color="var(--os-yellow)"><span>3 jr</span></div>
-                <span class="skill-name" style="color: var(--os-yellow);">OutSystems</span>
-                <span class="skill-sub">Low-code App Development</span>
-            </div>
-
              <div class="metric-card" data-tooltip="Beheer van Red Hat & Debian servers. Shell scripting en Cronjob management.">
                 <div class="gauge" data-target="85" data-color="var(--linux-pink)"><span>21 jr</span></div>
                 <span class="skill-name" style="color: var(--linux-pink);">Linux / OS</span>
                 <span class="skill-sub">Red Hat, Debian, Windows Srv</span>
+            </div>
+
+            <div class="metric-card" data-tooltip="Bouwen van Reactive Web Apps, Mobile Apps en Service Studio beheer.">
+                <div class="gauge" data-target="40" data-color="var(--os-yellow)"><span>3 jr</span></div>
+                <span class="skill-name" style="color: var(--os-yellow);">OutSystems</span>
+                <span class="skill-sub">Low-code App Development</span>
             </div>
 
              <div class="metric-card" data-tooltip="Gebruik van Docker containers, Proxmox virtualisatie en Agile/Scrum werken.">
@@ -394,6 +390,12 @@
                     <li><strong>Goederen Onderweg:</strong> Digitalisering containerstromen voor voorraadbetrouwbaarheid en urenplanning filialen.</li>
                     <li><strong>Dashboarding:</strong> Multichannel omzet-app Outsystems voeden met ERP-data voor management en bedrijfsleiders.</li>
                 </ul>
+
+                <p class="personal-alert">
+                    Helaas in maart 2024 de diagnose darmkanker mét uitzaaiingen gekregen. Sindsdien volg ik een aantal cycli van chemokuren met goed resultaat. Eind februari 2026 heb ik er 104 weken ziektewet opzitten, waarbij de werkgever helaas geen mogelijkheden ziet om het dienstverband voort te zetten met mijn huidige inzet van 2 x 4 uur.
+                    <br><br>
+                    Ik ben op zoek naar (tijdelijke) IT-werkzaamheden waarbij ik 8-10 uur in de week mij nuttig kan maken.
+                </p>
             </div>
             
             <div class="job">
@@ -417,15 +419,8 @@
                 const target = parseInt(gauge.getAttribute("data-target"));
                 const colorVar = gauge.getAttribute("data-color");
                 
-                // We gebruiken geen textSpan update meer voor getallen, 
-                // omdat de tekst nu vast in de HTML staat (bijv. "23 jr").
-                // We animeren alleen de kleur-cirkel.
-                
                 let current = 0;
-                
-                // Animatiesnelheid (25)
                 const animationSpeed = 25; 
-                
                 const increment = 1; 
 
                 const timer = setInterval(() => {
@@ -433,7 +428,7 @@
                         clearInterval(timer);
                     } else {
                         current += increment;
-                        // Alleen de achtergrondkleur updaten
+                        // Alleen achtergrond animeren, tekst is statisch
                         gauge.style.background = `conic-gradient(${colorVar} ${current}%, #475569 0)`;
                     }
                 }, animationSpeed);
