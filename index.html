@@ -333,43 +333,43 @@
         <div class="metrics-grid">
             
             <div class="metric-card" data-tooltip="Diepe kennis van Scapino/Ziengs processen, inrichting en optimalisatie.">
-                <div class="gauge" data-target="90" data-color="var(--erp-green)"><span>0%</span></div>
+                <div class="gauge" data-target="90" data-color="var(--erp-green)"><span>23 jr</span></div>
                 <span class="skill-name" style="color: var(--erp-green);">ERP & Logistiek</span>
                 <span class="skill-sub">Processen, EDI, Supply Chain</span>
             </div>
             
             <div class="metric-card" data-tooltip="Koppelingen met externe partners (EDIFACT), REST API's en payment providers.">
-                <div class="gauge" data-target="85" data-color="var(--accent)"><span>0%</span></div>
+                <div class="gauge" data-target="75" data-color="var(--accent)"><span>15 jr</span></div>
                 <span class="skill-name">Integratie</span>
                 <span class="skill-sub">API, XML, JSON, Payment</span>
             </div>
 
             <div class="metric-card" data-tooltip="Bouwen van Reactive Web Apps, Mobile Apps en Service Studio beheer.">
-                <div class="gauge" data-target="50" data-color="var(--os-yellow)"><span>0%</span></div>
+                <div class="gauge" data-target="40" data-color="var(--os-yellow)"><span>3 jr</span></div>
                 <span class="skill-name" style="color: var(--os-yellow);">OutSystems</span>
                 <span class="skill-sub">Low-code App Development</span>
             </div>
 
              <div class="metric-card" data-tooltip="Beheer van Red Hat & Debian servers. Shell scripting en Cronjob management.">
-                <div class="gauge" data-target="80" data-color="var(--linux-pink)"><span>0%</span></div>
+                <div class="gauge" data-target="85" data-color="var(--linux-pink)"><span>21 jr</span></div>
                 <span class="skill-name" style="color: var(--linux-pink);">Linux / OS</span>
                 <span class="skill-sub">Red Hat, Debian, Windows Srv</span>
             </div>
 
              <div class="metric-card" data-tooltip="Gebruik van Docker containers, Proxmox virtualisatie en Agile/Scrum werken.">
-                <div class="gauge" data-target="70" data-color="var(--infra-white)"><span>0%</span></div>
+                <div class="gauge" data-target="30" data-color="var(--infra-white)"><span>2 jr</span></div>
                 <span class="skill-name" style="color: var(--infra-white);">Infra & Tools</span>
                 <span class="skill-sub">Docker, Proxmox, Scrum</span>
             </div>
 
              <div class="metric-card" data-tooltip="Zelfstudie: Scripting voor automatisering en data-analyse.">
-                <div class="gauge" data-target="40" data-color="var(--python-orange)"><span>0%</span></div>
+                <div class="gauge" data-target="20" data-color="var(--python-orange)"><span>1 jr</span></div>
                 <span class="skill-name" style="color: var(--python-orange);">Python</span>
                 <span class="skill-sub">Self-education & Scripting</span>
             </div>
 
              <div class="metric-card" data-tooltip="Experimenteren met AI Agents, workflows in n8n en Model Context Protocols.">
-                <div class="gauge" data-target="45" data-color="var(--ai-purple)"><span>0%</span></div>
+                <div class="gauge" data-target="15" data-color="var(--ai-purple)"><span>1/2 jr</span></div>
                 <span class="skill-name" style="color: var(--ai-purple);">Labs</span>
                 <span class="skill-sub">MCP-server, Workflow (n8n), Agentic AI</span>
             </div>
@@ -416,7 +416,10 @@
             gauges.forEach(gauge => {
                 const target = parseInt(gauge.getAttribute("data-target"));
                 const colorVar = gauge.getAttribute("data-color");
-                const textSpan = gauge.querySelector("span");
+                
+                // We gebruiken geen textSpan update meer voor getallen, 
+                // omdat de tekst nu vast in de HTML staat (bijv. "23 jr").
+                // We animeren alleen de kleur-cirkel.
                 
                 let current = 0;
                 
@@ -430,7 +433,7 @@
                         clearInterval(timer);
                     } else {
                         current += increment;
-                        textSpan.textContent = current + "%";
+                        // Alleen de achtergrondkleur updaten
                         gauge.style.background = `conic-gradient(${colorVar} ${current}%, #475569 0)`;
                     }
                 }, animationSpeed);
