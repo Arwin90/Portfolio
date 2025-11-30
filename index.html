@@ -90,12 +90,13 @@
 
         .contact-item { margin-bottom: 10px; font-size: 14px; display: flex; align-items: center; gap: 10px;}
         
-        /* Specifieke styling voor het LinkedIn SVG icoon */
+        /* Specifieke styling voor de SVG iconen (LinkedIn & Gmail) */
         .icon-svg {
-            fill: var(--text-main); /* Of var(--accent) als je hem blauw wilt */
+            fill: var(--text-main); 
             width: 16px;
             height: 16px;
-            margin-right: 5px; /* Iets minder ruimte dan de emojis */
+            margin-right: 8px; 
+            flex-shrink: 0;
         }
 
         .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -284,8 +285,14 @@
             <div class="contact-item">📍 Wildervank</div>
             <div class="contact-item">🎂 19 jan 1965</div>
             <div class="contact-item">📞 06-41185792</div>
-            <div class="contact-item">📧 <a href="mailto:arwin.vanderheiden@gmail.com" style="color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent);">arwin.vanderheiden@gmail.com</a></div>
             
+            <div class="contact-item">
+                <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+                </svg>
+                <a href="mailto:arwin.vanderheiden@gmail.com" style="color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent);">arwin.vanderheiden@gmail.com</a>
+            </div>
+
             <div class="contact-item">
                 <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
