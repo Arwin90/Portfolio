@@ -123,7 +123,7 @@
         .personal-alert {
             color: var(--os-yellow); /* Geel */
             font-style: italic;
-            margin-top: 20px; 
+            margin-top: 25px; /* Ruimte boven de tekst */
             font-weight: 400; 
             font-size: 14px;  
             line-height: 1.6;
@@ -345,12 +345,6 @@
             <p>
                 Sociaal en technisch sterk. Ik combineer 30+ jaar ervaring in complexe ERP-systemen en backend-integraties met de nieuwsgierigheid naar nieuwe technieken. Mijn doel: Business processen optimaliseren door slimme software. Dit in samenwerking met collega's, of alleen. En dat alles met een vleug humor. Heel belangrijk.
             </p>
-            
-            <p class="personal-alert">
-                Helaas in maart 2024 de diagnose darmkanker mét uitzaaiingen gekregen. Sindsdien volg ik een aantal cycli van chemokuren met goed resultaat. Eind februari 2026 heb ik er 104 weken ziektewet opzitten, waarbij de werkgever helaas geen mogelijkheden ziet om het dienstverband voort te zetten met mijn huidige inzet van 2 x 4 uur.
-                <br><br>
-                Ik ben op zoek naar (tijdelijke) IT-werkzaamheden waarbij ik 8-10 uur in de week mij nuttig kan maken.
-            </p>
         </div>
 
         <h3 class="section-title">Kennis & Ervaring Dashboard</h3>
@@ -420,7 +414,12 @@
                     <li><strong>Dashboarding:</strong> Multichannel omzet-app Outsystems voeden met ERP-data voor management en bedrijfsleiders.</li>
                 </ul>
 
-                </div>
+                <p class="personal-alert">
+                    Helaas in maart 2024 de diagnose darmkanker mét uitzaaiingen gekregen. Sindsdien volg ik een aantal cycli van chemokuren met goed resultaat. Eind februari 2026 heb ik er 104 weken ziektewet opzitten, waarbij de werkgever helaas geen mogelijkheden ziet om het dienstverband voort te zetten met mijn huidige inzet van 2 x 4 uur.
+                    <br><br>
+                    Ik ben op zoek naar (tijdelijke) IT-werkzaamheden waarbij ik 8-10 uur in de week mij nuttig kan maken.
+                </p>
+            </div>
             
             <div class="job">
                 <span class="job-title">Opleidingen & Cursussen</span>
@@ -444,6 +443,7 @@
                 const colorVar = gauge.getAttribute("data-color");
                 
                 let current = 0;
+                // Animatiesnelheid (25)
                 const animationSpeed = 25; 
                 const increment = 1; 
 
@@ -452,6 +452,7 @@
                         clearInterval(timer);
                     } else {
                         current += increment;
+                        // Alleen achtergrond animeren, tekst is statisch
                         gauge.style.background = `conic-gradient(${colorVar} ${current}%, #475569 0)`;
                     }
                 }, animationSpeed);
