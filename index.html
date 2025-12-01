@@ -79,30 +79,6 @@
             border-radius: 8px;
         }
 
-        /* DOWNLOAD BUTTON STYLING */
-        .download-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            background-color: var(--accent);
-            color: var(--sidebar-bg);
-            padding: 12px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
-            background-color: #0ea5e9; /* Iets donkerder blauw */
-        }
-
         .section-title {
             font-size: 14px;
             text-transform: uppercase;
@@ -123,6 +99,16 @@
             flex-shrink: 0;
         }
 
+        /* VLAGGEN STYLING (Veel kleiner gemaakt) */
+        .flag-svg {
+            width: 16px; /* AANGEPAST: Was 24px */
+            height: auto; /* Behoudt verhouding */
+            margin-right: 10px;
+            border-radius: 2px;
+            box-shadow: 0 0 2px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+        }
+
         .emoji-fixed {
             display: inline-block;
             width: 18px; 
@@ -135,7 +121,6 @@
         .tag { background: var(--accent); color: var(--sidebar-bg); padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
 
         .lang-row { display: flex; align-items: center; margin-bottom: 12px; }
-        .flag-icon { font-size: 24px; margin-right: 15px; width: 30px; text-align: center; }
         .lang-text { display: flex; flex-direction: column; }
         .lang-name { font-weight: bold; color: #fff; font-size: 14px; }
         .lang-level { font-size: 12px; color: var(--text-muted); }
@@ -335,10 +320,6 @@
                 </svg>
                 <a href="https://wa.me/31641185792" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent);">+31 6 41185792</a>
             </div>
-
-            <a href="CV_Arwin_van_der_Heiden.pdf" download class="download-btn">
-                📄 Download PDF
-            </a>
         </div>
 
         <div class="soft-skills">
@@ -360,13 +341,13 @@
             <div class="contact-item">
                 <span class="emoji-fixed">🌍</span> Reizen 
                 <span style="display:inline-flex; align-items:center; margin-left: 5px;">
-                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30" style="width:20px; height:14px; margin-right:3px;">
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30" style="width:16px; height:auto; margin-right:3px;">
                         <rect width="50" height="30" fill="#B22234"/>
                         <path d="M0,4h50v4h-50zM0,12h50v4h-50zM0,20h50v4h-50z" fill="#fff"/>
                         <rect width="20" height="16" fill="#3C3B6E"/>
                     </svg>
                     / Safari 
-                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" style="width:20px; height:14px; margin-left:3px;">
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" style="width:16px; height:auto; margin-left:3px;">
                         <path d="M0,0h900v600h-900z" fill="#007749"/>
                         <path d="M0,0h900v200h-900z" fill="#e03c31"/>
                         <path d="M0,400h900v200h-900z" fill="#001489"/>
@@ -482,55 +463,3 @@
                 <div class="job-company">
                     Scapino / Ziengs (Shared Service Center)
                     <img src="Scapino_Ziengs_logos.png" alt="Scapino Ziengs Logo" class="company-logo">
-                </div>
-                
-                <span class="job-date">1992 - 02/2026</span>
-                <p>Beheer en innovatie van het logistieke ERP-landschap en integraties.</p>
-                <ul>
-                    <li><strong>PIM-systeem:</strong> Realisatie artikel-feed (data/foto's) naar webshop. Time-to-market geminimaliseerd.</li>
-                    <li><strong>Finance Automation:</strong> Koppeling payment providers voor automatische retourbetalingen.</li>
-                    <li><strong>Goederen Onderweg:</strong> Digitalisering containerstromen voor voorraadbetrouwbaarheid en urenplanning filialen.</li>
-                    <li><strong>Dashboarding:</strong> Multichannel omzet-app Outsystems voeden met ERP-data voor management en bedrijfsleiders.</li>
-                </ul>
-            </div>
-            
-            <div class="job">
-                <span class="job-title">Opleidingen & Cursussen</span>
-                <span class="job-company">Diverse Instituten</span>
-                <span class="job-date">1984 - Heden</span>
-                <ul>
-                    <li>Continu bijleren: OutSystems, Docker, Linux beheer.</li>
-                    <li>Cursus Applicatieprogrammeur COBOL</li>
-                    <li>MEAO (1986) & HAVO (1984)</li>
-                </ul>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const gauges = document.querySelectorAll(".gauge");
-
-            gauges.forEach(gauge => {
-                const target = parseInt(gauge.getAttribute("data-target"));
-                const colorVar = gauge.getAttribute("data-color");
-                
-                let current = 0;
-                // Animatiesnelheid (25)
-                const animationSpeed = 25; 
-                const increment = 1; 
-
-                const timer = setInterval(() => {
-                    if (current >= target) {
-                        clearInterval(timer);
-                    } else {
-                        current += increment;
-                        // Alleen achtergrond animeren, tekst is statisch
-                        gauge.style.background = `conic-gradient(${colorVar} ${current}%, #475569 0)`;
-                    }
-                }, animationSpeed);
-            });
-        });
-    </script>
-</body>
-</html>
