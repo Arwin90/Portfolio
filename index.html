@@ -24,7 +24,7 @@
             --ai-purple: #a855f7;
             --linux-pink: #ec4899;
             
-            /* Nieuwe kleur voor de zachte tekst */
+            /* Kleur voor de zachte tekst */
             --soft-yellow: #fae69e; 
         }
 
@@ -130,17 +130,20 @@
         .dashboard-header h1 { font-size: 28px; }
         .dashboard-header p { color: var(--text-muted); max-width: 800px; line-height: 1.6; margin-top: 10px;}
 
-        /* STIJL VOOR DE PERSOONLIJKE OPROEP (AANGEPAST: ZACHTER GEEL) */
+        /* STIJL VOOR DE PERSOONLIJKE OPROEP (AANGEPAST MET MARGINS) */
         .personal-alert {
-            color: var(--soft-yellow); /* Gebruikt nu het zachtere geel */
+            color: var(--soft-yellow); 
             font-style: italic;
-            margin-top: 25px; 
-            font-weight: normal; /* Expliciet niet vet */
+            /* Ruimte boven en onder het blok */
+            margin-top: 40px; 
+            margin-bottom: 40px;
+            
+            font-weight: normal; 
             font-size: 14px;  
             line-height: 1.6;
             border-left: 3px solid var(--soft-yellow);
             padding-left: 15px;
-            background: rgba(250, 230, 158, 0.05); /* Heel subtiel geel achtergrondje */
+            background: rgba(250, 230, 158, 0.05); 
             padding: 15px;
             border-radius: 0 8px 8px 0;
         }
@@ -362,12 +365,6 @@
             <p>
                 Sociaal en technisch sterk. Ik combineer 30+ jaar ervaring in complexe ERP-systemen en backend-integraties met de nieuwsgierigheid naar nieuwe technieken. Mijn doel: Business processen optimaliseren door slimme software. Dit in samenwerking met collega's, of alleen. En dat alles met een vleug humor. Heel belangrijk.
             </p>
-            
-            <p class="personal-alert">
-                Helaas in maart 2024 de diagnose darmkanker mét uitzaaiingen gekregen. Sindsdien volg ik een aantal cycli van chemokuren met goed resultaat. Eind februari 2026 heb ik er 104 weken ziektewet opzitten, waarbij de werkgever helaas geen mogelijkheden ziet om het dienstverband voort te zetten met mijn huidige inzet van 2 x 4 uur.
-                <br><br>
-                Ik ben op zoek naar (tijdelijke) IT-werkzaamheden waarbij ik 8-10 uur in de week mij nuttig kan maken.
-            </p>
         </div>
 
         <h3 class="section-title">Kennis & Ervaring Dashboard</h3>
@@ -417,6 +414,12 @@
             </div>
 
         </div>
+
+        <p class="personal-alert">
+            Helaas in maart 2024 de diagnose darmkanker mét uitzaaiingen gekregen. Sindsdien volg ik een aantal cycli van chemokuren met goed resultaat. Eind februari 2026 heb ik er 104 weken ziektewet opzitten, waarbij de werkgever helaas geen mogelijkheden ziet om het dienstverband voort te zetten met mijn huidige inzet van 2 x 4 uur.
+            <br><br>
+            Ik ben op zoek naar (tijdelijke) IT-werkzaamheden waarbij ik 8-10 uur in de week mij nuttig kan maken.
+        </p>
 
         <h3 class="section-title">Werkhistorie & Projecten</h3>
         <div class="timeline-section">
