@@ -23,8 +23,6 @@
             --python-orange: #e67e22;
             --ai-purple: #a855f7;
             --linux-pink: #ec4899;
-            
-            /* Kleur voor de zachte tekst */
             --soft-yellow: #fae69e; 
         }
 
@@ -53,7 +51,7 @@
 
         .profile-section { text-align: center; }
 
-        /* Aangepast voor de foto met HOVER effect */
+        /* Foto Styling */
         .avatar {
             width: 120px;
             height: 120px;
@@ -93,7 +91,7 @@
 
         .contact-item { margin-bottom: 10px; font-size: 14px; display: flex; align-items: center; gap: 0; }
         
-        /* Specifieke styling voor de SVG iconen */
+        /* Iconen Styling */
         .icon-svg {
             width: 18px; 
             height: 18px;
@@ -101,7 +99,16 @@
             flex-shrink: 0;
         }
 
-        /* Zorgt dat de emoji's precies even breed zijn als de icoontjes */
+        /* Vlag styling */
+        .flag-svg {
+            width: 24px;
+            height: 18px;
+            margin-right: 12px;
+            border-radius: 2px;
+            box-shadow: 0 0 2px rgba(0,0,0,0.5);
+            object-fit: cover;
+        }
+
         .emoji-fixed {
             display: inline-block;
             width: 18px; 
@@ -114,7 +121,6 @@
         .tag { background: var(--accent); color: var(--sidebar-bg); padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
 
         .lang-row { display: flex; align-items: center; margin-bottom: 12px; }
-        .flag-icon { font-size: 24px; margin-right: 15px; width: 30px; text-align: center; }
         .lang-text { display: flex; flex-direction: column; }
         .lang-name { font-weight: bold; color: #fff; font-size: 14px; }
         .lang-level { font-size: 12px; color: var(--text-muted); }
@@ -130,14 +136,12 @@
         .dashboard-header h1 { font-size: 28px; }
         .dashboard-header p { color: var(--text-muted); max-width: 800px; line-height: 1.6; margin-top: 10px;}
 
-        /* STIJL VOOR DE PERSOONLIJKE OPROEP (AANGEPAST MET MARGINS) */
+        /* Persoonlijke Oproep */
         .personal-alert {
             color: var(--soft-yellow); 
             font-style: italic;
-            /* Ruimte boven en onder het blok */
             margin-top: 40px; 
             margin-bottom: 40px;
-            
             font-weight: normal; 
             font-size: 14px;  
             line-height: 1.6;
@@ -155,7 +159,7 @@
             margin-bottom: 40px;
         }
 
-        /* --- TOOLTIP LOGICA & CARD STYLING --- */
+        /* Tooltips */
         .metric-card {
             background-color: var(--card-bg);
             padding: 20px;
@@ -203,11 +207,9 @@
             animation: fadeIn 0.3s forwards;
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
+        @keyframes fadeIn { to { opacity: 1; } }
 
-        /* De Gauge animatie setup */
+        /* Gauges */
         .gauge {
             width: 100px;
             height: 100px;
@@ -257,7 +259,6 @@
         }
         .job-title { font-size: 18px; font-weight: bold; color: #fff; }
         
-        /* AANGEPASTE REGEL MET LOGO */
         .job-company { 
             color: var(--accent); 
             font-weight: bold; 
@@ -337,7 +338,25 @@
             <div class="section-title">Hobby's & Interesses</div>
             <div class="contact-item">✈️ Luchtvaart (Gebrevetteerd)</div>
             <div class="contact-item">🏍️ Motorrijden</div>
-            <div class="contact-item">🌍 Reizen (🇺🇸 / Safari 🇿🇦)</div>
+            <div class="contact-item">
+                <span class="emoji-fixed">🌍</span> Reizen 
+                <span style="display:inline-flex; align-items:center; margin-left: 5px;">
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30" style="width:20px; height:14px; margin-right:3px;">
+                        <rect width="50" height="30" fill="#B22234"/>
+                        <path d="M0,4h50v4h-50zM0,12h50v4h-50zM0,20h50v4h-50z" fill="#fff"/>
+                        <rect width="20" height="16" fill="#3C3B6E"/>
+                    </svg>
+                    / Safari 
+                    <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" style="width:20px; height:14px; margin-left:3px;">
+                        <path d="M0,0h900v600h-900z" fill="#007749"/>
+                        <path d="M0,0h900v200h-900z" fill="#e03c31"/>
+                        <path d="M0,400h900v200h-900z" fill="#001489"/>
+                        <path d="M0,0l450,300l-450,300" fill="none" stroke="#fff" stroke-width="120"/>
+                        <path d="M0,0l450,300l-450,300" fill="#ffb81c" transform="translate(-40,0) scale(0.85)"/>
+                        <path d="M0,0l450,300l-450,300" fill="none" stroke="#000" stroke-width="40" transform="translate(-40,0) scale(0.85)"/>
+                    </svg>
+                </span>
+            </div>
             <div class="contact-item">🏠 Home Automation</div>
             <div class="contact-item">📰 Financieel Dagblad</div>
         </div>
@@ -345,15 +364,30 @@
         <div class="languages">
             <div class="section-title">Talen</div>
             <div class="lang-row">
-                <span class="flag-icon">🇳🇱</span>
+                <svg class="flag-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6">
+                    <rect fill="#21468B" width="9" height="6"/>
+                    <rect fill="#FFF" width="9" height="4"/>
+                    <rect fill="#AE1C28" width="9" height="2"/>
+                </svg>
                 <div class="lang-text"><span class="lang-name">Nederlands</span><span class="lang-level">Moedertaal</span></div>
             </div>
             <div class="lang-row">
-                <span class="flag-icon">🇬🇧</span>
+                <svg class="flag-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30">
+                    <clipPath id="t"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath>
+                    <path d="M0,0v30h60v-30z" fill="#012169"/>
+                    <path d="M0,0l60,30m0-30l-60,30" stroke="#fff" stroke-width="6"/>
+                    <path d="M0,0l60,30m0-30l-60,30" clip-path="url(#t)" stroke="#C8102E" stroke-width="4"/>
+                    <path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/>
+                    <path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/>
+                </svg>
                 <div class="lang-text"><span class="lang-name">Engels</span><span class="lang-level">Vloeiend</span></div>
             </div>
             <div class="lang-row">
-                <span class="flag-icon">🇩🇪</span>
+                <svg class="flag-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3">
+                    <rect width="5" height="3" y="0" x="0" fill="#000"/>
+                    <rect width="5" height="2" y="1" x="0" fill="#D00"/>
+                    <rect width="5" height="1" y="2" x="0" fill="#FFCE00"/>
+                </svg>
                 <div class="lang-text"><span class="lang-name">Duits</span><span class="lang-level">Goed</span></div>
             </div>
         </div>
@@ -463,8 +497,8 @@
                 const colorVar = gauge.getAttribute("data-color");
                 
                 let current = 0;
-                // Animatiesnelheid (25)
-                const animationSpeed = 25; 
+                // Animatiesnelheid (30ms)
+                const animationSpeed = 30; 
                 const increment = 1; 
 
                 const timer = setInterval(() => {
@@ -472,7 +506,7 @@
                         clearInterval(timer);
                     } else {
                         current += increment;
-                        // Alleen achtergrond animeren, tekst is statisch
+                        // Alleen achtergrond animeren
                         gauge.style.background = `conic-gradient(${colorVar} ${current}%, #475569 0)`;
                     }
                 }, animationSpeed);
