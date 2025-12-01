@@ -1,3 +1,12 @@
+Dat is het puntje op de i\!
+
+Het probleem zat hem waarschijnlijk in het feit dat de emoji's in de "Hobby's"-lijst nog geen vaste breedte hadden, terwijl de emoji's bovenin (locatie/verjaardag) dat wel hadden. Hierdoor versprong de tekst "Reizen" ten opzichte van de regels erboven en eronder.
+
+Ik heb nu **alle** emoji's in de sidebar in de `emoji-fixed` container gezet. Hierdoor staan alle icoontjes strak onder elkaar en beginnen alle teksten (Luchtvaart, Motorrijden, Reizen, etc.) op exact dezelfde verticale lijn.
+
+Hier is de **complete, definitieve code**. Je kunt `index.html` weer vervangen.
+
+```html
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -79,20 +88,20 @@
             border-radius: 8px;
         }
 
-        /* DOWNLOAD BUTTON STYLING (AANGEPAST: TRANSPARANT) */
+        /* DOWNLOAD BUTTON STYLING */
         .download-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            background-color: transparent; /* Transparant */
-            border: 1px solid var(--accent); /* Blauw randje */
-            color: var(--accent); /* Blauwe tekst */
-            padding: 8px 12px; /* Iets compacter */
+            background-color: transparent; 
+            border: 1px solid var(--accent); 
+            color: var(--accent); 
+            padding: 8px 12px; 
             border-radius: 6px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 13px; /* Iets kleiner font */
+            font-size: 13px; 
             margin-top: 15px;
             transition: all 0.2s ease;
             cursor: pointer;
@@ -100,8 +109,8 @@
 
         .download-btn:hover {
             transform: translateY(-2px);
-            background-color: var(--accent); /* Vullen bij hover */
-            color: var(--sidebar-bg); /* Tekst donker bij hover */
+            background-color: var(--accent); 
+            color: var(--sidebar-bg); 
             box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
         }
 
@@ -115,7 +124,14 @@
             padding-bottom: 5px;
         }
 
-        .contact-item { margin-bottom: 10px; font-size: 14px; display: flex; align-items: center; gap: 0; }
+        /* Contact Item Alignment */
+        .contact-item { 
+            margin-bottom: 10px; 
+            font-size: 14px; 
+            display: flex; 
+            align-items: center; 
+            gap: 0; 
+        }
         
         /* Iconen Styling */
         .icon-svg {
@@ -135,6 +151,7 @@
             flex-shrink: 0;
         }
 
+        /* Zorgt dat ALLE emojis precies even breed zijn */
         .emoji-fixed {
             display: inline-block;
             width: 18px; 
@@ -366,8 +383,8 @@
 
         <div class="interests">
             <div class="section-title">Hobby's & Interesses</div>
-            <div class="contact-item">✈️ Luchtvaart (Gebrevetteerd)</div>
-            <div class="contact-item">🏍️ Motorrijden</div>
+            <div class="contact-item"><span class="emoji-fixed">✈️</span> Luchtvaart (Gebrevetteerd)</div>
+            <div class="contact-item"><span class="emoji-fixed">🏍️</span> Motorrijden</div>
             <div class="contact-item">
                 <span class="emoji-fixed">🌍</span> Reizen 
                 <span style="display:inline-flex; align-items:center; margin-left: 5px;">
@@ -387,8 +404,8 @@
                     </svg>
                 </span>
             </div>
-            <div class="contact-item">🏠 Home Automation</div>
-            <div class="contact-item">📰 Financieel Dagblad</div>
+            <div class="contact-item"><span class="emoji-fixed">🏠</span> Home Automation</div>
+            <div class="contact-item"><span class="emoji-fixed">📰</span> Financieel Dagblad</div>
         </div>
 
         <div class="languages">
@@ -545,3 +562,4 @@
     </script>
 </body>
 </html>
+```
