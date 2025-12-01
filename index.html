@@ -79,6 +79,32 @@
             border-radius: 8px;
         }
 
+        /* DOWNLOAD BUTTON STYLING (AANGEPAST: TRANSPARANT) */
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: transparent; /* Transparant */
+            border: 1px solid var(--accent); /* Blauw randje */
+            color: var(--accent); /* Blauwe tekst */
+            padding: 8px 12px; /* Iets compacter */
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 13px; /* Iets kleiner font */
+            margin-top: 15px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            background-color: var(--accent); /* Vullen bij hover */
+            color: var(--sidebar-bg); /* Tekst donker bij hover */
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+        }
+
         .section-title {
             font-size: 14px;
             text-transform: uppercase;
@@ -99,10 +125,10 @@
             flex-shrink: 0;
         }
 
-        /* VLAGGEN STYLING (Veel kleiner gemaakt) */
+        /* VLAGGEN STYLING */
         .flag-svg {
-            width: 16px; /* AANGEPAST: Was 24px */
-            height: auto; /* Behoudt verhouding */
+            width: 16px; 
+            height: auto; 
             margin-right: 10px;
             border-radius: 2px;
             box-shadow: 0 0 2px rgba(0,0,0,0.5);
@@ -320,6 +346,10 @@
                 </svg>
                 <a href="https://wa.me/31641185792" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px dotted var(--accent);">+31 6 41185792</a>
             </div>
+
+            <a href="CV_Arwin_van_der_Heiden.pdf" download class="download-btn">
+                📄 PDF-CV
+            </a>
         </div>
 
         <div class="soft-skills">
@@ -463,3 +493,55 @@
                 <div class="job-company">
                     Scapino / Ziengs (Shared Service Center)
                     <img src="Scapino_Ziengs_logos.png" alt="Scapino Ziengs Logo" class="company-logo">
+                </div>
+                
+                <span class="job-date">1992 - 02/2026</span>
+                <p>Beheer en innovatie van het logistieke ERP-landschap en integraties.</p>
+                <ul>
+                    <li><strong>PIM-systeem:</strong> Realisatie artikel-feed (data/foto's) naar webshop. Time-to-market geminimaliseerd.</li>
+                    <li><strong>Finance Automation:</strong> Koppeling payment providers voor automatische retourbetalingen.</li>
+                    <li><strong>Goederen Onderweg:</strong> Digitalisering containerstromen voor voorraadbetrouwbaarheid en urenplanning filialen.</li>
+                    <li><strong>Dashboarding:</strong> Multichannel omzet-app Outsystems voeden met ERP-data voor management en bedrijfsleiders.</li>
+                </ul>
+            </div>
+            
+            <div class="job">
+                <span class="job-title">Opleidingen & Cursussen</span>
+                <span class="job-company">Diverse Instituten</span>
+                <span class="job-date">1984 - Heden</span>
+                <ul>
+                    <li>Continu bijleren: OutSystems, Docker, Linux beheer.</li>
+                    <li>Cursus Applicatieprogrammeur COBOL</li>
+                    <li>MEAO (1986) & HAVO (1984)</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const gauges = document.querySelectorAll(".gauge");
+
+            gauges.forEach(gauge => {
+                const target = parseInt(gauge.getAttribute("data-target"));
+                const colorVar = gauge.getAttribute("data-color");
+                
+                let current = 0;
+                // Animatiesnelheid (25)
+                const animationSpeed = 25; 
+                const increment = 1; 
+
+                const timer = setInterval(() => {
+                    if (current >= target) {
+                        clearInterval(timer);
+                    } else {
+                        current += increment;
+                        // Alleen achtergrond animeren, tekst is statisch
+                        gauge.style.background = `conic-gradient(${colorVar} ${current}%, #475569 0)`;
+                    }
+                }, animationSpeed);
+            });
+        });
+    </script>
+</body>
+</html>
