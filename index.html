@@ -105,23 +105,6 @@
             box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
         }
 
-        /* NIEUWE LINK VOOR DE VISUAL */
-        .visual-link {
-            display: flex;
-            align-items: center;
-            margin-top: 15px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 13px;
-            transition: color 0.2s;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 10px;
-        }
-        .visual-link:hover {
-            color: var(--accent);
-        }
-        .visual-icon { margin-right: 8px; font-size: 16px; }
-
         .section-title {
             font-size: 14px;
             text-transform: uppercase;
@@ -161,7 +144,27 @@
         }
 
         .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag { background: var(--accent); color: var(--sidebar-bg); padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
+        
+        /* Tag styling aangepast zodat links ook werken */
+        .tag { 
+            background: var(--accent); 
+            color: var(--sidebar-bg); 
+            padding: 4px 10px; 
+            border-radius: 15px; 
+            font-size: 12px; 
+            font-weight: bold; 
+            text-decoration: none; /* Voor de link */
+            transition: all 0.2s ease;
+        }
+
+        /* Specifieke hover voor de link-tag */
+        a.tag:hover {
+            background-color: #fff;
+            color: var(--bg-dark);
+            transform: scale(1.05);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
 
         .lang-row { display: flex; align-items: center; margin-bottom: 12px; }
         .lang-text { display: flex; flex-direction: column; }
@@ -375,14 +378,10 @@
                 <span class="tag">Sociaal</span>
                 <span class="tag">Nieuwsgierig</span>
                 <span class="tag">Vastbijter</span>
-                <span class="tag">Humor</span>
+                <a href="Loopbaan.jpg" target="_blank" class="tag" title="Bekijk Loopbaan Visual">Humor 🔗</a>
                 <span class="tag">Analytisch</span>
                 <span class="tag">Toegewijd</span>
             </div>
-            
-            <a href="Loopbaan.jpg" target="_blank" class="visual-link">
-                <span class="visual-icon">🖼️</span> Bekijk Loopbaan Visual
-            </a>
         </div>
 
         <div class="interests">
