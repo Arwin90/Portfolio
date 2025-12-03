@@ -135,6 +135,7 @@
             flex-shrink: 0;
         }
 
+        /* Vaste breedte voor emojis zodat tekst uitlijnt */
         .emoji-fixed {
             display: inline-block;
             width: 18px; 
@@ -145,7 +146,6 @@
 
         .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
         
-        /* Tag styling aangepast zodat links ook werken */
         .tag { 
             background: var(--accent); 
             color: var(--sidebar-bg); 
@@ -153,11 +153,10 @@
             border-radius: 15px; 
             font-size: 12px; 
             font-weight: bold; 
-            text-decoration: none; /* Voor de link */
+            text-decoration: none; 
             transition: all 0.2s ease;
         }
 
-        /* Specifieke hover voor de link-tag */
         a.tag:hover {
             background-color: #fff;
             color: var(--bg-dark);
@@ -386,8 +385,8 @@
 
         <div class="interests">
             <div class="section-title">Hobby's & Interesses</div>
-            <div class="contact-item">✈️ Luchtvaart (Gebrevetteerd)</div>
-            <div class="contact-item">🏍️ Motorrijden</div>
+            <div class="contact-item"><span class="emoji-fixed">✈️</span> Luchtvaart (Gebrevetteerd)</div>
+            <div class="contact-item"><span class="emoji-fixed">🏍️</span> Motorrijden</div>
             <div class="contact-item">
                 <span class="emoji-fixed">🌍</span> Roadtrips 
                 <span style="display:inline-flex; align-items:center; margin-left: 5px;">
@@ -407,8 +406,8 @@
                     </svg>
                 </span>
             </div>
-            <div class="contact-item">🏠 Home Automation</div>
-            <div class="contact-item">📰 Financieel Dagblad</div>
+            <div class="contact-item"><span class="emoji-fixed">🏠</span> Home Automation</div>
+            <div class="contact-item"><span class="emoji-fixed">📰</span> Financieel Dagblad</div>
         </div>
 
         <div class="languages">
