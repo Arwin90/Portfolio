@@ -13,20 +13,27 @@
             --terminal-green: #22c55e;
             --code-comment: #64748b;
             --code-string: #f59e0b;
+            /* Nieuwe kleuren voor de koffiemachine */
+            --coffee-bean: #3e2723;
+            --coffee-liquid: #5d4037;
+            --machine-outline: #334155;
+            --machine-body: #1e293b;
+            --machine-accent: #475569;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Courier New', Courier, monospace; /* Monospace voor de dev-look */
+            font-family: 'Courier New', Courier, monospace;
             background-color: var(--bg-dark);
             color: var(--text);
-            height: 100vh;
+            min-height: 100vh; /* Changed to min-height for scroll safety on small screens */
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll */
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            padding: 20px 0; /* Add some padding for vertical spacing */
         }
 
         .container {
@@ -37,7 +44,7 @@
             z-index: 2;
         }
 
-        /* De afbeelding met een 'zwevend' effect */
+        /* De afbeelding */
         .visual-img {
             max-width: 100%;
             width: 500px;
@@ -82,7 +89,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             max-width: 500px;
             margin: 0 auto;
-            height: 140px; /* Vaste hoogte */
+            height: 140px;
             overflow: hidden;
             position: relative;
         }
@@ -100,7 +107,6 @@
         .yellow { background: #eab308; }
         .green { background: #22c55e; }
 
-        /* Knipperende cursor */
         .cursor {
             display: inline-block;
             width: 8px;
@@ -138,16 +144,17 @@
             100% { width: 95%; }
         }
 
-        /* NIEUW: De grappige tekst */
+        /* De grappige tekst status */
         .funny-status {
-            margin-top: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
             font-size: 14px;
             color: var(--text);
             font-family: 'Courier New', Courier, monospace;
         }
         
-        .code-keyword { color: #c084fc; } /* Paars */
-        .code-string { color: var(--code-string); } /* Oranje */
+        .code-keyword { color: #c084fc; }
+        .code-string { color: var(--code-string); }
         .code-comment { 
             color: var(--code-comment); 
             display: block;
@@ -156,9 +163,88 @@
             font-style: italic;
         }
 
+        /* =========================================
+           NIEUW: De CSS Espresso Machine Animatie
+        ========================================= */
+        .coffee-machine-container {
+            width: 180px;
+            height: 220px;
+            margin: 0 auto 30px auto; /* Centrally aligned */
+            position: relative;
+        }
+
+        /* SVG Styling voor 'Comic' look */
+        .comic-svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--machine-outline);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.3)); /* Comic schaduw effect */
+        }
+
+        .machine-fill { fill: var(--machine-body); }
+        .machine-accent-fill { fill: var(--machine-accent); }
+        .bean-fill { fill: var(--coffee-bean); stroke: none; }
+        .liquid-fill { fill: var(--coffee-liquid); stroke: none; }
+
+        /* --- Animaties --- */
+
+        /* 1. Bonen vallen */
+        .bean-group-1 { animation: dropBeans 3s linear infinite; }
+        .bean-group-2 { animation: dropBeans 3s linear infinite 1.5s; opacity: 0; }
+
+        @keyframes dropBeans {
+            0% { transform: translateY(-20px); opacity: 1; }
+            60% { transform: translateY(40px); opacity: 1; }
+            70% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(50px); opacity: 0; }
+        }
+
+        /* 2. Koffie stroomt */
+        .coffee-stream {
+            animation: flowStream 3s ease-in-out infinite;
+            transform-origin: top center;
+        }
+
+        @keyframes flowStream {
+            0%, 40% { transform: scaleY(0); opacity: 0; }
+            50% { opacity: 1; }
+            60%, 80% { transform: scaleY(1); opacity: 1; }
+            100% { transform: scaleY(0); opacity: 0; }
+        }
+
+        /* 3. Kopje vult */
+        .cup-liquid {
+            animation: fillCup 3s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        @keyframes fillCup {
+            0%, 50% { transform: scaleY(0); }
+            85%, 95% { transform: scaleY(0.8); }
+            100% { transform: scaleY(0); }
+        }
+
+        /* 4. Stoom */
+        .steam {
+            animation: riseSteam 2s ease-out infinite;
+            opacity: 0;
+        }
+        .steam:nth-child(2) { animation-delay: 0.5s; }
+        .steam:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes riseSteam {
+            0% { transform: translateY(0) scale(1); opacity: 0; stroke: #aaa; }
+            50% { opacity: 0.7; }
+            100% { transform: translateY(-30px) scale(1.5); opacity: 0; stroke: #fff;}
+        }
+
+        /* Knoppen */
         .notify-btn {
             display: inline-block;
-            margin-top: 30px;
+            margin-top: 10px;
             padding: 12px 25px;
             background: transparent;
             border: 1px solid var(--accent);
@@ -203,7 +289,47 @@
 
         <div class="funny-status">
             <span class="code-keyword">console</span>.log(<span class="code-string">"Portfolio soon online...."</span>);
-            <span class="code-comment">// ⚠️ Error: More coffee required to center the divs.</span>
+            <span class="code-comment">// ⚠️ Error: Critical caffeine level missing. </span>
+        </div>
+
+        <div class="coffee-machine-container">
+            <svg class="comic-svg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+                <g stroke-width="2" fill="none">
+                    <path class="steam" d="M135 150 Q 140 140, 135 130" />
+                    <path class="steam" d="M145 150 Q 150 140, 145 130" />
+                    <path class="steam" d="M155 150 Q 160 140, 155 130" />
+                </g>
+
+                <rect x="40" y="60" width="120" height="130" rx="10" class="machine-fill"/>
+                <path d="M60 60 L40 20 L160 20 L140 60 Z" class="machine-fill"/>
+                <path d="M40 20 L160 20" class="machine-accent-fill" stroke-width="4" stroke-linecap="butt"/>
+
+                <g clip-path="url(#hopper-clip)">
+                    <g class="bean-group-1">
+                        <circle cx="70" cy="0" r="5" class="bean-fill"/>
+                        <circle cx="130" cy="10" r="5" class="bean-fill"/>
+                        <circle cx="100" cy="-15" r="5" class="bean-fill"/>
+                    </g>
+                    <g class="bean-group-2">
+                        <circle cx="80" cy="0" r="5" class="bean-fill"/>
+                        <circle cx="120" cy="15" r="5" class="bean-fill"/>
+                        <circle cx="100" cy="5" r="5" class="bean-fill"/>
+                    </g>
+                </g>
+                <defs>
+                    <clipPath id="hopper-clip">
+                         <path d="M60 60 L40 20 L160 20 L140 60 Z" />
+                    </clipPath>
+                </defs>
+
+                <rect x="80" y="110" width="40" height="30" rx="5" class="machine-accent-fill"/>
+                <path d="M80 125 L30 125 C 20 125, 20 140, 30 140 L80 140" fill="none" stroke-width="5" class="machine-accent-fill" /> <rect x="95" y="140" width="10" height="10" class="machine-accent-fill"/> <rect x="97" y="150" width="6" height="40" class="liquid-fill coffee-stream" rx="2"/>
+
+                <path d="M120 190 C 120 210, 80 210, 80 190 L 80 170 L 120 170 Z" class="machine-accent-fill"/>
+                <path d="M116 190 C 116 205, 84 205, 84 190 L 84 185 L 116 185 Z" class="liquid-fill cup-liquid"/>
+                
+                <circle cx="140" cy="90" r="8" class="machine-accent-fill"/>
+                <circle cx="140" cy="90" r="3" fill="#ef4444" stroke="none"/> <rect x="60" y="85" width="60" height="10" rx="2" class="machine-accent-fill"/> </svg>
         </div>
 
         <a href="https://www.linkedin.com/in/arwinvanderheiden" class="notify-btn" target="_blank">Connect op LinkedIn</a>
@@ -218,7 +344,7 @@
             "> Compiling Python & AI Labs...",
             "> Importing Humor & Social Skills...",
             "> Deploying Dashboard Interface...",
-            "> STATUS: Almost Ready for Launch!"
+            "> STATUS: Waiting for caffeine intake..."
         ];
 
         const typeWriterElement = document.getElementById('typewriter');
@@ -227,33 +353,24 @@
 
         function typeLine() {
             if (lineIndex < lines.length) {
-                // Huidige regel ophalen
                 const currentLine = lines[lineIndex];
-                
-                // Als we nog letters moeten typen voor deze regel
                 if (charIndex < currentLine.length) {
-                    // Voeg teken toe
                     if (charIndex === 0) {
-                        typeWriterElement.innerHTML += "<div>"; // Nieuwe regel starten
+                        typeWriterElement.innerHTML += "<div>";
                     }
-                    
-                    // Laatste div (huidige regel) pakken en tekst toevoegen
                     const divs = typeWriterElement.getElementsByTagName('div');
                     divs[divs.length-1].innerHTML += currentLine.charAt(charIndex);
-                    
                     charIndex++;
-                    setTimeout(typeLine, 30); // Snelheid van typen
+                    setTimeout(typeLine, 30);
                 } else {
-                    // Regel is klaar, wacht even en ga naar volgende
                     typeWriterElement.innerHTML += "</div>"; 
                     charIndex = 0;
                     lineIndex++;
-                    setTimeout(typeLine, 400); // Wachttijd tussen regels
+                    setTimeout(typeLine, 400);
                 }
             }
         }
 
-        // Start het typen zodra de pagina geladen is
         window.onload = typeLine;
     </script>
 
