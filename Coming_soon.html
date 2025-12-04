@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arwin van der Heiden - Coming Soon</title>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #38bdf8;
+            --text: #e2e8f0;
+            --terminal-green: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Courier New', Courier, monospace; /* Monospace voor de dev-look */
+            background-color: var(--bg-dark);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* De afbeelding met een 'zwevend' effect */
+        .visual-img {
+            max-width: 100%;
+            width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(56, 189, 248, 0.2);
+            border: 2px solid rgba(255,255,255,0.1);
+            animation: float 6s ease-in-out infinite;
+            margin-bottom: 30px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h1 {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* TERMINAL VENSTER */
+        .terminal-window {
+            background-color: #000;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            padding: 15px;
+            text-align: left;
+            font-size: 14px;
+            color: var(--terminal-green);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 500px;
+            margin: 0 auto;
+            height: 140px; /* Vaste hoogte */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+        }
+
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .red { background: #ef4444; }
+        .yellow { background: #eab308; }
+        .green { background: #22c55e; }
+
+        /* Knipperende cursor */
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: var(--terminal-green);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Progress Bar */
+        .loading-container {
+            width: 100%;
+            background-color: #334155;
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 30px;
+            overflow: hidden;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .loading-bar {
+            height: 100%;
+            background-color: var(--accent);
+            width: 0%;
+            animation: load 4s ease-out forwards;
+        }
+
+        @keyframes load {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 95%; }
+        }
+
+        .notify-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 30px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .notify-btn:hover {
+            background: var(--accent);
+            color: #0f172a;
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <img src="Loopbaan.png" alt="Loopbaan Visualisatie" class="visual-img">
+
+        <h1>Arwin van der Heiden</h1>
+        <p class="subtitle">Interactief Dashboard CV</p>
+
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div id="typewriter"></div>
+            <span class="cursor"></span>
+        </div>
+
+        <div class="loading-container">
+            <div class="loading-bar"></div>
+        </div>
+
+        <a href="https://www.linkedin.com/in/arwinvanderheiden" class="notify-btn" target="_blank">Connect op LinkedIn</a>
+    </div>
+
+    <script>
+        // Leuke tech-tekstjes die een voor een verschijnen
+        const lines = [
+            "> Initializing 30+ years of experience...",
+            "> Loading module: ERP_Systems (90%)... OK",
+            "> Loading module: Linux_Beheer (85%)... OK",
+            "> Compiling Python & AI Labs...",
+            "> Importing Humor & Social Skills...",
+            "> Deploying Dashboard Interface...",
+            "> STATUS: Almost Ready for Launch!"
+        ];
+
+        const typeWriterElement = document.getElementById('typewriter');
+        let lineIndex = 0;
+        let charIndex = 0;
+
+        function typeLine() {
+            if (lineIndex < lines.length) {
+                // Huidige regel ophalen
+                const currentLine = lines[lineIndex];
+                
+                // Als we nog letters moeten typen voor deze regel
+                if (charIndex < currentLine.length) {
+                    // Voeg teken toe
+                    if (charIndex === 0) {
+                        typeWriterElement.innerHTML += "<div>"; // Nieuwe regel starten
+                    }
+                    
+                    // Laatste div (huidige regel) pakken en tekst toevoegen
+                    const divs = typeWriterElement.getElementsByTagName('div');
+                    divs[divs.length-1].innerHTML += currentLine.charAt(charIndex);
+                    
+                    charIndex++;
+                    setTimeout(typeLine, 30); // Snelheid van typen
+                } else {
+                    // Regel is klaar, wacht even en ga naar volgende
+                    typeWriterElement.innerHTML += "</div>"; 
+                    charIndex = 0;
+                    lineIndex++;
+                    setTimeout(typeLine, 400); // Wachttijd tussen regels
+                }
+            }
+        }
+
+        // Start het typen zodra de pagina geladen is
+        window.onload = typeLine;
+    </script>
+
+</body>
+</html>
