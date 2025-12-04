@@ -11,6 +11,8 @@
             --accent: #38bdf8;
             --text: #e2e8f0;
             --terminal-green: #22c55e;
+            --code-comment: #64748b;
+            --code-string: #f59e0b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -136,6 +138,24 @@
             100% { width: 95%; }
         }
 
+        /* NIEUW: De grappige tekst */
+        .funny-status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--text);
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .code-keyword { color: #c084fc; } /* Paars */
+        .code-string { color: var(--code-string); } /* Oranje */
+        .code-comment { 
+            color: var(--code-comment); 
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+            font-style: italic;
+        }
+
         .notify-btn {
             display: inline-block;
             margin-top: 30px;
@@ -179,6 +199,11 @@
 
         <div class="loading-container">
             <div class="loading-bar"></div>
+        </div>
+
+        <div class="funny-status">
+            <span class="code-keyword">console</span>.log(<span class="code-string">"Portfolio soon online...."</span>);
+            <span class="code-comment">// ⚠️ Error: More coffee required to center the divs.</span>
         </div>
 
         <a href="https://www.linkedin.com/in/arwinvanderheiden" class="notify-btn" target="_blank">Connect op LinkedIn</a>
