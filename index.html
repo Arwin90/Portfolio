@@ -13,7 +13,7 @@
             --terminal-green: #22c55e;
             --code-comment: #64748b;
             --code-string: #f59e0b;
-            /* Nieuwe kleuren voor de koffiemachine */
+            /* Kleuren voor de koffiemachine */
             --coffee-bean: #3e2723;
             --coffee-liquid: #5d4037;
             --machine-outline: #334155;
@@ -27,18 +27,19 @@
             font-family: 'Courier New', Courier, monospace;
             background-color: var(--bg-dark);
             color: var(--text);
-            min-height: 100vh; /* Changed to min-height for scroll safety on small screens */
+            min-height: 100vh; 
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden; 
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            padding: 20px 0; /* Add some padding for vertical spacing */
+            padding: 20px 10px; /* Iets meer padding aan de zijkant voor mobiel */
         }
 
         .container {
             text-align: center;
             max-width: 800px;
+            width: 100%; /* Zorgt dat container niet breder is dan scherm */
             padding: 20px;
             position: relative;
             z-index: 2;
@@ -48,6 +49,7 @@
         .visual-img {
             max-width: 100%;
             width: 500px;
+            height: auto; /* Belangrijk voor mobiele schaling */
             border-radius: 15px;
             box-shadow: 0 0 50px rgba(56, 189, 248, 0.2);
             border: 2px solid rgba(255,255,255,0.1);
@@ -68,6 +70,7 @@
             background: linear-gradient(90deg, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.2; /* Beter voor mobiel als naam wrapped */
         }
 
         p.subtitle {
@@ -77,27 +80,41 @@
             margin-bottom: 30px;
         }
 
-        /* TERMINAL VENSTER */
+        /* TERMINAL VENSTER (AANGEPAST VOOR MOBIEL) */
         .terminal-window {
             background-color: #000;
             border-radius: 8px;
             border: 1px solid #334155;
-            padding: 15px;
+            padding: 20px; /* Iets meer padding */
             text-align: left;
             font-size: 14px;
             color: var(--terminal-green);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             max-width: 500px;
+            width: 100%; /* Pak volledige breedte */
             margin: 0 auto;
-            height: 140px;
+            
+            /* HIER ZIT DE FIX VOOR MOBIEL: */
+            height: auto;        /* Laat hoogte meegroeien met de tekst */
+            min-height: 160px;   /* Start hoogte */
             overflow: hidden;
             position: relative;
+            line-height: 1.5;    /* Betere leesbaarheid bij wrapping */
+        }
+
+        /* Aanpassing specifiek voor mobiele schermen */
+        @media (max-width: 600px) {
+            .terminal-window {
+                font-size: 12px; /* Iets kleiner font zodat zinnen beter passen */
+                padding: 15px;
+            }
+            h1 { font-size: 1.8rem; } /* Naam iets kleiner op mobiel */
         }
 
         .terminal-header {
             display: flex;
             gap: 6px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border-bottom: 1px solid #333;
             padding-bottom: 8px;
         }
@@ -163,17 +180,14 @@
             font-style: italic;
         }
 
-        /* =========================================
-           NIEUW: De CSS Espresso Machine Animatie
-        ========================================= */
+        /* CSS Espresso Machine Animatie */
         .coffee-machine-container {
             width: 180px;
             height: 220px;
-            margin: 0 auto 30px auto; /* Centrally aligned */
+            margin: 0 auto 30px auto; 
             position: relative;
         }
 
-        /* SVG Styling voor 'Comic' look */
         .comic-svg {
             width: 100%;
             height: 100%;
@@ -181,7 +195,7 @@
             stroke-width: 3;
             stroke-linecap: round;
             stroke-linejoin: round;
-            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.3)); /* Comic schaduw effect */
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.3)); 
         }
 
         .machine-fill { fill: var(--machine-body); }
@@ -190,8 +204,6 @@
         .liquid-fill { fill: var(--coffee-liquid); stroke: none; }
 
         /* --- Animaties --- */
-
-        /* 1. Bonen vallen */
         .bean-group-1 { animation: dropBeans 3s linear infinite; }
         .bean-group-2 { animation: dropBeans 3s linear infinite 1.5s; opacity: 0; }
 
@@ -202,7 +214,6 @@
             100% { transform: translateY(50px); opacity: 0; }
         }
 
-        /* 2. Koffie stroomt */
         .coffee-stream {
             animation: flowStream 3s ease-in-out infinite;
             transform-origin: top center;
@@ -215,7 +226,6 @@
             100% { transform: scaleY(0); opacity: 0; }
         }
 
-        /* 3. Kopje vult */
         .cup-liquid {
             animation: fillCup 3s ease-in-out infinite;
             transform-origin: bottom center;
@@ -227,7 +237,6 @@
             100% { transform: scaleY(0); }
         }
 
-        /* 4. Stoom */
         .steam {
             animation: riseSteam 2s ease-out infinite;
             opacity: 0;
@@ -241,7 +250,6 @@
             100% { transform: translateY(-30px) scale(1.5); opacity: 0; stroke: #fff;}
         }
 
-        /* Knoppen */
         .notify-btn {
             display: inline-block;
             margin-top: 10px;
@@ -323,20 +331,26 @@
                 </defs>
 
                 <rect x="80" y="110" width="40" height="30" rx="5" class="machine-accent-fill"/>
-                <path d="M80 125 L30 125 C 20 125, 20 140, 30 140 L80 140" fill="none" stroke-width="5" class="machine-accent-fill" /> <rect x="95" y="140" width="10" height="10" class="machine-accent-fill"/> <rect x="97" y="150" width="6" height="40" class="liquid-fill coffee-stream" rx="2"/>
+                <path d="M80 125 L30 125 C 20 125, 20 140, 30 140 L80 140" fill="none" stroke-width="5" class="machine-accent-fill" /> 
+                <rect x="95" y="140" width="10" height="10" class="machine-accent-fill"/> 
+
+                <rect x="97" y="150" width="6" height="40" class="liquid-fill coffee-stream" rx="2"/>
 
                 <path d="M120 190 C 120 210, 80 210, 80 190 L 80 170 L 120 170 Z" class="machine-accent-fill"/>
                 <path d="M116 190 C 116 205, 84 205, 84 190 L 84 185 L 116 185 Z" class="liquid-fill cup-liquid"/>
                 
                 <circle cx="140" cy="90" r="8" class="machine-accent-fill"/>
-                <circle cx="140" cy="90" r="3" fill="#ef4444" stroke="none"/> <rect x="60" y="85" width="60" height="10" rx="2" class="machine-accent-fill"/> </svg>
+                <circle cx="140" cy="90" r="3" fill="#ef4444" stroke="none"/> 
+                <rect x="60" y="85" width="60" height="10" rx="2" class="machine-accent-fill"/> 
+
+            </svg>
         </div>
 
         <a href="https://www.linkedin.com/in/arwinvanderheiden" class="notify-btn" target="_blank">Connect op LinkedIn</a>
     </div>
 
     <script>
-        // Leuke tech-tekstjes die een voor een verschijnen
+        // Tech-tekstjes
         const lines = [
             "> Initializing 30+ years of experience...",
             "> Loading module: ERP_Systems (90%)... OK",
@@ -344,7 +358,7 @@
             "> Compiling Python & AI Labs...",
             "> Importing Humor & Social Skills...",
             "> Deploying Dashboard Interface...",
-            "> STATUS: Waiting for caffeine intake..."
+            "> STATUS: Almost Ready for Launch!"
         ];
 
         const typeWriterElement = document.getElementById('typewriter');
@@ -354,19 +368,22 @@
         function typeLine() {
             if (lineIndex < lines.length) {
                 const currentLine = lines[lineIndex];
+                
                 if (charIndex < currentLine.length) {
                     if (charIndex === 0) {
-                        typeWriterElement.innerHTML += "<div>";
+                        typeWriterElement.innerHTML += "<div>"; 
                     }
+                    
                     const divs = typeWriterElement.getElementsByTagName('div');
                     divs[divs.length-1].innerHTML += currentLine.charAt(charIndex);
+                    
                     charIndex++;
-                    setTimeout(typeLine, 30);
+                    setTimeout(typeLine, 30); 
                 } else {
                     typeWriterElement.innerHTML += "</div>"; 
                     charIndex = 0;
                     lineIndex++;
-                    setTimeout(typeLine, 400);
+                    setTimeout(typeLine, 400); 
                 }
             }
         }
