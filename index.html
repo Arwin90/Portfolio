@@ -33,28 +33,29 @@
             justify-content: center;
             overflow-x: hidden; 
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            padding: 20px 10px; /* Iets meer padding aan de zijkant voor mobiel */
+            padding: 20px 10px;
         }
 
         .container {
             text-align: center;
-            max-width: 800px;
-            width: 100%; /* Zorgt dat container niet breder is dan scherm */
+            /* Container breder gemaakt zodat de grote foto past */
+            max-width: 1000px; 
+            width: 100%; 
             padding: 20px;
             position: relative;
             z-index: 2;
         }
 
-        /* De afbeelding */
+        /* De afbeelding: STUK GROTER NU */
         .visual-img {
             max-width: 100%;
-            width: 500px;
-            height: auto; /* Belangrijk voor mobiele schaling */
+            width: 900px; /* Was 500px, nu veel groter */
+            height: auto; 
             border-radius: 15px;
             box-shadow: 0 0 50px rgba(56, 189, 248, 0.2);
             border: 2px solid rgba(255,255,255,0.1);
             animation: float 6s ease-in-out infinite;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         @keyframes float {
@@ -70,7 +71,7 @@
             background: linear-gradient(90deg, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            line-height: 1.2; /* Beter voor mobiel als naam wrapped */
+            line-height: 1.2; 
         }
 
         p.subtitle {
@@ -80,35 +81,32 @@
             margin-bottom: 30px;
         }
 
-        /* TERMINAL VENSTER (AANGEPAST VOOR MOBIEL) */
+        /* TERMINAL VENSTER */
         .terminal-window {
             background-color: #000;
             border-radius: 8px;
             border: 1px solid #334155;
-            padding: 20px; /* Iets meer padding */
+            padding: 20px; 
             text-align: left;
             font-size: 14px;
             color: var(--terminal-green);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            max-width: 500px;
-            width: 100%; /* Pak volledige breedte */
+            max-width: 600px; /* Iets breder voor de tekst */
+            width: 100%; 
             margin: 0 auto;
-            
-            /* HIER ZIT DE FIX VOOR MOBIEL: */
-            height: auto;        /* Laat hoogte meegroeien met de tekst */
-            min-height: 160px;   /* Start hoogte */
+            height: auto;        
+            min-height: 160px;   
             overflow: hidden;
             position: relative;
-            line-height: 1.5;    /* Betere leesbaarheid bij wrapping */
+            line-height: 1.5;    
         }
 
-        /* Aanpassing specifiek voor mobiele schermen */
         @media (max-width: 600px) {
             .terminal-window {
-                font-size: 12px; /* Iets kleiner font zodat zinnen beter passen */
+                font-size: 12px;
                 padding: 15px;
             }
-            h1 { font-size: 1.8rem; } /* Naam iets kleiner op mobiel */
+            h1 { font-size: 1.8rem; } 
         }
 
         .terminal-header {
@@ -143,7 +141,7 @@
             border-radius: 3px;
             margin-top: 30px;
             overflow: hidden;
-            max-width: 500px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -161,7 +159,7 @@
             100% { width: 95%; }
         }
 
-        /* De grappige tekst status */
+        /* Funny status text */
         .funny-status {
             margin-top: 20px;
             margin-bottom: 20px;
