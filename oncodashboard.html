@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oncologisch Dashboard - PMMR Coloncarcinoom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Slate 50 */
+            color: #334155; /* Slate 700 */
+        }
+
+        /* Chart Container Rules - Strict Adherence */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%; /* Parent controls width, but usually bounded by layout */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        
+        .tab-active {
+            border-bottom: 2px solid #0ea5e9; /* Sky 500 */
+            color: #0ea5e9;
+            font-weight: 600;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            transition: box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.1);
+        }
+
+        /* Custom Scrollbar for text areas */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+    </style>
+    <!-- Chosen Palette: Slate (Backgrounds/Text) + Sky (Primary/Interactive) + Emerald (Good/Stable) + Amber/Rose (Alerts) -->
+    <!-- Application Structure Plan: 
+         1. Header: Patient context & Key Dates (Diagnosis vs Treatment Start).
+         2. Navigation: Tabs for "Overzicht & Conclusie", "Tumor Respons (Radiologie)", "Labwaarden (Trends)", "Volledig Verslag".
+         3. Overzicht: High-level dashboard. "Positieve Punten" clearly separated. Timeline of events.
+         4. Tumor Respons: Calculated volumetric data visualizations (Lung/Liver) to show stability vs progression clearly. Interactive toggle for dimensions.
+         5. Labwaarden: Interactive line chart filtering critical hemato-oncology markers from the CSV.
+         6. Context: Integrating the specific measurements from the 13-01-2026 report compared to priors. 
+    -->
+    <!-- Visualization & Content Choices:
+         1. Goal: Show Stability/Progression -> Viz: Grouped Bar Charts (Volume/Diameter) -> Justification: Easier to compare changes across 3 timepoints than text.
+         2. Goal: Show Systemic Health -> Viz: Line Charts for Lab Data -> Justification: Trend analysis is crucial for chemo tolerance (12 cures).
+         3. Goal: Highlight Positives -> Viz: Green/Emerald Cards -> Justification: User request to emphasize positives.
+         4. NO SVG/Mermaid used. Canvas for Charts. HTML/Tailwind for layout.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-xl font-bold text-slate-800">Onco<span class="text-sky-500">Dash</span></span>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8" id="nav-container">
+                        <!-- Navigation items injected by JS -->
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-sky-100 text-sky-800">
+                            PMMR Coloncarcinoom
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Nav -->
+        <div class="sm:hidden border-t border-slate-200" id="mobile-nav">
+            <div class="grid grid-cols-4 text-xs text-center py-2" id="mobile-nav-items">
+                <!-- Mobile items injected by JS -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header Context -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900">Multidisciplinair Overzicht</h1>
+            <p class="mt-2 text-slate-600 max-w-3xl">
+                Betreft: Respons-evaluatie na 12 kuren (Chemotherapie start: juli 2025). 
+                Diagnose: 01-03-2024. Huidige datum verslag: 13-01-2026.
+            </p>
+        </div>
+
+        <!-- Dynamic View Container -->
+        <div id="view-container" class="space-y-6">
+            <!-- Content will be rendered here by JS -->
+        </div>
+
+    </main>
+
+    <script>
+        // --- DATA STORE ---
+        
+        // Lab Data parsed from snippet (Reversed to chronological order: Oldest -> Newest)
+        // Dates: 02-09-2025 -> 07-01-2026
+        const labData = {
+            dates: ["02-09", "17-09", "30-09", "15-10", "28-10", "11-11", "25-11", "09-12", "07-01"],
+            hb: [8.8, 8.8, 9.0, 8.7, 8.4, 8.8, 8.6, 8.6, 8.6], // Hemoglobine
+            leuko: [7.9, 7.3, 8.6, 6.3, 7.8, 7.8, 6.8, 7.1, 7.1], // Leukocyten
+            trombo: [314, 297, 289, 271, 311, 294, 298, 308, 308], // Trombocyten
+            natrium: [141, 142, 140, 142, 140, 142, 143, 142, 142], // Natrium
+            mcv: [82, 84, 85, 86, 86, 87, 88, 87, 87],
+            cea: [] // Not in snippet, hypothetical placeholder
+        };
+
+        // Radiology Data (Parsed from Text)
+        // Comparators: 07-04-2025 (T0), 07-07-2025 (T1), 06-10-2025 (T2), 13-01-2026 (Current)
+        // Note: Report compares mainly against 06-10 and 07-07.
+        // Lung Nodes (Volume in mm3)
+        const lungData = {
+            labels: ["07-07-2025", "06-10-2025", "13-01-2026"],
+            node1: [26.6, 23.9, 33.9], // ROK (serie 5-300)
+            node2: [37.4, 32.3, 54.1]  // ROK (serie 5-258)
+        };
+
+        // Liver Mets (Dimensions in cm) -> Converted to Approx Volume (Ellipsoid: 0.52 * L * W * H)
+        // Left Largest: 12.8x8.8x10.8 -> 13x8x10 -> 12.7x8x9.3
+        // Right Largest: 8.9x7.5x8.6 -> 8.8x7.5x8.5 -> 8.3x7.4x8.4
+        const liverData = {
+            labels: ["07-07-2025", "06-10-2025", "13-01-2026"],
+            left: [
+                (12.8 * 8.8 * 10.8 * 0.52).toFixed(0), // ~632 cc
+                (13.0 * 8.0 * 10.0 * 0.52).toFixed(0), // ~540 cc
+                (12.7 * 8.0 * 9.3 * 0.52).toFixed(0)   // ~491 cc (Decrease!)
+            ],
+            right: [
+                (8.9 * 7.5 * 8.6 * 0.52).toFixed(0),  // ~298 cc
+                (8.8 * 7.5 * 8.5 * 0.52).toFixed(0),  // ~291 cc
+                (8.3 * 7.4 * 8.4 * 0.52).toFixed(0)   // ~268 cc (Decrease!)
+            ]
+        };
+
+        // Report Text Segments
+        const reportText = {
+            thorax: "Longparenchym: Nodus ROK 33,9 mm3 (was 23,9 en 26,6). Nodus ROK 54,1 mm3 (was 32,3 en 37,4). Geen nieuwe suspecte noduli. Geen infiltraten. Geen pleuravocht. Geen lymfadenopathie hilair/mediastinaal.",
+            abdomen: "Lever: Multiple metastasen. Grootste links: 12,7x8x9,3 cm (afname volume). Grootste rechts 8,3x7,4x8,4 cm (stabiel/afname). Geen intrahepatische galwegverwijding. Pancreas, Milt, Bijnieren, Nieren: Normaal. Colon: Toename wandverdikking transversum (nu over langer traject of dikker, tekst suggereert progressie lokaal).",
+            conclusie: "1. Lichte progressie van de longnoduli rechter onderkwab (in volume).<br>2. Stabiele (tot licht afnemende) levermetastasen.<br>3. Toename wandverdikking van het colon transversum."
+        };
+
+        // --- STATE MANAGEMENT ---
+        let currentTab = 'overzicht';
+        let labChartInstance = null;
+        let lungChartInstance = null;
+        let liverChartInstance = null;
+
+        // --- NAVIGATION LOGIC ---
+        const tabs = [
+            { id: 'overzicht', label: 'Overzicht & Conclusie' },
+            { id: 'radiologie', label: 'Tumor Respons (Beeld)' },
+            { id: 'lab', label: 'Labwaarden (Trends)' },
+            { id: 'verslag', label: 'Volledig Verslag' }
+        ];
+
+        function initNav() {
+            const navContainer = document.getElementById('nav-container');
+            const mobileNavContainer = document.getElementById('mobile-nav-items');
+            
+            navContainer.innerHTML = '';
+            mobileNavContainer.innerHTML = '';
+
+            tabs.forEach(tab => {
+                // Desktop
+                const btn = document.createElement('button');
+                btn.className = `inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200 ${currentTab === tab.id ? 'border-sky-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}`;
+                btn.innerText = tab.label;
+                btn.onclick = () => switchTab(tab.id);
+                navContainer.appendChild(btn);
+
+                // Mobile
+                const mBtn = document.createElement('button');
+                mBtn.className = `block px-2 py-2 text-xs font-medium ${currentTab === tab.id ? 'text-sky-600 bg-sky-50' : 'text-gray-500'}`;
+                mBtn.innerText = tab.label;
+                mBtn.onclick = () => switchTab(tab.id);
+                mobileNavContainer.appendChild(mBtn);
+            });
+        }
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            initNav();
+            renderView();
+        }
+
+        // --- RENDERING VIEWS ---
+
+        function renderView() {
+            const container = document.getElementById('view-container');
+            container.innerHTML = ''; // Clear current view
+
+            if (currentTab === 'overzicht') renderOverzicht(container);
+            else if (currentTab === 'radiologie') renderRadiologie(container);
+            else if (currentTab === 'lab') renderLab(container);
+            else if (currentTab === 'verslag') renderVerslag(container);
+        }
+
+        // 1. OVERZICHT VIEW
+        function renderOverzicht(container) {
+            // Intro
+            const intro = document.createElement('div');
+            intro.innerHTML = `
+                <p class="text-lg text-slate-700 mb-6">
+                    Dit dashboard combineert de radiologische bevindingen van 13-01-2026 met de recente laboratoriumtrends. 
+                    Hieronder vindt u de belangrijkste conclusies, met nadruk op stabiliteit en orgaanfunctie.
+                </p>
+            `;
+            container.appendChild(intro);
+
+            // Positives Grid
+            const grid = document.createElement('div');
+            grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
+            
+            const cards = [
+                { title: "Levermetastasen", status: "Stabiel / Lichte Afname", desc: "Grootste laesies tonen geen groei, zelfs lichte volume afname t.o.v. voorgaande scans.", color: "border-emerald-500", bg: "bg-emerald-50", icon: "✓" },
+                { title: "Nieuwe Laesies", status: "Geen", desc: "Geen nieuwe suspecte noduli in longen of abdomen. Geen nieuwe metastasen.", color: "border-emerald-500", bg: "bg-emerald-50", icon: "✓" },
+                { title: "Orgaanfuncties", status: "Intact", desc: "Pancreas, milt, bijnieren en nieren tonen normale morfologie en aankleuring.", color: "border-sky-500", bg: "bg-sky-50", icon: "ℹ" },
+                { title: "Vocht/Ascites", status: "Afwezig", desc: "Geen pleuravocht, geen pericardvocht en geen ascites in abdomen.", color: "border-emerald-500", bg: "bg-emerald-50", icon: "✓" },
+                { title: "Longnoduli", status: "Lichte Progressie", desc: "Rechter onderkwab noduli tonen volumetoename (33mm³ & 54mm³).", color: "border-amber-500", bg: "bg-amber-50", icon: "!" },
+                { title: "Colon Primair", status: "Toename Wandverdikking", desc: "Lokaal ter plaatse van het colon transversum toename wandverdikking.", color: "border-amber-500", bg: "bg-amber-50", icon: "!" }
+            ];
+
+            cards.forEach(card => {
+                const el = document.createElement('div');
+                el.className = `card p-6 border-l-4 ${card.color} ${card.bg}`;
+                el.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h3 class="font-semibold text-slate-900">${card.title}</h3>
+                            <p class="text-sm font-bold mt-1 mb-2 text-slate-700">${card.status}</p>
+                            <p class="text-sm text-slate-600">${card.desc}</p>
+                        </div>
+                        <span class="text-2xl font-bold text-slate-400 opacity-50">${card.icon}</span>
+                    </div>
+                `;
+                grid.appendChild(el);
+            });
+            container.appendChild(grid);
+        }
+
+        // 2. RADIOLOGIE VIEW
+        function renderRadiologie(container) {
+            const layout = document.createElement('div');
+            layout.className = "grid grid-cols-1 lg:grid-cols-2 gap-8";
+
+            // Intro Text
+            const introDiv = document.createElement('div');
+            introDiv.className = "col-span-1 lg:col-span-2";
+            introDiv.innerHTML = `
+                <div class="card p-6 mb-4">
+                    <h2 class="text-xl font-bold text-slate-800 mb-2">Visuele Respons Evaluatie</h2>
+                    <p class="text-slate-600">
+                        Vergelijking van tumorvolumes over de laatste 6 maanden. Let op het verschil in respons tussen long (progressie) en lever (stabiliteit/afname).
+                        <br><span class="text-xs text-gray-500">*Levervolumes berekend via ellipsoïde benadering o.b.v. 3 dimensies.</span>
+                    </p>
+                </div>
+            `;
+            container.appendChild(introDiv);
+
+            // Chart 1: Liver
+            const liverDiv = document.createElement('div');
+            liverDiv.className = "card p-4";
+            liverDiv.innerHTML = `
+                <h3 class="text-lg font-semibold text-slate-800 mb-4 text-center">Levermetastasen (Geschat Volume cm³)</h3>
+                <div class="chart-container">
+                    <canvas id="liverChart"></canvas>
+                </div>
+                <div class="mt-4 text-sm text-slate-500 text-center">Trend: Stabiel tot regressief.</div>
+            `;
+            layout.appendChild(liverDiv);
+
+            // Chart 2: Lungs
+            const lungDiv = document.createElement('div');
+            lungDiv.className = "card p-4";
+            lungDiv.innerHTML = `
+                <h3 class="text-lg font-semibold text-slate-800 mb-4 text-center">Longnoduli ROK (Volume mm³)</h3>
+                <div class="chart-container">
+                    <canvas id="lungChart"></canvas>
+                </div>
+                <div class="mt-4 text-sm text-slate-500 text-center">Trend: Lichte volumetrische progressie.</div>
+            `;
+            layout.appendChild(lungDiv);
+
+            container.appendChild(layout);
+
+            // Init Charts
+            setTimeout(initRadiologyCharts, 100);
+        }
+
+        function initRadiologyCharts() {
+            // LIVER CHART
+            const ctxLiver = document.getElementById('liverChart').getContext('2d');
+            liverChartInstance = new Chart(ctxLiver, {
+                type: 'bar',
+                data: {
+                    labels: liverData.labels,
+                    datasets: [
+                        {
+                            label: 'Grootste Laesie Links (cc)',
+                            data: liverData.left,
+                            backgroundColor: '#10b981', // Emerald 500
+                            borderColor: '#059669',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Grootste Laesie Rechts (cc)',
+                            data: liverData.right,
+                            backgroundColor: '#34d399', // Emerald 400
+                            borderColor: '#059669',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw + ' cm³';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Volume (cm³)' } }
+                    }
+                }
+            });
+
+            // LUNG CHART
+            const ctxLung = document.getElementById('lungChart').getContext('2d');
+            lungChartInstance = new Chart(ctxLung, {
+                type: 'line',
+                data: {
+                    labels: lungData.labels,
+                    datasets: [
+                        {
+                            label: 'Nodus 1 (ROK 5-300)',
+                            data: lungData.node1,
+                            borderColor: '#f59e0b', // Amber 500
+                            backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Nodus 2 (ROK 5-258)',
+                            data: lungData.node2,
+                            borderColor: '#ef4444', // Red 500
+                            backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                            fill: true,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw + ' mm³';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: false, title: { display: true, text: 'Volume (mm³)' } }
+                    }
+                }
+            });
+        }
+
+        // 3. LAB VIEW
+        function renderLab(container) {
+            // Container layout
+            const wrapper = document.createElement('div');
+            wrapper.className = "card p-6";
+            
+            // Header & Controls
+            const header = document.createElement('div');
+            header.className = "flex flex-col sm:flex-row justify-between items-center mb-6";
+            header.innerHTML = `
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800">Laboratorium Trends</h2>
+                    <p class="text-sm text-slate-500">Hematologische toxiciteit monitoring</p>
+                </div>
+                <div class="mt-4 sm:mt-0">
+                    <select id="labMetricSelect" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm rounded-md border bg-slate-50">
+                        <option value="hb">Hemoglobine (mmol/L)</option>
+                        <option value="leuko">Leukocyten (10^9/L)</option>
+                        <option value="trombo">Trombocyten (10^9/L)</option>
+                        <option value="natrium">Natrium (mmol/L)</option>
+                        <option value="mcv">MCV (fL)</option>
+                    </select>
+                </div>
+            `;
+            wrapper.appendChild(header);
+
+            // Chart Area
+            const chartDiv = document.createElement('div');
+            chartDiv.className = "chart-container";
+            chartDiv.innerHTML = `<canvas id="labChart"></canvas>`;
+            wrapper.appendChild(chartDiv);
+
+            // Reference Info
+            const refDiv = document.createElement('div');
+            refDiv.id = "labRefText";
+            refDiv.className = "mt-4 text-sm bg-slate-50 p-3 rounded text-slate-600 border border-slate-200";
+            refDiv.innerText = "Normaalwaarden Hb: 8.5 - 11.0 mmol/L"; // Default init
+            wrapper.appendChild(refDiv);
+
+            container.appendChild(wrapper);
+
+            // Event Listener
+            document.getElementById('labMetricSelect').addEventListener('change', (e) => updateLabChart(e.target.value));
+
+            // Init Chart
+            setTimeout(() => initLabChart('hb'), 100);
+        }
+
+        function initLabChart(metric) {
+            const ctx = document.getElementById('labChart').getContext('2d');
+            const dataset = getLabDataset(metric);
+            
+            labChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labData.dates,
+                    datasets: [{
+                        label: dataset.label,
+                        data: dataset.data,
+                        borderColor: '#0ea5e9', // Sky 500
+                        backgroundColor: '#e0f2fe',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#0ea5e9',
+                        pointRadius: 4,
+                        tension: 0.1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            suggestedMin: dataset.min,
+                            suggestedMax: dataset.max
+                        }
+                    }
+                }
+            });
+            updateRefText(metric);
+        }
+
+        function updateLabChart(metric) {
+            if(!labChartInstance) return;
+            const dataset = getLabDataset(metric);
+            labChartInstance.data.datasets[0].label = dataset.label;
+            labChartInstance.data.datasets[0].data = dataset.data;
+            labChartInstance.options.scales.y.suggestedMin = dataset.min;
+            labChartInstance.options.scales.y.suggestedMax = dataset.max;
+            labChartInstance.update();
+            updateRefText(metric);
+        }
+
+        function getLabDataset(metric) {
+            switch(metric) {
+                case 'hb': return { label: 'Hemoglobine (mmol/L)', data: labData.hb, min: 7, max: 12, ref: "Normaalwaarden: 8.5 - 11.0 mmol/L. Stabiel beeld." };
+                case 'leuko': return { label: 'Leukocyten (10^9/L)', data: labData.leuko, min: 0, max: 12, ref: "Normaalwaarden: 4.0 - 10.0. Geen ernstige leukopenie." };
+                case 'trombo': return { label: 'Trombocyten (10^9/L)', data: labData.trombo, min: 100, max: 400, ref: "Normaalwaarden: 150 - 400. Uitstekende waarden." };
+                case 'natrium': return { label: 'Natrium (mmol/L)', data: labData.natrium, min: 130, max: 150, ref: "Normaalwaarden: 136 - 145. Elektrolytenbalans intact." };
+                case 'mcv': return { label: 'MCV (fL)', data: labData.mcv, min: 70, max: 110, ref: "Normaalwaarden: 80 - 100." };
+            }
+        }
+
+        function updateRefText(metric) {
+            const el = document.getElementById('labRefText');
+            if(el) el.innerText = getLabDataset(metric).ref;
+        }
+
+        // 4. VERSLAG VIEW (Raw text structured)
+        function renderVerslag(container) {
+            const report = document.createElement('div');
+            report.className = "card p-8 bg-white font-mono text-sm leading-relaxed whitespace-pre-line";
+            report.innerHTML = `
+                <strong class="text-lg font-sans block mb-4 border-b pb-2">Origineel Verslag Radiologie (13-01-2026)</strong>
+                
+                <span class="text-slate-500 block mb-4">Vergelijking met: 06/10/2025, 07/07/2025, 07/04/2025.</span>
+                
+                <strong class="text-sky-700">Thorax:</strong>
+                ${reportText.thorax.replace(/\. /g, '.\n')}
+                
+                <strong class="text-sky-700 mt-4 block">Abdomen:</strong>
+                ${reportText.abdomen.replace(/\. /g, '.\n')}
+                
+                <strong class="text-sky-700 mt-4 block">Overig:</strong>
+                Geen ascites. Vasculatuur goed. Skelet: geen focale pathologie, wel degeneratieve veranderingen.
+                
+                <div class="mt-6 p-4 bg-slate-50 border-l-4 border-sky-500 font-sans">
+                    <strong>Conclusie:</strong>
+                    ${reportText.conclusie}
+                </div>
+            `;
+            container.appendChild(report);
+        }
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initNav();
+            renderView();
+        });
+
+    </script>
+</body>
+</html>
