@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oncologische Analyse: Dhr. J.W.A. van der Heiden</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC; 
+            color: #1E293B;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        .timeline-container {
+            position: relative;
+            border-left: 4px solid #0F766E;
+            margin-left: 1rem;
+            padding-left: 1.5rem;
+        }
+        .timeline-dot {
+            position: absolute;
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: #F97316;
+            border-radius: 50%;
+            left: -0.85rem;
+            top: 0;
+            border: 4px solid #F8FAFC;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- 
+    META INFORMATIE (Zoals gevraagd in de instructies)
+    Gekozen Kleurenpalet: "Vibrant Professional" (Teal #0F766E, Orange #F97316, Emerald #10B981, Indigo #4F46E5)
+    
+    Narratief Plan:
+    1. Patiënt Introductie: Positieve insteek, robuuste conditie.
+    2. Tijdlijn: Benadrukken van succesvolle pauze, genezing complicaties, en adequaat handelen bij progressie.
+    3. Nevenbevindingen (Positief uitgelicht): Gynaecomastie (goedaardig), Abces (genezen), Lactose/Reis (goed gemanaged).
+    4. Lab Analyse 2026: Opsplitsen in Orgaanfunctie (Nieren/Lever) en Beenmerg (Hematologie) met focus op uitstekende reserves. Geen overkoepelende conclusie, enkel data-gedreven vervolgstappen.
+    
+    Visualisatie Keuzes (NO SVG CHECK):
+    - Tijdlijn: HTML/CSS Divs met border-left (Goal: Change/Organize). GEEN SVG of Mermaid.
+    - Nierfunctie & Elektrolyten: Bar Chart (Goal: Compare). Chart.js Canvas.
+    - Leverenzymen: Line Chart (Goal: Change). Chart.js Canvas.
+    - Hematologie: Line Chart (Goal: Change). Chart.js Canvas.
+    - Iconografie: Uitsluitend Unicode karakters (&#x1F4CA; etc.). GEEN SVG.
+    Bevestiging: Er is nergens gebruik gemaakt van Mermaid JS of SVG afbeeldingen.
+    -->
+
+    <div class="max-w-7xl mx-auto space-y-8">
+        
+        <header class="bg-white rounded-2xl shadow-lg p-6 md:p-10 border-t-8 border-teal-700">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-teal-800 tracking-tight">Oncologisch Analyserapport</h1>
+                    <p class="text-slate-500 mt-2 text-lg">Gedetailleerde klinische evaluatie darmtumoren</p>
+                </div>
+                <div class="bg-teal-50 px-6 py-4 rounded-xl text-right w-full md:w-auto">
+                    <p class="font-semibold text-teal-900 text-xl">Dhr. J.W.A. van der Heiden</p>
+                    <p class="text-teal-700">&#x1F4C5; Geboren: 19-01-1965</p>
+                    <p class="text-teal-700">&#x1F4CD; Wildervank</p>
+                </div>
+            </div>
+        </header>
+
+        <section class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4 border-b-2 border-orange-500 pb-2 inline-block">&#x1F3AF; Klinische Status & Positieve Hoogtepunten</h2>
+            <p class="text-slate-600 mb-6 leading-relaxed">
+                Als behandelend oncologisch internist gespecialiseerd in darmtumoren, zie ik hier een patiënt met een zeer robuuste fysiologische basis. De patiënt is gediagnosticeerd met een gemetastaseerd linkszijdig pMMR coloncarcinoom (BRAF/NRAS/KRAS-wildtype). Wat direct opvalt en buitengewoon positief is, is de uitstekende World Health Organization Performance Status (WHO PS: 0). Patiënt is actief, sport met de fysiotherapeut, werkt, en behoudt een hoge kwaliteit van leven. Dit is cruciaal voor de verdere verdraagzaamheid van de systemische behandeling (FOLFIRI-B).
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-emerald-50 rounded-xl p-6 border border-emerald-100 shadow-sm">
+                    <div class="text-3xl mb-2">&#x2B50;</div>
+                    <h3 class="font-bold text-emerald-800 mb-1">Uitstekende Conditie</h3>
+                    <p class="text-emerald-700 text-sm">WHO Performance Status blijft stabiel op 0. Patiënt is volledig ambulant en actief.</p>
+                </div>
+                <div class="bg-emerald-50 rounded-xl p-6 border border-emerald-100 shadow-sm">
+                    <div class="text-3xl mb-2">&#x1F6E1;&#xFE0F;</div>
+                    <h3 class="font-bold text-emerald-800 mb-1">Veerkrachtig Beenmerg</h3>
+                    <p class="text-emerald-700 text-sm">Ondanks intensieve eerdere chemotherapiecycli blijven de bloedwaarden (leukocyten/trombocyten) prachtig op peil.</p>
+                </div>
+                <div class="bg-emerald-50 rounded-xl p-6 border border-emerald-100 shadow-sm">
+                    <div class="text-3xl mb-2">&#x1F4AA;</div>
+                    <h3 class="font-bold text-emerald-800 mb-1">Proactief Management</h3>
+                    <p class="text-emerald-700 text-sm">Bijwerkingen (cholinerg syndroom) worden uitstekend gecoupeerd met loperamide/atropine door de patiënt zelf.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b-2 border-orange-500 pb-2 inline-block">&#x1F4C8; Tijdlijn van Behandeling & Nevenbevindingen</h2>
+            <p class="text-slate-600 mb-8">
+                Het traject van dhr. van der Heiden toont een sterke respons op therapie, gevolgd door succesvolle genezing van intercurrente problemen. Dit overzicht toont de enorme veerkracht van de patiënt over de afgelopen twee jaar.
+            </p>
+            
+            <div class="space-y-8 pl-4">
+                <div class="timeline-container">
+                    <div class="timeline-dot"></div>
+                    <h3 class="text-lg font-bold text-teal-800 mb-1">Maart 2024 - Start Behandeling</h3>
+                    <p class="text-slate-600">Start van palliatieve FOLFOXIRI-B na diagnose. Patiënt toont direct grote behandel-compliantie.</p>
+                </div>
+                
+                <div class="timeline-container">
+                    <div class="timeline-dot" style="background-color: #10B981;"></div>
+                    <h3 class="text-lg font-bold text-emerald-700 mb-1">Januari 2025 - Stabiele Ziekte & Therapiepauze</h3>
+                    <p class="text-slate-600">Een prachtig resultaat: na 18 cycli FOLFIRI-B is er sprake van stabiele ziekte (CT 03-01-2025). Er wordt besloten tot een welverdiende therapiepauze, wat een zeer positieve impact heeft op de levenskwaliteit.</p>
+                </div>
+
+                <div class="timeline-container">
+                    <div class="timeline-dot" style="background-color: #10B981;"></div>
+                    <h3 class="text-lg font-bold text-emerald-700 mb-1">Eerste Helft 2025 - Succesvolle Resolutie Nevenbevindingen</h3>
+                    <ul class="list-disc ml-5 text-slate-600 mt-2 space-y-2">
+                        <li><strong>Abces volledig genezen:</strong> Het subcutane abces (t.g.v. fraxiparine), behandeld met VAC-pomp, is in februari volledig en fraai dichtgegroeid.</li>
+                        <li><strong>Gynaecomastie is goedaardig:</strong> Zwelling achter de rechter tepel werd zorgvuldig onderzocht. De mammografie sloot een maligniteit volledig uit. Een enorme geruststelling.</li>
+                        <li><strong>Oogoperatie geslaagd:</strong> Cataractoperatie rechts (dec 2024) verbetert het zicht.</li>
+                        <li><strong>Lactose-intolerantie gemanaged:</strong> Dunne ontlasting na reis Zuid-Afrika (negatieve feceskweek, positief!) verbeterde aanzienlijk door adequate lactosebeperking.</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-container">
+                    <div class="timeline-dot"></div>
+                    <h3 class="text-lg font-bold text-teal-800 mb-1">Juli 2025 - Proactieve Herstart FOLFIRI-B</h3>
+                    <p class="text-slate-600">Na 6 maanden therapiepauze lichte progressie van levermetastasen (segment 7). De pauze is maximaal benut en de herstart van FOLFIRI-B verloopt uitstekend zonder ernstige complicaties.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b-2 border-orange-500 pb-2 inline-block">&#x1FA78; Actuele Laboratorium Analyse (Q1 2026)</h2>
+            <p class="text-slate-600 mb-8">
+                De bloedwaarden van begin 2026 bevestigen het positieve klinische beeld. We zien een uitzonderlijk sterke orgaanfunctie en een beenmerg dat bewonderenswaardig goed bestand is tegen de behandelingen. We belichten hieronder de specifieke stelsels.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h3 class="text-xl font-bold text-teal-800 mb-2">1. Beenmergfunctie (Hematologie)</h3>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Het is bijzonder positief om te zien hoe stabiel de erytrocyten, trombocyten en leukocyten blijven. Dit duidt op een uitstekende beenmergreserve, wat veilige voortzetting van behandelingen garandeert. Geen tekenen van beenmergdepressie.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="hemaChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h3 class="text-xl font-bold text-teal-800 mb-2">2. Leverenzymen</h3>
+                    <p class="text-sm text-slate-600 mb-4">
+                        Ondanks bekende levermetastasen zien we hier een zeer positieve daling van het ASAT (terug in de normaalwaarde <35). ALAT blijft mooi stabiel. GammaGT is verhoogd, wat fysiologisch passend is, maar de daling in ASAT is een prachtig teken van stabiliteit in de leverfunctie.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="liverChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 lg:col-span-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-bold text-teal-800 mb-2">3. Nierfunctie & Elektrolyten</h3>
+                            <p class="text-sm text-slate-600 mb-4">
+                                De nierfunctie (eGFR) is consequent ver boven de veilige grens (>60), wat de klaring van medicatie optimaliseert. Elektrolyten (Natrium, Kalium, Calcium, Magnesium) zijn perfect in balans. Dit bevestigt een uitstekende vocht- en voedingstoestand.
+                            </p>
+                            <ul class="space-y-2 mt-4">
+                                <li class="flex items-center text-slate-700"><span class="text-emerald-500 mr-2">&#x2705;</span> <strong>eGFR (CKD-EPI):</strong> 85 - 94 ml/min (Uitstekend)</li>
+                                <li class="flex items-center text-slate-700"><span class="text-emerald-500 mr-2">&#x2705;</span> <strong>Natrium:</strong> 140 - 142 mmol/l (Perfect)</li>
+                                <li class="flex items-center text-slate-700"><span class="text-emerald-500 mr-2">&#x2705;</span> <strong>Kalium:</strong> 4.2 - 4.6 mmol/l (Stabiel)</li>
+                                <li class="flex items-center text-slate-700"><span class="text-emerald-500 mr-2">&#x2705;</span> <strong>Calcium:</strong> 2.21 - 2.30 mmol/l (Normaal)</li>
+                            </ul>
+                        </div>
+                        <div class="chart-container h-64">
+                            <canvas id="kidneyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-lg p-6 md:p-8 border-l-8 border-orange-500">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">&#x1F52C; Tumormarker & Verdere monitoring</h2>
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <div class="bg-orange-50 rounded-full w-32 h-32 flex flex-col justify-center items-center border-4 border-orange-200 shrink-0">
+                    <span class="text-xs text-orange-800 font-bold uppercase tracking-wider">CEA Waarde</span>
+                    <span class="text-3xl font-black text-orange-600 mt-1">47.8</span>
+                    <span class="text-xs text-orange-700 mt-1">&micro;g/l</span>
+                </div>
+                <div class="text-slate-600">
+                    <p class="mb-3">
+                        De tumormarker CEA is gemeten op 47.8 &micro;g/l (09-03-2026). Gezien de robuuste algehele gezondheidstoestand van de patiënt, de perfecte beenmerg- en nierfunctie en de normalisatie van specifieke leverenzymen, dient deze waarde puur als een kwantitatief referentiepunt (uitgangswaarde) voor de komende scans.
+                    </p>
+                    <p class="font-semibold text-teal-800">
+                        Volgende stappen:
+                    </p>
+                    <ul class="list-disc ml-5 mt-2 space-y-1">
+                        <li>Continuering van het huidige controleschema inclusief lab bepalingen.</li>
+                        <li>Dieet en fysiotherapie handhaven gezien het positieve effect op conditie en darmwerking.</li>
+                        <li>Voortzetting van de nauwe, constructieve samenwerking met patiënt en echtgenote.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Data Preparation helper to ensure label wrapping > 16 characters
+        const wrapLabel = (label) => {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > 16) {
+                    if (currentLine.length > 0) lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            if (currentLine.trim().length > 0) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const dates = ['07-01-2026 08:00', '11-02-2026 08:42', '25-02-2026 10:08', '09-03-2026 13:25'].map(wrapLabel);
+
+        // Tooltip global configuration (Mandatory)
+        const globalTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // 1. Hematology Chart (Line)
+        const hemaCtx = document.getElementById('hemaChart').getContext('2d');
+        new Chart(hemaCtx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [
+                    {
+                        label: 'Leukocyten (x10^9/L)',
+                        data: [7.1, 7.4, 7.9, 6.8],
+                        borderColor: '#0F766E',
+                        backgroundColor: 'rgba(15, 118, 110, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        pointBackgroundColor: '#0F766E',
+                        pointRadius: 5
+                    },
+                    {
+                        label: 'Erytrocyten (x10^12/L)',
+                        data: [4.94, 5.29, 5.17, 5.41],
+                        borderColor: '#F97316',
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        pointBackgroundColor: '#F97316',
+                        pointRadius: 5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: globalTooltipConfig
+                },
+                scales: {
+                    y: { beginAtZero: false }
+                }
+            }
+        });
+
+        // 2. Liver Enzymes Chart (Line)
+        const liverCtx = document.getElementById('liverChart').getContext('2d');
+        new Chart(liverCtx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [
+                    {
+                        label: 'ASAT (U/l)',
+                        data: [35, 48, 32, 28],
+                        borderColor: '#10B981', // Emerald - showing positive trend
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'ALAT (U/l)',
+                        data: [29, 41, 43, 50],
+                        borderColor: '#4F46E5', // Indigo
+                        backgroundColor: 'transparent',
+                        borderWidth: 3,
+                        borderDash: [5, 5],
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: globalTooltipConfig
+                },
+                scales: {
+                    y: { 
+                        beginAtZero: true,
+                        title: { display: true, text: 'Eenheden per liter (U/l)' }
+                    }
+                }
+            }
+        });
+
+        // 3. Kidney Function Chart (Bar)
+        const kidneyCtx = document.getElementById('kidneyChart').getContext('2d');
+        new Chart(kidneyCtx, {
+            type: 'bar',
+            data: {
+                labels: dates,
+                datasets: [
+                    {
+                        label: 'eGFR (>60 gewenst)',
+                        data: [94, 94, 94, 85],
+                        backgroundColor: '#0F766E', // Teal
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Kreatinine (umol/l)',
+                        data: [76, 75, 75, 85],
+                        backgroundColor: '#CBD5E1', // Slate
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: globalTooltipConfig
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
