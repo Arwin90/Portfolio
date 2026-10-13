@@ -1,0 +1,417 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Bloedwaarden Chemokuren</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* Layout: smalle kop, drie tabbladen (overzicht, per waarde, invoer); labrapport-achtige tabel met vaste eerste kolom. */
+:root{
+  --bg:#FFFFFF; --surface:#FFFFFF; --ink:#14282F; --muted:#586E74; --line:#D6E1E2;
+  --accent:#0B7285; --accent-soft:#E2F2F4; --band:rgba(47,125,79,.13); --bandline:rgba(47,125,79,.55);
+  --warn:#9A5B00; --warn-bg:#FDF1DC; --crit:#B42318; --crit-bg:#FCE9E7; --good:#2F7D4F;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-data:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5;padding-inline:16px;padding-block:20px 40px}
+.wrap{max-width:1180px;margin-inline:auto;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+h1{font-size:1.6rem;line-height:1.15;margin:0;font-weight:600;text-wrap:balance}
+.sub{color:var(--muted);margin:4px 0 0;font-size:.9rem}
+.facts{display:flex;gap:20px;flex-wrap:wrap}
+.fact{display:flex;flex-direction:column}
+.fact b{font-family:var(--font-data);font-weight:500;font-size:1.05rem}
+.fact span{color:var(--muted);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase}
+.bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px}
+.tab{font:inherit;font-weight:500;color:var(--muted);background:none;border:0;border-radius:7px;padding:8px 16px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--accent);color:#fff}
+.btn{font:inherit;font-weight:500;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.danger{color:var(--crit)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:.88rem}
+th,td{padding:7px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+thead th{position:sticky;top:0;background:var(--surface);font-family:var(--font-data);font-weight:500;font-size:.78rem;color:var(--muted);z-index:2}
+th.name,td.name{text-align:left;position:sticky;left:0;background:var(--surface);z-index:1;min-width:150px}
+thead th.name{z-index:3}
+td.name button{font:inherit;color:var(--ink);background:none;border:0;padding:0;cursor:pointer;text-align:left;font-weight:500}
+td.name button:hover{color:var(--accent);text-decoration:underline}
+td.name small{display:block;color:var(--muted);font-size:.72rem}
+td.ref{color:var(--muted);font-family:var(--font-data);font-size:.76rem}
+td.val{font-family:var(--font-data);font-variant-numeric:tabular-nums}
+td.val.out{color:var(--crit);background:var(--crit-bg)}
+td.val sup{font-size:.62rem;margin-left:2px;font-weight:600}
+td.empty{color:var(--line)}
+tr.grp td{background:var(--accent-soft);color:var(--accent);font-weight:600;font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;text-align:left;position:static}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.8rem;padding:10px 14px}
+.chip-out{background:var(--crit-bg);color:var(--crit);padding:0 6px;border-radius:4px;font-family:var(--font-data)}
+.pick{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:14px}
+.pick label{font-weight:500}
+select,input[type=date],input[type=text]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0}
+select{min-width:240px;max-width:100%}
+.big{padding:14px}
+.chartbox{position:relative;height:340px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;padding:0 14px 14px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.stat span{display:block;color:var(--muted);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.stat b{font-family:var(--font-data);font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.card{font:inherit;color:inherit;text-align:left;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.card:hover,.card[aria-pressed="true"]{border-color:var(--accent)}
+.card .t{display:flex;justify-content:space-between;gap:8px;font-weight:500;font-size:.88rem}
+.card .t i{font-style:normal;font-family:var(--font-data);font-size:.82rem}
+.card .t i.out{color:var(--crit)}
+.card small{color:var(--muted);font-size:.72rem}
+.card svg{width:100%;height:54px;display:block}
+h2{font-size:1.05rem;margin:0}
+.form{padding:16px;display:flex;flex-direction:column;gap:18px}
+.formtop{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:.78rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.fgrp h3{margin:0 0 8px;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;color:var(--accent)}
+.fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px 14px}
+.fields input{width:100%;font-family:var(--font-data)}
+.fields input.bad{border-color:var(--crit);background:var(--crit-bg)}
+.fields label small{color:var(--muted);font-weight:400}
+.note{color:var(--muted);font-size:.85rem}
+.msg{padding:10px 14px;border-radius:8px;background:var(--accent-soft);color:var(--ink)}
+.msg.err{background:var(--crit-bg);color:var(--crit)}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:.9rem;z-index:20}
+footer{color:var(--muted);font-size:.78rem}
+@media (max-width:560px){h1{font-size:1.35rem}.chartbox{height:280px}}
+@media (prefers-reduced-motion: no-preference){.card{transition:border-color .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Bloedwaarden Chemokuren</h1>
+      <p class="sub">Alle bloeduitslagen op één plek: invoeren, overzien en vergelijken.</p>
+    </div>
+    <div class="facts" id="facts"></div>
+  </header>
+
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="Weergave">
+      <button class="tab" role="tab" id="tab-overzicht" data-tab="overzicht" aria-selected="true">Overzicht</button>
+      <button class="tab" role="tab" id="tab-waarde" data-tab="waarde" aria-selected="false">Per waarde</button>
+      <button class="tab" role="tab" id="tab-invoer" data-tab="invoer" aria-selected="false">Invoer</button>
+    </div>
+    <button class="btn" id="export" hidden>Exporteer als CSV</button>
+  </div>
+
+  <main id="view"></main>
+
+  <footer>De cijfers komen uit de ziekenhuisbrieven. Referentiewaarden komen uit het labverslag van 16-08-2024; waar die ontbreken is er geen grens getoond. Vragen over uitslagen gaan naar de behandelend arts.</footer>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const PARAMS = [
+ // groep, key, label, eenheid, laag, hoog
+ ["Bloedbeeld","hb","Hemoglobine","mmol/L",8.5,11.0],
+ ["Bloedbeeld","ht","Hematocriet","L/L",0.40,0.50],
+ ["Bloedbeeld","ery","Erytrocyten","10¹²/L",4.50,5.80],
+ ["Bloedbeeld","mcv","MCV","fL",80,100],
+ ["Bloedbeeld","mch","MCH","amol",1700,2100],
+ ["Bloedbeeld","rdw","RDW","%",12.3,14.3],
+ ["Bloedbeeld","trom","Trombocyten","10⁹/L",150,400],
+ ["Bloedbeeld","leuk","Leukocyten","10⁹/L",4.0,10.0],
+ ["Bloedbeeld","neut","Neutrofielen (abs.)","10⁹/L",null,null],
+ ["Elektrolyten en nier","na","Natrium","mmol/L",136,145],
+ ["Elektrolyten en nier","k","Kalium","mmol/L",3.4,4.9],
+ ["Elektrolyten en nier","ca","Calcium, totaal","mmol/L",2.18,2.55],
+ ["Elektrolyten en nier","cacorr","Calcium, gecorrigeerd","mmol/L",2.20,2.60],
+ ["Elektrolyten en nier","mg","Magnesium","mmol/L",null,null],
+ ["Elektrolyten en nier","ureum","Ureum","mmol/L",2.5,7.5],
+ ["Elektrolyten en nier","kreat","Kreatinine","µmol/L",50,110],
+ ["Elektrolyten en nier","egfr","eGFR (CKD-EPI)","mL/min/1,73 m²",60,null],
+ ["Lever en alvleesklier","alat","ALAT","U/L",null,45],
+ ["Lever en alvleesklier","asat","ASAT","U/L",null,35],
+ ["Lever en alvleesklier","ggt","Gamma-GT","U/L",null,55],
+ ["Lever en alvleesklier","af","Alkalische fosfatase","U/L",null,115],
+ ["Lever en alvleesklier","ldh","LDH","U/L",null,248],
+ ["Lever en alvleesklier","bili","Bilirubine, totaal","µmol/L",null,24],
+ ["Lever en alvleesklier","alb","Albumine","g/L",33,45],
+ ["Lever en alvleesklier","amyl","Amylase","U/L",null,107],
+ ["Ontsteking en tumormarker","crp","CRP","mg/L",null,5],
+ ["Ontsteking en tumormarker","cea","CEA","µg/L",null,null],
+ ["IJzer en vitamines","ijzer","IJzer","µmol/L",null,null],
+ ["IJzer en vitamines","transf","Transferrine","g/L",null,null],
+ ["IJzer en vitamines","tibc","TIJBC","µmol/L",null,null],
+ ["IJzer en vitamines","transsat","Transferrinesaturatie","%",null,null],
+ ["IJzer en vitamines","ferr","Ferritine","µg/L",null,null],
+ ["IJzer en vitamines","b12","Vitamine B12","pmol/L",null,null],
+ ["IJzer en vitamines","folium","Foliumzuur","nmol/L",null,null],
+ ["Overig","glu","Glucose","mmol/L",null,7.8],
+ ["Overig","tsh","TSH","mU/L",null,null],
+ ["Overig","testo","Testosteron, totaal","nmol/L",null,null],
+ ["Overig","prol","Prolactine","mU/L",null,null],
+ ["Overig","urine","Eiwit in urine","g/L",null,null]
+].map(([group,key,label,unit,lo,hi])=>({group,key,label,unit,lo,hi,dlo:lo,dhi:hi}));
+const P = Object.fromEntries(PARAMS.map(p=>[p.key,p]));
+let limits = {};
+function applyLimits(){
+  for(const p of PARAMS){ const o=limits[p.key];
+    p.lo = o && typeof o==="object" && "lo" in o ? o.lo : p.dlo;
+    p.hi = o && typeof o==="object" && "hi" in o ? o.hi : p.dhi; }
+}
+async function saveLimit(key,reset){
+  if(!db){ toast("Opslaan lukt niet: de opslag is niet beschikbaar"); return; }
+  const parse=id=>{const r=$(id).value.trim(); if(!r) return null; const v=Number(r.replace(",",".")); return isFinite(v)?v:NaN};
+  const next={...limits};
+  if(reset) delete next[key];
+  else{ const lo=parse("#lim_lo"), hi=parse("#lim_hi");
+    if(Number.isNaN(lo)||Number.isNaN(hi)){ toast("Een drempel moet een getal zijn"); return; }
+    if(lo!=null&&hi!=null&&lo>=hi){ toast("De ondergrens moet lager zijn dan de bovengrens"); return; }
+    next[key]={lo,hi}; }
+  try{ await db.doc("instellingen/drempels").set(next); toast(reset?"Terug naar de referentiewaarde":"Drempel opgeslagen"); }
+  catch(e){ toast("Opslaan is niet gelukt ("+(e&&e.code||"fout")+")"); }
+}
+
+const $ = s=>document.querySelector(s);
+const view = $("#view");
+let db = null, rows = [], loaded = false, dbProblem = "";
+let tab = "overzicht", sel = "hb", showAll = false, chart = null;
+let formDate = new Date().toLocaleDateString("sv-SE"), formVals = {}, confirmDelete = false, formMsg = null;
+
+const ts = d => Date.parse(d+"T00:00:00Z");
+const fmtDate = d => d.split("-").reverse().join("-");
+const fmtShort = d => new Date(ts(d)).toLocaleDateString("nl-NL",{day:"numeric",month:"short",year:"2-digit",timeZone:"UTC"});
+const num = v => v.toLocaleString("nl-NL",{maximumFractionDigits:3});
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const flag = (p,v)=> p.lo!=null && v<p.lo ? "L" : p.hi!=null && v>p.hi ? "H" : "";
+const refText = p => p.lo!=null&&p.hi!=null ? num(p.lo)+" – "+num(p.hi) : p.hi!=null ? "< "+num(p.hi) : p.lo!=null ? "> "+num(p.lo) : "";
+const series = key => rows.filter(r=>r.waarden&&typeof r.waarden[key]==="number").map(r=>({d:r.datum,x:ts(r.datum),y:r.waarden[key]}));
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const toast = t => { const el=$("#toast"); el.textContent=t; el.hidden=false; clearTimeout(toast.t); toast.t=setTimeout(()=>el.hidden=true,2600); };
+
+function renderFacts(){
+  const f = $("#facts");
+  if(!rows.length){ f.innerHTML=""; return; }
+  const last = rows[rows.length-1].datum;
+  f.innerHTML = `<div class="fact"><b>${rows.length}</b><span>metingen</span></div>
+  <div class="fact"><b>${fmtDate(rows[0].datum)}</b><span>eerste</span></div>
+  <div class="fact"><b>${fmtDate(last)}</b><span>laatste</span></div>`;
+  $("#export").hidden = false;
+}
+
+function spark(key,w,h){
+  const p=P[key], s=series(key); if(s.length<1) return "";
+  const ys=s.map(o=>o.y); let lo=Math.min(...ys,p.lo??Infinity), hi=Math.max(...ys,p.hi??-Infinity);
+  if(hi===lo){hi+=1;lo-=1}
+  const pad=(hi-lo)*.08; lo-=pad; hi+=pad;
+  const x0=s[0].x, x1=s[s.length-1].x, sx=v=> s.length===1? w/2 : 3+(v-x0)/(x1-x0)*(w-6), sy=v=>h-3-(v-lo)/(hi-lo)*(h-6);
+  const bl=p.lo!=null?p.lo:lo, bh=p.hi!=null?p.hi:hi;
+  const band = (p.lo!=null||p.hi!=null) ? `<rect x="0" y="${sy(bh)}" width="${w}" height="${Math.max(0,sy(bl)-sy(bh))}" style="fill:var(--band)"/>`:"";
+  const pts=s.map(o=>sx(o.x).toFixed(1)+","+sy(o.y).toFixed(1)).join(" ");
+  const e=s[s.length-1], last=`<circle cx="${sx(e.x)}" cy="${sy(e.y)}" r="2.6" style="fill:${flag(p,e.y)?'var(--crit)':'var(--accent)'}"/>`;
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">${band}<polyline points="${pts}" style="fill:none;stroke:var(--accent);stroke-width:1.6;vector-effect:non-scaling-stroke"/>${last}</svg>`;
+}
+
+function emptyState(){
+  if(dbProblem) return `<div class="panel empty">${esc(dbProblem)}</div>`;
+  if(!loaded) return `<div class="panel empty">De metingen worden geladen.</div>`;
+  return `<div class="panel empty">Er zijn nog geen metingen. Voeg de eerste toe via het tabblad Invoer.</div>`;
+}
+
+function renderOverview(){
+  if(!rows.length){ view.innerHTML=emptyState(); return; }
+  const cols = showAll ? rows : rows.slice(-8);
+  let h = `<div class="panel"><div class="pick"><h2>Totaaloverzicht</h2>
+    <span class="note">${showAll?"Alle "+rows.length+" metingen":"Laatste "+cols.length+" van "+rows.length+" metingen"}</span>
+    ${rows.length>8?`<button class="btn" id="toggleAll">${showAll?"Alleen de laatste 8":"Toon alle metingen"}</button>`:""}</div>
+    <div class="tablewrap" tabindex="0" aria-label="Tabel met bloedwaarden"><table><thead><tr>
+    <th class="name">Waarde</th><th>Referentie</th><th>Verloop</th>${cols.map(r=>`<th>${fmtDate(r.datum)}</th>`).join("")}</tr></thead><tbody>`;
+  let g="";
+  for(const p of PARAMS){
+    if(!series(p.key).length) continue;
+    if(p.group!==g){ g=p.group; h+=`<tr class="grp"><td colspan="${cols.length+3}">${g}</td></tr>`; }
+    h+=`<tr><td class="name"><button data-pick="${p.key}">${p.label}</button><small>${p.unit}</small></td>
+      <td class="ref">${refText(p)}</td><td style="padding-block:3px">${spark(p.key,84,26).replace("<svg",'<svg style="width:84px;height:26px;display:block"')}</td>`;
+    for(const r of cols){
+      const v=r.waarden&&r.waarden[p.key];
+      if(typeof v!=="number"){ h+=`<td class="val empty">·</td>`; continue; }
+      const f=flag(p,v);
+      h+=`<td class="val${f?" out":""}">${num(v)}${f?`<sup>${f}</sup>`:""}</td>`;
+    }
+    h+="</tr>";
+  }
+  h+=`</tbody></table></div>
+    <div class="legend"><span><span class="chip-out">12<sup>H</sup></span> boven de referentiewaarde</span><span><span class="chip-out">3<sup>L</sup></span> onder de referentiewaarde</span><span>· niet gemeten</span><span>Klik op een naam voor de grafiek</span></div></div>`;
+  view.innerHTML=h;
+  const t=$("#toggleAll"); if(t) t.onclick=()=>{showAll=!showAll;renderOverview()};
+  view.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{sel=b.dataset.pick;setTab("waarde")});
+}
+
+function renderWaarde(){
+  if(!rows.length){ view.innerHTML=emptyState(); return; }
+  const have = PARAMS.filter(p=>series(p.key).length);
+  if(!have.find(p=>p.key===sel)) sel=have[0].key;
+  const p=P[sel], s=series(sel), ys=s.map(o=>o.y), last=s[s.length-1], prev=s[s.length-2];
+  const out=s.filter(o=>flag(p,o.y)).length;
+  const diff = prev ? last.y-prev.y : null;
+  let opts = ""; let g="";
+  for(const q of have){ if(q.group!==g){ if(g) opts+="</optgroup>"; g=q.group; opts+=`<optgroup label="${g}">`; } opts+=`<option value="${q.key}"${q.key===sel?" selected":""}>${q.label} (${series(q.key).length})</option>`; }
+  opts+="</optgroup>";
+  view.innerHTML=`<div class="panel"><div class="pick"><label for="sel">Waarde</label><select id="sel">${opts}</select>
+      <span class="note">${p.unit}${refText(p)?" · "+(limits[sel]?"eigen drempel ":"referentie ")+refText(p):" · geen drempel ingesteld"}</span></div>
+    <div class="pick" style="border-top:1px solid var(--line)"><label for="lim_lo">Kleurdrempel</label>
+      <input type="text" inputmode="decimal" id="lim_lo" aria-label="Ondergrens" placeholder="ondergrens" value="${p.lo!=null?esc(String(p.lo).replace(".",",")):""}" style="width:120px;font-family:var(--font-data)">
+      <input type="text" inputmode="decimal" id="lim_hi" aria-label="Bovengrens" placeholder="bovengrens" value="${p.hi!=null?esc(String(p.hi).replace(".",",")):""}" style="width:120px;font-family:var(--font-data)">
+      <button class="btn primary" id="lim_save">Drempel opslaan</button>
+      ${limits[sel]?`<button class="btn" id="lim_reset">Terug naar referentie</button>`:""}
+      <span class="note">Waarden buiten deze grenzen kleuren rood in tabel en grafieken. Leeg laten betekent geen grens.</span></div>
+    <div class="big"><div class="chartbox"><canvas id="cv" role="img" aria-label="Grafiek van ${esc(p.label)} in de tijd"></canvas></div></div>
+    <div class="stats">
+      <div class="stat"><span>Laatste</span><b>${num(last.y)}</b> <small class="note">${fmtDate(last.d)}</small></div>
+      <div class="stat"><span>Verschil met vorige</span><b>${diff==null?"–":(diff>0?"+":"")+num(Math.round(diff*1000)/1000)}</b></div>
+      <div class="stat"><span>Laagste</span><b>${num(Math.min(...ys))}</b></div>
+      <div class="stat"><span>Hoogste</span><b>${num(Math.max(...ys))}</b></div>
+      <div class="stat"><span>Metingen</span><b>${s.length}</b></div>
+      ${(p.lo!=null||p.hi!=null)?`<div class="stat"><span>Buiten referentie</span><b>${out} van ${s.length}</b></div>`:""}
+    </div></div>
+    <h2 style="margin:22px 0 10px">Alle waarden naast elkaar</h2>
+    <div class="grid">${have.map(q=>{const ss=series(q.key),l=ss[ss.length-1],f=flag(q,l.y);
+      return `<button class="card" data-pick="${q.key}" aria-pressed="${q.key===sel}"><span class="t"><span>${q.label}</span><i class="${f?"out":""}">${num(l.y)}${f?" "+f:""}</i></span>${spark(q.key,200,54)}<small>${ss.length} metingen · ${q.unit}</small></button>`}).join("")}</div>`;
+  $("#sel").onchange=e=>{sel=e.target.value;renderWaarde()};
+  $("#lim_save").onclick=()=>saveLimit(sel,false);
+  const lr=$("#lim_reset"); if(lr) lr.onclick=()=>saveLimit(sel,true);
+  view.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{sel=b.dataset.pick;renderWaarde();window.scrollTo({top:0,behavior:"smooth"})});
+  drawChart(p,s);
+}
+
+function drawChart(p,s){
+  if(chart){chart.destroy();chart=null}
+  if(typeof Chart==="undefined"){ $("#cv").parentElement.innerHTML='<p class="note">De grafiekbibliotheek kon niet laden.</p>'; return; }
+  const ink=css("--ink"), muted=css("--muted"), line=css("--line"), acc=css("--accent"), crit=css("--crit"), surf=css("--surface");
+  const ys=s.map(o=>o.y), lo=Math.min(...ys,p.lo??Infinity), hi=Math.max(...ys,p.hi??-Infinity), pad=(hi-lo||1)*.1;
+  const x0=s[0].x, x1=s[s.length-1].x, xp=Math.max((x1-x0)*.03,864e5*3);
+  const band={id:"band",beforeDatasetsDraw(c){
+    if(p.lo==null&&p.hi==null) return;
+    const {ctx,chartArea:a,scales:{y}}=c, top=y.getPixelForValue(p.hi!=null?p.hi:y.max), bot=y.getPixelForValue(p.lo!=null?p.lo:y.min);
+    ctx.save(); ctx.fillStyle=css("--band"); ctx.fillRect(a.left,top,a.right-a.left,bot-top);
+    ctx.strokeStyle=css("--bandline"); ctx.setLineDash([5,4]); ctx.lineWidth=1; ctx.beginPath();
+    if(p.hi!=null){ctx.moveTo(a.left,top);ctx.lineTo(a.right,top)} if(p.lo!=null){ctx.moveTo(a.left,bot);ctx.lineTo(a.right,bot)} ctx.stroke(); ctx.restore();}};
+  chart=new Chart($("#cv"),{type:"line",plugins:[band],
+    data:{datasets:[{label:p.label,data:s.map(o=>({x:o.x,y:o.y,d:o.d})),borderColor:acc,borderWidth:2,tension:.15,
+      pointRadius:4,pointHoverRadius:6,pointBackgroundColor:s.map(o=>flag(p,o.y)?crit:acc),pointBorderColor:surf,pointBorderWidth:1.5}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,parsing:false,
+      interaction:{mode:"nearest",intersect:false,axis:"x"},
+      scales:{
+        x:{type:"linear",min:x0-xp,max:x1+xp,grid:{color:line},border:{color:line},
+          ticks:{color:muted,maxTicksLimit:8,font:{family:"IBM Plex Mono",size:11},callback:v=>new Date(v).toLocaleDateString("nl-NL",{month:"short",year:"2-digit",timeZone:"UTC"})}},
+        y:{suggestedMin:lo-pad,suggestedMax:hi+pad,grid:{color:line},border:{color:line},
+          title:{display:true,text:p.unit,color:muted},ticks:{color:muted,font:{family:"IBM Plex Mono",size:11}}}},
+      plugins:{legend:{display:false},tooltip:{displayColors:false,callbacks:{
+        title:i=>fmtDate(i[0].raw.d),label:i=>num(i.raw.y)+" "+p.unit+(flag(p,i.raw.y)?" ("+(flag(p,i.raw.y)==="H"?"hoog":"laag")+")":"")}}}}});
+}
+
+function renderInvoer(){
+  const existing = rows.find(r=>r.datum===formDate);
+  let h=`<div class="panel form"><div class="formtop">
+    <div class="field"><label for="fd">Datum van de uitslag</label><input type="date" id="fd" value="${formDate}"></div>
+    ${existing?`<span class="msg">Voor deze datum staat al een meting. Je past die nu aan.</span>`:""}</div>
+    <p class="note">Vul alleen in wat gemeten is. Een komma of punt als decimaalteken mag. Het grijze getal is de vorige uitslag.</p>`;
+  if(dbProblem) h+=`<div class="msg err">${esc(dbProblem)}</div>`;
+  if(formMsg) h+=`<div class="msg${formMsg.err?" err":""}">${esc(formMsg.t)}</div>`;
+  let g="";
+  for(const p of PARAMS){
+    if(p.group!==g){ if(g) h+="</div></div>"; g=p.group; h+=`<div class="fgrp"><h3>${g}</h3><div class="fields">`; }
+    const ls=series(p.key), l=ls[ls.length-1];
+    h+=`<div class="field"><label for="f_${p.key}">${p.label} <small>${p.unit}</small></label>
+      <input type="text" inputmode="decimal" autocomplete="off" id="f_${p.key}" data-k="${p.key}" value="${formVals[p.key]!=null?esc(formVals[p.key]):""}" placeholder="${l?num(l.y):""}"></div>`;
+  }
+  h+=`</div></div><div class="formtop"><button class="btn primary" id="save">${existing?"Wijzigingen opslaan":"Meting opslaan"}</button>
+    <button class="btn" id="clear">Velden leegmaken</button>
+    ${existing?(confirmDelete?`<button class="btn danger" id="del2">Ja, verwijder deze meting</button><button class="btn" id="delno">Annuleren</button>`:`<button class="btn danger" id="del">Meting verwijderen</button>`):""}</div></div>`;
+  view.innerHTML=h;
+  $("#fd").onchange=e=>{formDate=e.target.value;confirmDelete=false;formMsg=null;loadForm();renderInvoer()};
+  view.querySelectorAll("[data-k]").forEach(i=>i.oninput=()=>{formVals[i.dataset.k]=i.value;i.classList.remove("bad")});
+  $("#save").onclick=save;
+  $("#clear").onclick=()=>{formVals={};formMsg=null;renderInvoer()};
+  const d=$("#del"); if(d) d.onclick=()=>{confirmDelete=true;renderInvoer()};
+  const n=$("#delno"); if(n) n.onclick=()=>{confirmDelete=false;renderInvoer()};
+  const d2=$("#del2"); if(d2) d2.onclick=remove;
+}
+
+function loadForm(){
+  const r=rows.find(x=>x.datum===formDate); formVals={};
+  if(r&&r.waarden) for(const k in r.waarden) formVals[k]=String(r.waarden[k]).replace(".",",");
+}
+
+async function save(){
+  if(!formDate){ formMsg={t:"Kies eerst de datum van de uitslag.",err:true}; return renderInvoer(); }
+  const waarden={}; let bad=[];
+  for(const p of PARAMS){
+    const raw=(formVals[p.key]||"").trim(); if(!raw) continue;
+    const v=Number(raw.replace(",",".")); if(!isFinite(v)) bad.push(p.key); else waarden[p.key]=v;
+  }
+  if(bad.length){ formMsg={t:"Deze velden bevatten geen getal: "+bad.map(k=>P[k].label).join(", ")+".",err:true}; renderInvoer(); bad.forEach(k=>$("#f_"+k).classList.add("bad")); return; }
+  if(!Object.keys(waarden).length){ formMsg={t:"Vul minstens één waarde in.",err:true}; return renderInvoer(); }
+  if(!db){ formMsg={t:"Opslaan lukt niet: de opslag is niet beschikbaar in deze weergave.",err:true}; return renderInvoer(); }
+  const btn=$("#save"); btn.disabled=true;
+  try{
+    await db.doc("metingen/"+formDate).set({datum:formDate,waarden});
+    formMsg=null; toast("Opgeslagen: "+fmtDate(formDate));
+  }catch(e){ formMsg={t:"Opslaan is niet gelukt ("+(e&&e.code||"onbekende fout")+"). Probeer het opnieuw.",err:true}; }
+  renderInvoer();
+}
+
+async function remove(){
+  try{ await db.doc("metingen/"+formDate).delete(); toast("Meting verwijderd"); formVals={}; formDate=""; }
+  catch(e){ formMsg={t:"Verwijderen is niet gelukt ("+(e&&e.code||"onbekende fout")+").",err:true}; }
+  confirmDelete=false; renderInvoer();
+}
+
+function setTab(t){
+  tab=t; formMsg=null;
+  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
+  if(chart&&t!=="waarde"){chart.destroy();chart=null}
+  render();
+}
+function render(){
+  renderFacts();
+  if(tab==="overzicht") renderOverview(); else if(tab==="waarde") renderWaarde(); else renderInvoer();
+}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+
+$("#export").onclick=async()=>{
+  const dl=await (window.claude?.use?.("downloads")); if(!dl){ toast("Downloaden is hier niet beschikbaar"); return; }
+  const head=["Datum",...PARAMS.map(p=>p.label+" ("+p.unit+")")];
+  const lines=[head,...rows.map(r=>[fmtDate(r.datum),...PARAMS.map(p=>{const v=r.waarden&&r.waarden[p.key];return typeof v==="number"?String(v).replace(".",","):""})])];
+  const csv="﻿"+lines.map(l=>l.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\r\n");
+  try{ await dl.save({filename:"bloedwaarden.csv",data:csv}); toast("Bestand klaar"); }catch(e){ if(e&&e.code!=="declined") toast("Downloaden is niet gelukt"); }
+};
+
+// Thema-wissel: grafiek opnieuw tekenen met de nieuwe kleuren
+const redraw=()=>{ if(tab==="waarde"&&rows.length) renderWaarde(); };
+try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change",redraw); }catch(e){}
+new MutationObserver(redraw).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+render();
+(async()=>{
+  try{
+    db = await (window.claude?.use?.("db"));
+    if(!db){ dbProblem="De opslag is niet beschikbaar. Open de pagina ingelogd via claude.ai om metingen te zien en op te slaan."; loaded=true; render(); return; }
+    db.collection("metingen").orderBy("datum").onSnapshot(snap=>{
+      rows=snap.docs.map(d=>d.data()).filter(Boolean); loaded=true; dbProblem="";
+      if(tab==="invoer"){ const a=document.activeElement; if(!(a&&a.dataset&&a.dataset.k)) { renderInvoer(); } renderFacts(); } else render();
+    },e=>{ dbProblem="De metingen konden niet geladen worden ("+(e&&e.code||"fout")+")."; loaded=true; render(); });
+    db.doc("instellingen/drempels").onSnapshot(snap=>{
+      limits = snap.exists ? (snap.data()||{}) : {}; applyLimits();
+      if(tab!=="invoer") render();
+    },()=>{});
+  }catch(e){ dbProblem="De opslag kon niet starten."; loaded=true; render(); }
+})();
+</script>
+
+</body></html>
