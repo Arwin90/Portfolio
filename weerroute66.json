@@ -1,0 +1,157 @@
+{
+ "bijgewerkt": "2026-10-26T12:00:00Z",
+ "dagen": [
+  {
+   "dag": 1,
+   "datum": "2026-11-08",
+   "locatie": "Chicago, IL",
+   "min_c": 3,
+   "max_c": 10,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 2,
+   "datum": "2026-11-09",
+   "locatie": "Lincoln, IL",
+   "min_c": 3,
+   "max_c": 11,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 3,
+   "datum": "2026-11-10",
+   "locatie": "Rolla, MO",
+   "min_c": 2,
+   "max_c": 13,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 4,
+   "datum": "2026-11-11",
+   "locatie": "Joplin, MO",
+   "min_c": 2,
+   "max_c": 13,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 5,
+   "datum": "2026-11-12",
+   "locatie": "Medicine Park, OK",
+   "min_c": 3,
+   "max_c": 16,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 6,
+   "datum": "2026-11-13",
+   "locatie": "Wichita Mountains Refuge, OK",
+   "min_c": 4,
+   "max_c": 17,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 7,
+   "datum": "2026-11-14",
+   "locatie": "Amarillo, TX",
+   "min_c": 1,
+   "max_c": 16,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 8,
+   "datum": "2026-11-15",
+   "locatie": "Albuquerque, NM",
+   "min_c": 0,
+   "max_c": 14,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 9,
+   "datum": "2026-11-16",
+   "locatie": "Albuquerque, NM",
+   "min_c": 0,
+   "max_c": 14,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 10,
+   "datum": "2026-11-17",
+   "locatie": "Holbrook, AZ",
+   "min_c": -1,
+   "max_c": 14,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 11,
+   "datum": "2026-11-18",
+   "locatie": "Kingman, AZ",
+   "min_c": 6,
+   "max_c": 21,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 12,
+   "datum": "2026-11-19",
+   "locatie": "Barstow, CA",
+   "min_c": 7,
+   "max_c": 22,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 13,
+   "datum": "2026-11-20",
+   "locatie": "Los Angeles, CA",
+   "min_c": 11,
+   "max_c": 22,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 14,
+   "datum": "2026-11-21",
+   "locatie": "Los Angeles, CA",
+   "min_c": 11,
+   "max_c": 22,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 15,
+   "datum": "2026-11-22",
+   "locatie": "Los Angeles, CA",
+   "min_c": 11,
+   "max_c": 22,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 16,
+   "datum": "2026-11-23",
+   "locatie": "San Diego, CA",
+   "min_c": 11,
+   "max_c": 20,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 17,
+   "datum": "2026-11-24",
+   "locatie": "San Diego, CA",
+   "min_c": 11,
+   "max_c": 20,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 18,
+   "datum": "2026-11-25",
+   "locatie": "San Diego, CA",
+   "min_c": 11,
+   "max_c": 20,
+   "bron": "reisschema"
+  },
+  {
+   "dag": 19,
+   "datum": "2026-11-26",
+   "locatie": "San Diego, CA",
+   "min_c": 11,
+   "max_c": 20,
+   "bron": "reisschema"
+  }
+ ]
+}

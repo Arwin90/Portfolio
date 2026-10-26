@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Route 66 – temperaturen</title>
+<style>
+  :root { --bg:#0f172a; --card:#1e293b; --line:#334155; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --grey:#64748b; --cold:#93c5fd; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.5; }
+  .wrap { max-width:960px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:1.8rem; margin:0 0 4px; font-weight:600; }
+  .lead { color:var(--muted); margin:0 0 4px; }
+  .upd { color:var(--muted); font-size:.85rem; margin:0 0 24px; }
+  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px; margin-bottom:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  .label { color:var(--muted); font-size:.85rem; }
+  .big { font-size:2rem; font-variant-numeric:tabular-nums; margin:2px 0; }
+  .sub { color:var(--muted); font-size:.85rem; }
+  h2 { font-size:1.1rem; font-weight:600; margin:0 0 4px; }
+  .note { color:var(--muted); font-size:.85rem; margin:0 0 12px; }
+  .key { white-space:nowrap; margin-left:10px; }
+  .key i { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:4px; vertical-align:middle; }
+  section.card { margin-bottom:16px; }
+  svg text { fill:var(--text); font-size:12px; font-variant-numeric:tabular-nums; }
+  svg text.m { fill:var(--muted); }
+  .scroll { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:.95rem; }
+  th { text-align:left; color:var(--muted); font-weight:500; font-size:.8rem; padding:6px 8px; border-bottom:1px solid var(--line); }
+  td { padding:6px 8px; border-bottom:1px solid var(--line); }
+  .num { text-align:right; }
+  .fc { color:var(--accent); }
+  .err { color:#f87171; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Route 66 – temperaturen</h1>
+  <p class="lead" id="lead">Laden…</p>
+  <p class="upd" id="upd"></p>
+
+  <div class="tiles">
+    <div class="card"><div class="label">Koudste nacht</div><div class="big" id="t-cold">—</div><div class="sub" id="t-cold-s"></div></div>
+    <div class="card"><div class="label">Warmste dag</div><div class="big" id="t-warm">—</div><div class="sub" id="t-warm-s"></div></div>
+    <div class="card"><div class="label">Gemiddeld min / max</div><div class="big" id="t-avg">—</div><div class="sub">Over alle reisdagen</div></div>
+  </div>
+
+  <section class="card">
+    <h2>Min en max per dag en locatie</h2>
+    <p class="note">Van laagste tot hoogste temperatuur (°C) op de plek waar je die dag eindigt.
+      <span class="key"><i style="background:var(--accent)"></i>weersvoorspelling</span>
+      <span class="key"><i style="background:var(--grey)"></i>uit reisschema</span></p>
+    <div id="chart"></div>
+  </section>
+
+  <section class="card">
+    <h2>Alle dagen</h2>
+    <p class="note">8 – 26 november 2026. Dagen binnen 7 dagen krijgen elke ochtend de voorspelling van de Amerikaanse weerdienst (NWS); de rest komt uit het reisschema.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Dag</th><th>Datum</th><th>Locatie</th><th class="num">Min °C</th><th class="num">Max °C</th><th>Bron</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+(function () {
+  var NS = 'http://www.w3.org/2000/svg';
+  var data = [];
+  function fmtDay(iso) {
+    return new Date(iso + 'T12:00:00Z').toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  }
+  function el(tag, attrs, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function deg(v) { return String(v).replace('.', ',') + '°C'; }
+
+  function drawChart() {
+    var box = document.getElementById('chart');
+    box.textContent = '';
+    if (!data.length) return;
+    var W = Math.max(box.clientWidth, 300);
+    var narrow = W < 560, rowH = narrow ? 40 : 28, top = 24, H = top + data.length * rowH + 8;
+    var svg = el('svg', { width: '100%', viewBox: '0 0 ' + W + ' ' + H });
+    box.appendChild(svg);
+    var labW = 0;
+    if (!narrow) {
+      var m = el('text', {}); svg.appendChild(m);
+      data.forEach(function (r) { m.textContent = fmtDay(r.datum) + ' · ' + r.locatie; labW = Math.max(labW, m.getComputedTextLength()); });
+      svg.removeChild(m);
+    }
+    var left = narrow ? 8 : labW + 16, right = 36;
+    var lo = Math.min(0, Math.min.apply(null, data.map(function (r) { return r.min_c; }))) - 3;
+    var hi = Math.max.apply(null, data.map(function (r) { return r.max_c; })) + 2;
+    var x0 = left + 28, x1 = W - right;
+    var x = function (v) { return x0 + (v - lo) / (hi - lo) * (x1 - x0); };
+    var step = (x1 - x0) < 300 ? 10 : 5;
+    for (var v = Math.ceil(lo / step) * step; v <= hi; v += step) {
+      svg.appendChild(el('line', { x1: x(v), x2: x(v), y1: top - 4, y2: H - 8, stroke: v === 0 ? '#64748b' : '#334155', 'stroke-dasharray': v === 0 ? '4 3' : '' }));
+      svg.appendChild(el('text', { x: x(v), y: 12, 'text-anchor': 'middle', class: 'm' }, v + '°'));
+    }
+    data.forEach(function (r, i) {
+      var yy = top + i * rowH, cy = narrow ? yy + 26 : yy + rowH / 2;
+      svg.appendChild(el('text', { x: narrow ? 0 : left - 12, y: narrow ? yy + 11 : cy + 4, 'text-anchor': narrow ? 'start' : 'end' }, fmtDay(r.datum) + ' · ' + r.locatie));
+      var bar = el('rect', { x: x(r.min_c), y: cy - 5, width: Math.max(2, x(r.max_c) - x(r.min_c)), height: 10, rx: 4, fill: r.bron === 'voorspelling' ? '#38bdf8' : '#64748b' });
+      bar.appendChild(el('title', {}, fmtDay(r.datum) + ' – ' + r.locatie + ': min ' + r.min_c + '°C, max ' + r.max_c + '°C (' + (r.bron === 'voorspelling' ? 'weersvoorspelling' : 'reisschema') + ')'));
+      svg.appendChild(bar);
+      svg.appendChild(el('text', { x: x(r.min_c) - 6, y: cy + 4, 'text-anchor': 'end', class: 'm' }, r.min_c + '°'));
+      svg.appendChild(el('text', { x: x(r.max_c) + 6, y: cy + 4 }, r.max_c + '°'));
+    });
+  }
+
+  function render(json) {
+    data = json.dagen.slice().sort(function (a, b) { return a.dag - b.dag; });
+    var cold = data.reduce(function (a, b) { return b.min_c < a.min_c ? b : a; });
+    var warm = data.reduce(function (a, b) { return b.max_c > a.max_c ? b : a; });
+    var avg = function (k) { return Math.round(data.reduce(function (s, r) { return s + r[k]; }, 0) / data.length * 10) / 10; };
+    var nFc = data.filter(function (r) { return r.bron === 'voorspelling'; }).length;
+    document.getElementById('t-cold').textContent = deg(cold.min_c);
+    document.getElementById('t-cold-s').textContent = cold.locatie + ' · ' + fmtDay(cold.datum);
+    document.getElementById('t-warm').textContent = deg(warm.max_c);
+    document.getElementById('t-warm-s').textContent = warm.locatie + ' · ' + fmtDay(warm.datum);
+    document.getElementById('t-avg').textContent = deg(avg('min_c')) + ' / ' + deg(avg('max_c'));
+    document.getElementById('lead').textContent = 'Van ' + deg(cold.min_c) + " 's nachts in " + cold.locatie + ' tot ' + deg(warm.max_c) + ' overdag in ' + warm.locatie + '. ' +
+      (nFc ? nFc + ' van de ' + data.length + ' dagen hebben al een echte weersvoorspelling.' : 'Nog geen echte weersvoorspelling; die begint zodra de reis binnen 7 dagen is.');
+    if (json.bijgewerkt) document.getElementById('upd').textContent = 'Bijgewerkt: ' + new Date(json.bijgewerkt).toLocaleString('nl-NL', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Amsterdam' });
+    var tb = document.getElementById('tbody'); tb.textContent = '';
+    data.forEach(function (r) {
+      var tr = document.createElement('tr');
+      [[r.dag, ''], [fmtDay(r.datum), ''], [r.locatie, ''], [r.min_c, 'num'], [r.max_c, 'num'], [r.bron === 'voorspelling' ? 'Voorspelling' : 'Reisschema', r.bron === 'voorspelling' ? 'fc' : '']].forEach(function (c) {
+        var td = document.createElement('td'); td.textContent = c[0]; if (c[1]) td.className = c[1]; tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    drawChart();
+  }
+
+  fetch('weerroute66.json?t=' + Date.now(), { cache: 'no-store' })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(render)
+    .catch(function () { var l = document.getElementById('lead'); l.textContent = 'De gegevens konden niet worden geladen.'; l.className = 'lead err'; });
+  var t; window.addEventListener('resize', function () { clearTimeout(t); t = setTimeout(drawChart, 150); });
+})();
+</script>
+</body>
+</html>
