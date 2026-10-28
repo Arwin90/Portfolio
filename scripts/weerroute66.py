@@ -60,7 +60,17 @@ def forecast_by_date(lat, lon):
     return out
 
 
+def vorige_waarden():
+    """Eerder opgeslagen voorspellingen, zodat voorbije dagen hun voorspelling houden."""
+    try:
+        oud = json.loads(OUT.read_text(encoding="utf-8"))
+        return {d["datum"]: d for d in oud.get("dagen", []) if d.get("bron") == "voorspelling"}
+    except Exception:
+        return {}
+
+
 def main():
+    vorig = vorige_waarden()
     cache = {}
     dagen = []
     for dag, datum, loc, lat, lon, smin, smax in SCHEMA:
@@ -73,6 +83,8 @@ def main():
                 cache[key] = {}
         fc = cache[key].get(datum, {})
         mn, mx = fc.get("min"), fc.get("max")
+        if mn is None and mx is None and datum in vorig:  # dag niet meer in de voorspelling: laatste waarde houden
+            mn, mx = vorig[datum]["min_c"], vorig[datum]["max_c"]
         bron = "voorspelling" if (mn is not None or mx is not None) else "reisschema"
         dagen.append({
             "dag": dag, "datum": datum, "locatie": loc,
