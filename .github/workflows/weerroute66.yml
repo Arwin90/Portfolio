@@ -2,8 +2,9 @@ name: Route 66 weer
 
 on:
   schedule:
-    - cron: "15 5 1-26 11 *"
-    - cron: "15 5 27-31 10 *"
+    - cron: "15 4 1-30 11-12 *"   # 05:15 Nederlandse tijd
+    - cron: "15 5 1-30 11-12 *"   # 06:15 Nederlandse tijd
+  
   workflow_dispatch:
 
 permissions:
