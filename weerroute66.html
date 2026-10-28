@@ -6,15 +6,15 @@
 <meta name="robots" content="noindex">
 <title>Route 66 – temperaturen</title>
 <style>
-  :root { --bg:#0f172a; --card:#1e293b; --line:#334155; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --grey:#64748b; --cold:#93c5fd; }
+  :root { --bg:#f6ead8; --card:#fffaf2; --line:#e6d3b8; --text:#3b2416; --muted:#8a6a52; --accent:#d9622b; --cold:#3f7cac; --warm:#e8862f; --hot:#c2410c; --grid:#ecdcc4; --zero:#b89a7e; }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.5; }
+  body { margin:0; background:linear-gradient(180deg,#f3d9b5 0,#f6ead8 260px) no-repeat,var(--bg); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.5; }
   .wrap { max-width:960px; margin:0 auto; padding:24px 16px 48px; }
-  h1 { font-size:1.8rem; margin:0 0 4px; font-weight:600; }
+  h1 { font-size:1.8rem; margin:0 0 4px; font-weight:700; color:var(--hot); letter-spacing:.01em; }
   .lead { color:var(--muted); margin:0 0 4px; }
   .upd { color:var(--muted); font-size:.85rem; margin:0 0 24px; }
   .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr)); gap:12px; margin-bottom:16px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; box-shadow:0 1px 2px rgba(120,70,30,.06); }
   .label { color:var(--muted); font-size:.85rem; }
   .big { font-size:2rem; font-variant-numeric:tabular-nums; margin:2px 0; }
   .sub { color:var(--muted); font-size:.85rem; }
@@ -30,8 +30,10 @@
   th { text-align:left; color:var(--muted); font-weight:500; font-size:.8rem; padding:6px 8px; border-bottom:1px solid var(--line); }
   td { padding:6px 8px; border-bottom:1px solid var(--line); }
   .num { text-align:right; }
-  .fc { color:var(--accent); }
-  .err { color:#f87171; }
+  .fc { color:var(--accent); font-weight:600; }
+  #t-cold { color:var(--cold); }
+  #t-warm { color:var(--hot); }
+  .err { color:#b91c1c; }
 </style>
 </head>
 <body>
@@ -49,8 +51,8 @@
   <section class="card">
     <h2>Min en max per dag en locatie</h2>
     <p class="note">Van laagste tot hoogste temperatuur (°C) op de plek waar je die dag eindigt.
-      <span class="key"><i style="background:var(--accent)"></i>weersvoorspelling</span>
-      <span class="key"><i style="background:var(--grey)"></i>uit reisschema</span></p>
+      <span class="key"><i style="background:linear-gradient(90deg,var(--cold),var(--warm))"></i>weersvoorspelling</span>
+      <span class="key"><i style="background:linear-gradient(90deg,var(--cold),var(--warm));opacity:.55"></i>uit reisschema</span></p>
     <div id="chart"></div>
   </section>
 
@@ -100,13 +102,17 @@
     var x = function (v) { return x0 + (v - lo) / (hi - lo) * (x1 - x0); };
     var step = (x1 - x0) < 300 ? 10 : 5;
     for (var v = Math.ceil(lo / step) * step; v <= hi; v += step) {
-      svg.appendChild(el('line', { x1: x(v), x2: x(v), y1: top - 4, y2: H - 8, stroke: v === 0 ? '#64748b' : '#334155', 'stroke-dasharray': v === 0 ? '4 3' : '' }));
+      svg.appendChild(el('line', { x1: x(v), x2: x(v), y1: top - 4, y2: H - 8, stroke: v === 0 ? '#b89a7e' : '#ecdcc4', 'stroke-dasharray': v === 0 ? '4 3' : '' }));
       svg.appendChild(el('text', { x: x(v), y: 12, 'text-anchor': 'middle', class: 'm' }, v + '°'));
     }
+    // kleurverloop over de temperatuurschaal: blauw (koud) -> oranje -> rood (warm)
+    var defs = el('defs', {}), grad = el('linearGradient', { id: 'tempgrad', gradientUnits: 'userSpaceOnUse', x1: x(0), x2: x(22), y1: 0, y2: 0 });
+    [[0, '#3f7cac'], [0.45, '#e8a33d'], [0.75, '#e8862f'], [1, '#c2410c']].forEach(function (s) { grad.appendChild(el('stop', { offset: s[0], 'stop-color': s[1] })); });
+    defs.appendChild(grad); svg.appendChild(defs);
     data.forEach(function (r, i) {
       var yy = top + i * rowH, cy = narrow ? yy + 26 : yy + rowH / 2;
       svg.appendChild(el('text', { x: narrow ? 0 : left - 12, y: narrow ? yy + 11 : cy + 4, 'text-anchor': narrow ? 'start' : 'end' }, fmtDay(r.datum) + ' · ' + r.locatie));
-      var bar = el('rect', { x: x(r.min_c), y: cy - 5, width: Math.max(2, x(r.max_c) - x(r.min_c)), height: 10, rx: 4, fill: r.bron === 'voorspelling' ? '#38bdf8' : '#64748b' });
+      var bar = el('rect', { x: x(r.min_c), y: cy - 5, width: Math.max(2, x(r.max_c) - x(r.min_c)), height: 10, rx: 4, fill: 'url(#tempgrad)', 'fill-opacity': r.bron === 'voorspelling' ? 1 : 0.55 });
       bar.appendChild(el('title', {}, fmtDay(r.datum) + ' – ' + r.locatie + ': min ' + r.min_c + '°C, max ' + r.max_c + '°C (' + (r.bron === 'voorspelling' ? 'weersvoorspelling' : 'reisschema') + ')'));
       svg.appendChild(bar);
       svg.appendChild(el('text', { x: x(r.min_c) - 6, y: cy + 4, 'text-anchor': 'end', class: 'm' }, r.min_c + '°'));
