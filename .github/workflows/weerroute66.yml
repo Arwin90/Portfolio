@@ -2,15 +2,18 @@ name: Route 66 weer
 
 on:
   schedule:
-  
     - cron: "15 4 1-30 11-12 *"   # 05:15 Nederlandse tijd
     - cron: "15 5 1-30 11-12 *"   # 06:15 Nederlandse tijd
-    - cron: "15 7 28-31 10 *"
-  
+    - cron: "15 4 28-31 10 *"     # 05:15 Nederlandse tijd, eind oktober
+    - cron: "15 5 28-31 10 *"     # 06:15 Nederlandse tijd, eind oktober
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: weerroute66
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -27,5 +30,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add weerroute66.json
-          git commit -m "Route 66 temperaturen bijgewerkt" || echo "Geen wijzigingen"
-          git push
+          if git diff --cached --quiet; then
+            echo "Geen wijzigingen"
+            exit 0
+          fi
+          git commit -m "Route 66 temperaturen bijgewerkt"
+          for i in 1 2 3; do
+            git pull --rebase -X theirs origin main && git push origin HEAD:main && exit 0
+            echo "Opnieuw proberen ($i)..."
+            sleep 5
+          done
+          exit 1
