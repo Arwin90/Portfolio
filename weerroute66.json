@@ -1,13 +1,13 @@
 {
- "bijgewerkt": "2026-11-01T11:48:54Z",
+ "bijgewerkt": "2026-11-02T07:25:51Z",
  "dagen": [
   {
    "dag": 1,
    "datum": "2026-11-08",
    "locatie": "Chicago, IL",
    "min_c": 3,
-   "max_c": 10,
-   "bron": "reisschema"
+   "max_c": 14,
+   "bron": "voorspelling"
   },
   {
    "dag": 2,
