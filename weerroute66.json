@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-06T12:09:32Z",
+ "bijgewerkt": "2026-11-06T12:54:45Z",
  "dagen": [
   {
    "dag": 1,
@@ -37,7 +37,7 @@
    "dag": 5,
    "datum": "2026-11-12",
    "locatie": "Medicine Park, OK",
-   "min_c": 3,
+   "min_c": 10,
    "max_c": 22,
    "bron": "voorspelling"
   },
