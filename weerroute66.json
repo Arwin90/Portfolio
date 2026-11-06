@@ -1,35 +1,35 @@
 {
- "bijgewerkt": "2026-11-05T13:08:50Z",
+ "bijgewerkt": "2026-11-06T12:09:32Z",
  "dagen": [
   {
    "dag": 1,
    "datum": "2026-11-08",
    "locatie": "Chicago, IL",
    "min_c": 2,
-   "max_c": 14,
+   "max_c": 15,
    "bron": "voorspelling"
   },
   {
    "dag": 2,
    "datum": "2026-11-09",
    "locatie": "Lincoln, IL",
-   "min_c": 4,
-   "max_c": 18,
+   "min_c": 5,
+   "max_c": 19,
    "bron": "voorspelling"
   },
   {
    "dag": 3,
    "datum": "2026-11-10",
    "locatie": "Rolla, MO",
-   "min_c": 4,
-   "max_c": 20,
+   "min_c": 6,
+   "max_c": 21,
    "bron": "voorspelling"
   },
   {
    "dag": 4,
    "datum": "2026-11-11",
    "locatie": "Joplin, MO",
-   "min_c": 8,
+   "min_c": 9,
    "max_c": 21,
    "bron": "voorspelling"
   },
@@ -38,8 +38,8 @@
    "datum": "2026-11-12",
    "locatie": "Medicine Park, OK",
    "min_c": 3,
-   "max_c": 16,
-   "bron": "reisschema"
+   "max_c": 22,
+   "bron": "voorspelling"
   },
   {
    "dag": 6,
