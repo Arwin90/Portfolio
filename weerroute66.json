@@ -1,19 +1,19 @@
 {
- "bijgewerkt": "2026-11-08T11:54:18Z",
+ "bijgewerkt": "2026-11-09T01:16:49Z",
  "dagen": [
   {
    "dag": 1,
    "datum": "2026-11-08",
    "locatie": "Chicago, IL",
    "min_c": 3,
-   "max_c": 15,
+   "max_c": 10,
    "bron": "voorspelling"
   },
   {
    "dag": 2,
    "datum": "2026-11-09",
    "locatie": "Lincoln, IL",
-   "min_c": 5,
+   "min_c": 7,
    "max_c": 17,
    "bron": "voorspelling"
   },
@@ -21,7 +21,7 @@
    "dag": 3,
    "datum": "2026-11-10",
    "locatie": "Rolla, MO",
-   "min_c": 8,
+   "min_c": 9,
    "max_c": 21,
    "bron": "voorspelling"
   },
@@ -29,7 +29,7 @@
    "dag": 4,
    "datum": "2026-11-11",
    "locatie": "Joplin, MO",
-   "min_c": 6,
+   "min_c": 7,
    "max_c": 21,
    "bron": "voorspelling"
   },
@@ -46,15 +46,15 @@
    "datum": "2026-11-13",
    "locatie": "Wichita Mountains Refuge, OK",
    "min_c": 7,
-   "max_c": 19,
+   "max_c": 18,
    "bron": "voorspelling"
   },
   {
    "dag": 7,
    "datum": "2026-11-14",
    "locatie": "Amarillo, TX",
-   "min_c": 1,
-   "max_c": 20,
+   "min_c": 9,
+   "max_c": 19,
    "bron": "voorspelling"
   },
   {
