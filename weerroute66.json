@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-09T01:16:49Z",
+ "bijgewerkt": "2026-11-09T12:55:36Z",
  "dagen": [
   {
    "dag": 1,
@@ -14,14 +14,14 @@
    "datum": "2026-11-09",
    "locatie": "Lincoln, IL",
    "min_c": 7,
-   "max_c": 17,
+   "max_c": 18,
    "bron": "voorspelling"
   },
   {
    "dag": 3,
    "datum": "2026-11-10",
    "locatie": "Rolla, MO",
-   "min_c": 9,
+   "min_c": 7,
    "max_c": 21,
    "bron": "voorspelling"
   },
@@ -37,7 +37,7 @@
    "dag": 5,
    "datum": "2026-11-12",
    "locatie": "Medicine Park, OK",
-   "min_c": 6,
+   "min_c": 5,
    "max_c": 21,
    "bron": "voorspelling"
   },
@@ -45,8 +45,8 @@
    "dag": 6,
    "datum": "2026-11-13",
    "locatie": "Wichita Mountains Refuge, OK",
-   "min_c": 7,
-   "max_c": 18,
+   "min_c": 6,
+   "max_c": 16,
    "bron": "voorspelling"
   },
   {
@@ -62,8 +62,8 @@
    "datum": "2026-11-15",
    "locatie": "Albuquerque, NM",
    "min_c": 0,
-   "max_c": 14,
-   "bron": "reisschema"
+   "max_c": 19,
+   "bron": "voorspelling"
   },
   {
    "dag": 9,
