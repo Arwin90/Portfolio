@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-09T13:50:46Z",
+ "bijgewerkt": "2026-11-10T12:42:00Z",
  "dagen": [
   {
    "dag": 1,
@@ -21,8 +21,8 @@
    "dag": 3,
    "datum": "2026-11-10",
    "locatie": "Rolla, MO",
-   "min_c": 7,
-   "max_c": 21,
+   "min_c": 9,
+   "max_c": 22,
    "bron": "voorspelling"
   },
   {
@@ -30,39 +30,39 @@
    "datum": "2026-11-11",
    "locatie": "Joplin, MO",
    "min_c": 7,
-   "max_c": 21,
+   "max_c": 19,
    "bron": "voorspelling"
   },
   {
    "dag": 5,
    "datum": "2026-11-12",
    "locatie": "Medicine Park, OK",
-   "min_c": 5,
-   "max_c": 21,
+   "min_c": 7,
+   "max_c": 23,
    "bron": "voorspelling"
   },
   {
    "dag": 6,
    "datum": "2026-11-13",
    "locatie": "Wichita Mountains Refuge, OK",
-   "min_c": 6,
-   "max_c": 16,
+   "min_c": 7,
+   "max_c": 18,
    "bron": "voorspelling"
   },
   {
    "dag": 7,
    "datum": "2026-11-14",
    "locatie": "Amarillo, TX",
-   "min_c": 9,
-   "max_c": 19,
+   "min_c": 8,
+   "max_c": 17,
    "bron": "voorspelling"
   },
   {
    "dag": 8,
    "datum": "2026-11-15",
    "locatie": "Albuquerque, NM",
-   "min_c": 6,
-   "max_c": 19,
+   "min_c": 4,
+   "max_c": 18,
    "bron": "voorspelling"
   },
   {
@@ -70,8 +70,8 @@
    "datum": "2026-11-16",
    "locatie": "Albuquerque, NM",
    "min_c": 0,
-   "max_c": 14,
-   "bron": "reisschema"
+   "max_c": 18,
+   "bron": "voorspelling"
   },
   {
    "dag": 10,
