@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-10T13:26:22Z",
+ "bijgewerkt": "2026-11-11T11:54:47Z",
  "dagen": [
   {
    "dag": 1,
@@ -29,8 +29,8 @@
    "dag": 4,
    "datum": "2026-11-11",
    "locatie": "Joplin, MO",
-   "min_c": 7,
-   "max_c": 19,
+   "min_c": 6,
+   "max_c": 20,
    "bron": "voorspelling"
   },
   {
@@ -46,7 +46,7 @@
    "datum": "2026-11-13",
    "locatie": "Wichita Mountains Refuge, OK",
    "min_c": 7,
-   "max_c": 18,
+   "max_c": 17,
    "bron": "voorspelling"
   },
   {
@@ -54,23 +54,23 @@
    "datum": "2026-11-14",
    "locatie": "Amarillo, TX",
    "min_c": 8,
-   "max_c": 17,
+   "max_c": 14,
    "bron": "voorspelling"
   },
   {
    "dag": 8,
    "datum": "2026-11-15",
    "locatie": "Albuquerque, NM",
-   "min_c": 4,
-   "max_c": 18,
+   "min_c": 2,
+   "max_c": 16,
    "bron": "voorspelling"
   },
   {
    "dag": 9,
    "datum": "2026-11-16",
    "locatie": "Albuquerque, NM",
-   "min_c": 6,
-   "max_c": 18,
+   "min_c": 4,
+   "max_c": 17,
    "bron": "voorspelling"
   },
   {
@@ -79,7 +79,7 @@
    "locatie": "Holbrook, AZ",
    "min_c": -1,
    "max_c": 14,
-   "bron": "reisschema"
+   "bron": "voorspelling"
   },
   {
    "dag": 11,
