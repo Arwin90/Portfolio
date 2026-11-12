@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-12T12:47:39Z",
+ "bijgewerkt": "2026-11-12T13:43:42Z",
  "dagen": [
   {
    "dag": 1,
@@ -85,7 +85,7 @@
    "dag": 11,
    "datum": "2026-11-18",
    "locatie": "Kingman, AZ",
-   "min_c": 6,
+   "min_c": 4,
    "max_c": 12,
    "bron": "voorspelling"
   },
