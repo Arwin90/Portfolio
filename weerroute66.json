@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-11T12:41:05Z",
+ "bijgewerkt": "2026-11-12T12:47:39Z",
  "dagen": [
   {
    "dag": 1,
@@ -37,7 +37,7 @@
    "dag": 5,
    "datum": "2026-11-12",
    "locatie": "Medicine Park, OK",
-   "min_c": 7,
+   "min_c": 6,
    "max_c": 23,
    "bron": "voorspelling"
   },
@@ -45,16 +45,16 @@
    "dag": 6,
    "datum": "2026-11-13",
    "locatie": "Wichita Mountains Refuge, OK",
-   "min_c": 7,
-   "max_c": 17,
+   "min_c": 6,
+   "max_c": 16,
    "bron": "voorspelling"
   },
   {
    "dag": 7,
    "datum": "2026-11-14",
    "locatie": "Amarillo, TX",
-   "min_c": 8,
-   "max_c": 14,
+   "min_c": 6,
+   "max_c": 12,
    "bron": "voorspelling"
   },
   {
@@ -77,8 +77,8 @@
    "dag": 10,
    "datum": "2026-11-17",
    "locatie": "Holbrook, AZ",
-   "min_c": -1,
-   "max_c": 14,
+   "min_c": 2,
+   "max_c": 16,
    "bron": "voorspelling"
   },
   {
@@ -86,8 +86,8 @@
    "datum": "2026-11-18",
    "locatie": "Kingman, AZ",
    "min_c": 6,
-   "max_c": 21,
-   "bron": "reisschema"
+   "max_c": 12,
+   "bron": "voorspelling"
   },
   {
    "dag": 12,
