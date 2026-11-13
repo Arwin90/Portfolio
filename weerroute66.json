@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-12T13:43:42Z",
+ "bijgewerkt": "2026-11-13T12:16:29Z",
  "dagen": [
   {
    "dag": 1,
@@ -45,23 +45,23 @@
    "dag": 6,
    "datum": "2026-11-13",
    "locatie": "Wichita Mountains Refuge, OK",
-   "min_c": 6,
-   "max_c": 16,
+   "min_c": 5,
+   "max_c": 15,
    "bron": "voorspelling"
   },
   {
    "dag": 7,
    "datum": "2026-11-14",
    "locatie": "Amarillo, TX",
-   "min_c": 6,
-   "max_c": 12,
+   "min_c": 4,
+   "max_c": 9,
    "bron": "voorspelling"
   },
   {
    "dag": 8,
    "datum": "2026-11-15",
    "locatie": "Albuquerque, NM",
-   "min_c": 2,
+   "min_c": 1,
    "max_c": 16,
    "bron": "voorspelling"
   },
@@ -69,7 +69,7 @@
    "dag": 9,
    "datum": "2026-11-16",
    "locatie": "Albuquerque, NM",
-   "min_c": 4,
+   "min_c": 3,
    "max_c": 17,
    "bron": "voorspelling"
   },
@@ -85,7 +85,7 @@
    "dag": 11,
    "datum": "2026-11-18",
    "locatie": "Kingman, AZ",
-   "min_c": 4,
+   "min_c": 3,
    "max_c": 12,
    "bron": "voorspelling"
   },
@@ -94,8 +94,8 @@
    "datum": "2026-11-19",
    "locatie": "Barstow, CA",
    "min_c": 7,
-   "max_c": 22,
-   "bron": "reisschema"
+   "max_c": 16,
+   "bron": "voorspelling"
   },
   {
    "dag": 13,
