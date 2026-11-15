@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-14T12:07:53Z",
+ "bijgewerkt": "2026-11-15T11:58:42Z",
  "dagen": [
   {
    "dag": 1,
@@ -70,14 +70,14 @@
    "datum": "2026-11-16",
    "locatie": "Albuquerque, NM",
    "min_c": 3,
-   "max_c": 16,
+   "max_c": 17,
    "bron": "voorspelling"
   },
   {
    "dag": 10,
    "datum": "2026-11-17",
    "locatie": "Holbrook, AZ",
-   "min_c": 3,
+   "min_c": 2,
    "max_c": 17,
    "bron": "voorspelling"
   },
@@ -85,7 +85,7 @@
    "dag": 11,
    "datum": "2026-11-18",
    "locatie": "Kingman, AZ",
-   "min_c": 3,
+   "min_c": 4,
    "max_c": 13,
    "bron": "voorspelling"
   },
@@ -93,7 +93,7 @@
    "dag": 12,
    "datum": "2026-11-19",
    "locatie": "Barstow, CA",
-   "min_c": 2,
+   "min_c": 3,
    "max_c": 16,
    "bron": "voorspelling"
   },
@@ -102,7 +102,7 @@
    "datum": "2026-11-20",
    "locatie": "Los Angeles, CA",
    "min_c": 11,
-   "max_c": 20,
+   "max_c": 19,
    "bron": "voorspelling"
   },
   {
@@ -110,8 +110,8 @@
    "datum": "2026-11-21",
    "locatie": "Los Angeles, CA",
    "min_c": 11,
-   "max_c": 22,
-   "bron": "reisschema"
+   "max_c": 21,
+   "bron": "voorspelling"
   },
   {
    "dag": 15,
