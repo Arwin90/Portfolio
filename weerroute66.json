@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-19T13:16:30Z",
+ "bijgewerkt": "2026-11-19T14:22:58Z",
  "dagen": [
   {
    "dag": 1,
@@ -141,7 +141,7 @@
    "dag": 18,
    "datum": "2026-11-25",
    "locatie": "San Diego, CA",
-   "min_c": 11,
+   "min_c": 13,
    "max_c": 21,
    "bron": "voorspelling"
   },
