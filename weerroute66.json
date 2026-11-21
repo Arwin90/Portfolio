@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-20T13:58:08Z",
+ "bijgewerkt": "2026-11-21T12:42:24Z",
  "dagen": [
   {
    "dag": 1,
@@ -101,16 +101,16 @@
    "dag": 13,
    "datum": "2026-11-20",
    "locatie": "Los Angeles, CA",
-   "min_c": 8,
-   "max_c": 19,
+   "min_c": 9,
+   "max_c": 22,
    "bron": "voorspelling"
   },
   {
    "dag": 14,
    "datum": "2026-11-21",
    "locatie": "Los Angeles, CA",
-   "min_c": 9,
-   "max_c": 19,
+   "min_c": 11,
+   "max_c": 21,
    "bron": "voorspelling"
   },
   {
@@ -118,23 +118,23 @@
    "datum": "2026-11-22",
    "locatie": "Los Angeles, CA",
    "min_c": 12,
-   "max_c": 20,
+   "max_c": 21,
    "bron": "voorspelling"
   },
   {
    "dag": 16,
    "datum": "2026-11-23",
    "locatie": "San Diego, CA",
-   "min_c": 12,
-   "max_c": 20,
+   "min_c": 11,
+   "max_c": 21,
    "bron": "voorspelling"
   },
   {
    "dag": 17,
    "datum": "2026-11-24",
    "locatie": "San Diego, CA",
-   "min_c": 13,
-   "max_c": 21,
+   "min_c": 12,
+   "max_c": 22,
    "bron": "voorspelling"
   },
   {
@@ -149,7 +149,7 @@
    "dag": 19,
    "datum": "2026-11-26",
    "locatie": "San Diego, CA",
-   "min_c": 11,
+   "min_c": 14,
    "max_c": 23,
    "bron": "voorspelling"
   }
