@@ -1,5 +1,5 @@
 {
- "bijgewerkt": "2026-11-22T13:18:00Z",
+ "bijgewerkt": "2026-11-23T14:44:39Z",
  "dagen": [
   {
    "dag": 1,
@@ -125,7 +125,7 @@
    "dag": 16,
    "datum": "2026-11-23",
    "locatie": "San Diego, CA",
-   "min_c": 11,
+   "min_c": 12,
    "max_c": 21,
    "bron": "voorspelling"
   },
@@ -134,7 +134,7 @@
    "datum": "2026-11-24",
    "locatie": "San Diego, CA",
    "min_c": 13,
-   "max_c": 22,
+   "max_c": 23,
    "bron": "voorspelling"
   },
   {
@@ -142,7 +142,7 @@
    "datum": "2026-11-25",
    "locatie": "San Diego, CA",
    "min_c": 12,
-   "max_c": 22,
+   "max_c": 23,
    "bron": "voorspelling"
   },
   {
@@ -150,7 +150,7 @@
    "datum": "2026-11-26",
    "locatie": "San Diego, CA",
    "min_c": 14,
-   "max_c": 24,
+   "max_c": 25,
    "bron": "voorspelling"
   }
  ]
